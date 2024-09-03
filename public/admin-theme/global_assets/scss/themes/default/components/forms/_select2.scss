@@ -58,7 +58,6 @@
 
         // Apply darker hover color
         &[class*=bg-]:not(.bg-white):not(.bg-transparent):not(.bg-light) {
-
             &:hover,
             &:focus,
             .select2-container--open & {
@@ -86,7 +85,7 @@
             white-space: nowrap;
 
             // Icons
-            >i {
+            > i {
                 margin-right: $element-spacer-x;
             }
         }
@@ -256,7 +255,7 @@
             }
 
             // Icons
-            >i {
+            > i {
                 margin-right: $element-spacer-x;
             }
 
@@ -355,19 +354,19 @@
         padding: 0;
 
         // Add scrollbar to first level list
-        .select2-results>& {
+        .select2-results > & {
             padding-bottom: $dropdown-padding-y;
             max-height: $select2-max-height;
             overflow-y: auto;
 
             // Add top spacing if search is hidden
-            .select2-search--hide+& {
+            .select2-search--hide + & {
                 padding-top: $dropdown-padding-y;
             }
         }
 
         // First one
-        .select2-results:first-child>& {
+        .select2-results:first-child > & {
             padding-top: $dropdown-padding-y;
         }
     }
@@ -380,7 +379,7 @@
         @include transition(all ease-in-out $component-transition-timer);
 
         // Add 1px gap between options
-        &+& {
+        & + & {
             margin-top: $dropdown-item-spacer-y;
         }
 
@@ -423,7 +422,7 @@
         }
 
         // Add double horizontal spacing for nested options
-        .select2-results__options--nested>& {
+        .select2-results__options--nested > & {
             padding-left: ($dropdown-item-padding-x * 2);
             padding-right: ($dropdown-item-padding-x * 2);
         }
@@ -439,7 +438,7 @@
         margin-bottom: $dropdown-padding-y;
 
         // Remove top spacing from the first group title
-        .select2-results__option:first-child>& {
+        .select2-results__option:first-child > & {
             margin-top: 0;
         }
     }
@@ -465,7 +464,7 @@
         padding-top: 0;
 
         // Add extra top spacing
-        +.select2-results__option {
+        + .select2-results__option {
             margin-top: $dropdown-padding-y;
         }
     }
@@ -500,9 +499,7 @@
                 border-bottom: $dropdown-border-width solid rgba($white, 0.2);
             }
         }
-
         &.select2-container--above {
-
             .select2-selection--single,
             .select2-selection--multiple {
                 @include border-top-radius(0);
@@ -519,9 +516,7 @@
                 border-top: $dropdown-border-width solid rgba($white, 0.2);
             }
         }
-
         &.select2-container--below {
-
             .select2-selection--single,
             .select2-selection--multiple {
                 @include border-bottom-radius(0);
@@ -556,7 +551,7 @@
         }
 
         // Remove top spacing from the results message
-        +.select2-results .select2-results__message:first-child {
+        + .select2-results .select2-results__message:first-child {
             padding-top: 0;
         }
 
@@ -669,7 +664,7 @@
 
     // Dropdown menu
     .select2-dropdown[class*=bg-] {
-
+        
         // Search field
         .select2-search--dropdown .select2-search__field {
             background-color: $dropdown-dark-active-bg;

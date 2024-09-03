@@ -1099,7 +1099,7 @@ input[type=text].noui-height-helper:not(.noUi-target)[data-fouc] {
   outline: 0;
   display: block;
   padding: 0.5rem 0;
-  line-height: 1.3;
+  line-height: 1.5385;
   color: #333;
   position: relative;
   border-top: 1px solid transparent;
@@ -1232,7 +1232,7 @@ input[type=text].noui-height-helper:not(.noUi-target)[data-fouc] {
       cursor: pointer;
       float: right;
       font-size: 0.875rem;
-      /* margin-top: 0.18752rem; */
+      margin-top: 0.18752rem;
       line-height: 1;
       margin-left: 0.625rem;
       opacity: 0.75;

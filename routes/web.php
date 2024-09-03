@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\PreventBackHistory;
 use App\Http\Middleware\UserAuthentication;
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\RolesController;
 
 
 Route::get('/', function () {
@@ -19,6 +21,13 @@ Route::group(['middleware' => [UserAuthentication::class,PreventBackHistory::cla
          * Dashboard Route
          */
         Route::get('/dashboard', [AdminController::class, 'index'])->name('admin');
+
+        Route::resource('/roles', RolesController::class);
+        Route::get('roles-data', [RolesController::class, 'getData'])->name('roles.data');
+
+
+        Route::resource('/users', UserController::class);
+        Route::get('users-data', [UserController::class, 'getData'])->name('users.data');
     });
 });
 
