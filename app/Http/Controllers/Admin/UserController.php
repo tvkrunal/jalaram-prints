@@ -119,8 +119,8 @@ class UserController extends Controller
     public function create()
     {
         $activeOrNot = StatusOption::asSelectArray();
-        $projectManager = User::role(RoleType::PROJECT_MANAGER)->where('is_active', StatusOption::ACTIVE)->pluck('first_name', 'id');
-        $teamLeader = User::role(RoleType::TEAM_LEADER)->where('is_active', StatusOption::ACTIVE)->pluck('first_name', 'id');
+        $projectManager = [];
+        $teamLeader = [];
         $parentUsers = User::pluck('first_name', 'id');
         $userRoles = Role::pluck('name', 'name');
         return view('admin.user.create_update', compact('activeOrNot', 'projectManager', 'teamLeader', 'userRoles', 'parentUsers'));
@@ -160,7 +160,7 @@ class UserController extends Controller
 
             $user->assignRole($data['role']);
             Session::flash('success', 'Employee has been added successfully');
-            return redirect()->route('employees.index');
+            return redirect()->route('users.index');
         } else {
             Session::flash('error', 'Unable to add employee');
             return redirect()->back();
@@ -241,8 +241,8 @@ class UserController extends Controller
     {
         $user = User::find($id);
         $activeOrNot = StatusOption::asSelectArray();
-        $projectManager = User::role(RoleType::PROJECT_MANAGER)->where('is_active', StatusOption::ACTIVE)->pluck('first_name', 'id');
-        $teamLeader = User::role(RoleType::TEAM_LEADER)->where('is_active', StatusOption::ACTIVE)->pluck('first_name', 'id');
+        $projectManager = [];
+        $teamLeader = [];
         $parentUsers = User::pluck('first_name', 'id');
         $userRoles = Role::pluck('name', 'name');
         return view('admin.user.create_update', compact('user', 'activeOrNot', 'projectManager', 'teamLeader', 'userRoles', 'parentUsers'));
@@ -281,7 +281,7 @@ class UserController extends Controller
             DB::table('model_has_roles')->where('model_id', $user->id)->delete();
             $user->assignRole($data['role']);
             Session::flash('success', 'Employee has been updated successfully');
-            return redirect()->route('employees.index');
+            return redirect()->route('users.index');
         } else {
             Session::flash('error', 'Unable to update employee');
             return redirect()->back();

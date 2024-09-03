@@ -4,7 +4,7 @@
 @section('content')
     <div class="content-wrapper">
         @include('layouts.admin.page_header', [
-            'breadcrumb' => [route('employees.index') => 'Admin', route('roles.index') => 'Roles'],
+            'breadcrumb' => [route('users.index') => 'Admin', route('roles.index') => 'Roles'],
         ])
         <!-- Content area -->
         <div class="content">

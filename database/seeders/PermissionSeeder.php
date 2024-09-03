@@ -16,6 +16,11 @@ class PermissionSeeder extends Seeder
     {
         $data = [
             [
+                'name' => 'Admin List',
+                'guard_name' => 'web',
+                'model_name' => 'admin',
+            ],
+            [
                 'name' => 'Dashboard List',
                 'guard_name' => 'web',
                 'model_name' => 'dashboard',

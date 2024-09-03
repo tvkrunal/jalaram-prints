@@ -16,7 +16,7 @@ if (!function_exists('getMenuItems')) {
                 'label' => 'Admin',
                 'url'   => 'admin',
                 'icon'  => 'bi bi-person-gear',
-                'permission' => '',
+                'permission' => 'Admin List',
                 'subItems' => [
                     [
                         'label' => 'Users',
