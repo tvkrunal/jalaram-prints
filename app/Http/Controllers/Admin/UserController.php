@@ -28,16 +28,24 @@ use App\Models\Leave;
 use App\Models\LeaveType;
 use App\Models\Role;
 use App\Models\User;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 use Carbon\Carbon;
 use Session;
 use Hash;
 use DB;
 
-class UserController extends Controller
+class UserController extends Controller implements HasMiddleware
 {
-    function __construct()
+    public static function middleware(): array
     {
-        //
+        return [
+            'auth',
+            new Middleware('permission:User List', only: ['index', 'show','getData']),
+            new Middleware('permission:User Create', only: ['create', 'store']),
+            new Middleware('permission:User Edit', only: ['edit', 'update']),
+            new Middleware('permission:User Delete', only: ['destroy']),
+        ];
     }
 
     /**

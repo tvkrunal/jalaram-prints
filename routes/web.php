@@ -14,7 +14,7 @@ Route::get('/', function () {
 /**
  * Admin Route : Start
  */
-Route::group(['middleware' => [UserAuthentication::class,PreventBackHistory::class]], function () {
+Route::group(['middleware' => ['auth']], function () {
     Route::group(['prefix' => 'admin'], function () {
         //
         /**

@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
+
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;

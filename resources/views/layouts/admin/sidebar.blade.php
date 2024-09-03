@@ -21,7 +21,7 @@
             <div class="sidebar-user-material-body">
                 <div class="card-body text-center">
                     <a href="{{ url('admin')  }}">
-                        <img src="{{ asset('images/logo.jpg') }}" class="img-fluid mb-2" alt="" srcset="{{ asset('images/logo.jpg') }}">
+                        <img src="{{ asset('images/logo.png') }}" class="img-fluid mb-2" alt="" srcset="{{ asset('images/logo.png') }}">
                     </a>
 
                 </div>

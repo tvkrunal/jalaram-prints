@@ -51,9 +51,6 @@
                 processing: true,
                 serverSide: true,
                 responsive: true,
-                searching: false,
-                lengthChange: false,
-                bLengthChange: false,
                 aaSorting: [
                     [1, 'desc']
                 ],
