@@ -33,16 +33,16 @@
                                     <div class="form-group row">
                                         <label class="col-form-label col-lg-1">First Name <span class="text-danger">*</span></label>
                                         <div class="col-lg-5">
-                                            {{ Form::text('first_name',Request::old('first_name'),array('class'=>"form-control")) }}
-                                            @if ($errors->has('first_name'))
-                                                <span class="text-danger">{{ $errors->first('first_name') }}</span>
+                                            {{ Form::text('customer_first_name',Request::old('customer_first_name'),array('class'=>"form-control")) }}
+                                            @if ($errors->has('customer_first_name'))
+                                                <span class="text-danger">{{ $errors->first('customer_first_name') }}</span>
                                             @endif
                                         </div>
                                         <label class="col-form-label col-lg-1">Last Name <span class="text-danger">*</span></label>
                                         <div class="col-lg-5">
-                                            {{ Form::text('last_name',Request::old('last_name'),array('class'=>"form-control")) }}
-                                            @if ($errors->has('last_name'))
-                                                <span class="text-danger">{{ $errors->first('last_name') }}</span>
+                                            {{ Form::text('customer_last_name',Request::old('customer_last_name'),array('class'=>"form-control")) }}
+                                            @if ($errors->has('customer_last_name'))
+                                                <span class="text-danger">{{ $errors->first('customer_last_name') }}</span>
                                             @endif
                                         </div>
                                     </div>
@@ -56,91 +56,104 @@
                                                 <span class="text-danger">{{ $errors->first('email') }}</span>
                                             @endif
                                         </div>
-                                        <label class="col-form-label col-lg-1">Date Of Birth</label>
+                                        <label class="col-form-label col-lg-1">Contact No <span class="text-danger">*</span></label>
                                         <div class="col-lg-5">
-                                            {{ Form::text('date_of_birth',Request::old('date_of_birth'),array('class'=>"form-control datepicker", 'id'=>'date_of_birth'))}}
-                                            @if ($errors->has('date_of_birth'))
-                                                <span class="text-danger">{{ $errors->first('date_of_birth') }}</span>
+                                            {{ Form::text('customer_contact_no',Request::old('customer_contact_no'),array('class'=>"form-control")) }}
+                                            @if ($errors->has('customer_contact_no'))
+                                                <span class="text-danger">{{ $errors->first('customer_contact_no') }}</span>
                                             @endif
                                         </div>
                                     </div>
 
-                                    @if(!isset($user))
-                                        <div class="form-group row">
-                                            <label class="col-form-label col-lg-1">Password <span class="text-danger">*</span></label>
+                                    <div class="form-group row">
+                                        <label class="col-form-label col-lg-1">Address <span class="text-danger">*</span></label>
+                                        <div class="col-lg-5">
+                                            {{ Form::text('address',Request::old('address'),array('class'=>"form-control")) }}
+                                            @if ($errors->has('address'))
+                                                <span class="text-danger">{{ $errors->first('address') }}</span>
+                                            @endif
+                                        </div>
+                                        <label class="col-form-label col-lg-1">City <span class="text-danger">*</span></label>
+                                        <div class="col-lg-5">
+                                            {{ Form::text('city',Request::old('city'),array('class'=>"form-control")) }}
+                                            @if ($errors->has('city'))
+                                                <span class="text-danger">{{ $errors->first('city') }}</span>
+                                            @endif
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group row">
+                                        <label class="col-form-label col-lg-1">Pin Code <span class="text-danger">*</span></label>
+                                        <div class="col-lg-5">
+                                            {{ Form::text('pin_code',Request::old('pin_code'),array('class'=>"form-control")) }}
+                                            @if ($errors->has('pin_code'))
+                                                <span class="text-danger">{{ $errors->first('pin_code') }}</span>
+                                            @endif
+                                        </div>
+                                        <label class="col-form-label col-lg-1">Date Of Delivery <span class="text-danger">*</span></label>
+                                        <div class="col-lg-5">
+                                            {{ Form::date('delivery_date',Request::old('delivery_date'),array('class'=>"form-control")) }}
+                                            @if ($errors->has('delivery_date'))
+                                                <span class="text-danger">{{ $errors->first('delivery_date') }}</span>
+                                            @endif
+                                        </div>
+                                   </div>
+
+                                   <div class="form-group row">
+                                   <label class="col-form-label col-lg-1">Type of Job <span class="text-danger">*</span></label>
+                                        <div class="col-lg-5">
+                                            <span class="col-5 ml-3">
+                                                {{ Form::radio('type_of_job', 'Design', old('type_of_job') == 'Design', ['class' => 'form-check-input', 'id' => 'job_design']) }}
+                                                {{ Form::label('job_design', 'Design', ['class' => 'form-check-label']) }}
+                                            </span>
+                                            <span class="col-5 ml-3">
+                                                {{ Form::radio('type_of_job', 'Print', old('type_of_job') == 'Print', ['class' => 'form-check-input', 'id' => 'job_print']) }}
+                                                {{ Form::label('job_print', 'Print', ['class' => 'form-check-label']) }}
+                                            </span>
+                                            <span class="col-5 ml-3">
+                                                {{ Form::radio('type_of_job', 'Design + Print', old('type_of_job') == 'Design + Print', ['class' => 'form-check-input', 'id' => 'job_design_print']) }}
+                                                {{ Form::label('job_design_print', 'Design + Print', ['class' => 'form-check-label']) }}
+                                            </span>
+                                            @if ($errors->has('type_of_job'))
+                                                <span class="text-danger">{{ $errors->first('type_of_job') }}</span>
+                                            @endif
+                                        </div>
+                                        <label class="col-form-label col-lg-1">Job Description <span class="text-danger">*</span></label>
+                                        <div class="col-lg-5">
+                                            {{ Form::text('job_description',Request::old('job_description'),array('class'=>"form-control")) }}
+                                            @if ($errors->has('job_description'))
+                                                <span class="text-danger">{{ $errors->first('job_description') }}</span>
+                                            @endif
+                                        </div>
+                                   </div>
+
+                                   <div class="form-group row">
+                                       <label class="col-form-label col-lg-1">Process <span class="text-danger">*</span></label>
                                             <div class="col-lg-5">
-                                                {{ Form::password('password', array('class = "form-control"')) }}
-                                                @if ($errors->has('password'))
-                                                    <span class="text-danger">{{ $errors->first('password') }}</span>
-                                                @endif
-                                            </div>
-                                            <label class="col-form-label col-lg-1">Confirm Password <span class="text-danger">*</span></label>
-                                            <div class="col-lg-5">
-                                                {{ Form::password('confirm_password', array('class = "form-control"')) }}
-                                                @if ($errors->has('confirm_password'))
-                                                    <span class="text-danger">{{ $errors->first('confirm_password') }}</span>
-                                                @endif
-                                            </div>
-                                        </div>
-                                    @endif
-
-                                    <div class="form-group row">
-                                        <label class="col-form-label col-lg-1">Categories</label>
-                                        <div class="col-lg-5">
-                                            {{ Form::select('categories[]', [], isset($categoriesIds) ? $categoriesIds : null, array('class'=>"form-control select2", 'multiple'=>true))}}
-                                            @if ($errors->has('categories'))
-                                                <span class="text-danger">{{ $errors->first('categories') }}</span>
+                                                {{ Form::select('processes[]', [
+                                                'Print' => 'Print',
+                                                'Lamination' => 'Lamination',
+                                                'Half-Cut' => 'Half-Cut',
+                                                'Full-Cut' => 'Full-Cut',
+                                                'Binding' => 'Binding',
+                                                'Other Process' => 'Other Process'
+                                                ], old('processes'), [
+                                                    'class' => 'form-control select2',
+                                                    'id' => 'processes',
+                                                    'multiple' => 'multiple'
+                                                ]) }}
+                                            @if ($errors->has('processes'))
+                                                <span class="text-danger">{{ $errors->first('processes') }}</span>
                                             @endif
                                         </div>
-                                            <label class="col-form-label col-lg-1">Tags</label>
-                                        <div class="col-lg-5">
-                                            {{ Form::select('tag_ids[]', [], isset($tagIds) ? $tagIds : null, array('class'=>"form-control select2", 'multiple'=>true)) }}
-                                            @if ($errors->has('tags'))
-                                                <span class="text-danger">{{ $errors->first('tags') }}</span>
-                                            @endif
-                                        </div>
-
-                                    </div>
-                                    <div class="form-group row">
-                                        <label class="col-form-label col-lg-1">Membership Type</label>
-                                        <div class="col-lg-5">
-                                        {{ Form::select('membership_tier', [],Request::old('membership_tier'),array('class'=>'form-control select2','id'=>'membership_tier')) }}
-                                        </div>
-                                        <label class="col-form-label col-lg-1">Gender <span class="text-danger">*</span></label>
-                                        <div class="col-lg-5">
-                                            {{ Form::select('gender', [],Request::old('gender'),array('class'=>'form-control select2','id'=>'gender','placeholder' => 'Select Gender')) }}
-                                            @if ($errors->has('gender'))
-                                                <span class="text-danger">{{ $errors->first('gender') }}</span>
-                                            @endif
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label class="col-form-label col-lg-1">Date Of Subscription</label>
-                                        <div class="col-lg-5">
-                                            {{ Form::text('date_subscribed',Request::old('date_subscribed'),array('class'=>"form-control datepicker", 'id'=>'date_subscribed','min'=>Carbon\Carbon::now()->format('Y-m-d')))}}
-                                            @if ($errors->has('date_subscibed'))
-                                                <span class="text-danger">{{ $errors->first('date_subscibed') }}</span>
-                                            @endif
-                                        </div>
-
-                                        <label class="col-form-label col-lg-1">Is app user</label>
-                                        <div class="col-lg-5">
-                                            @if(!isset($user))
-                                            {{ Form::checkbox('is_app_user','1',true, ['class'=>'form-check-input']) }}
-                                            @else
-                                                @if($user->is_app_user == 1)
-                                                    {{ Form::checkbox('is_app_user','1',true, ['class'=>'form-check-input']) }}
-                                                @else
-                                                    {{ Form::checkbox('is_app_user','1',false, ['class'=>'form-check-input']) }}
-                                                @endif
-                                            @endif
-                                        </div>
-                                    </div>
+                                   </div>
+                                    
                                 </fieldset>
 
                                 <div class="text-right">
                                     {{ Form::submit('Submit',array('class'=>'btn btn-primary')) }}
-                                    <a href="{{ url('/users') }}" class="btn btn-primary">Cancel</a>
+                                    <a href="{{ url('/admin/inquiry') }}" class="btn btn-primary">Cancel</a>
                                 </div>
                                 {{ Form::close() }}
                             </div>
