@@ -58,7 +58,7 @@
                                         </div>
                                         <label class="col-form-label col-lg-1">Contact No <span class="text-danger">*</span></label>
                                         <div class="col-lg-5">
-                                            {{ Form::text('customer_contact_no',Request::old('customer_contact_no'),array('class'=>"form-control")) }}
+                                            {{ Form::number('customer_contact_no',Request::old('customer_contact_no'),array('class'=>"form-control")) }}
                                             @if ($errors->has('customer_contact_no'))
                                                 <span class="text-danger">{{ $errors->first('customer_contact_no') }}</span>
                                             @endif
@@ -121,7 +121,7 @@
                                         </div>
                                         <label class="col-form-label col-lg-1">Job Description <span class="text-danger">*</span></label>
                                         <div class="col-lg-5">
-                                            {{ Form::text('job_description',Request::old('job_description'),array('class'=>"form-control")) }}
+                                            {{ Form::textarea('job_description',Request::old('job_description'),array('class'=>"form-control",'rows' => '2')) }}
                                             @if ($errors->has('job_description'))
                                                 <span class="text-danger">{{ $errors->first('job_description') }}</span>
                                             @endif
