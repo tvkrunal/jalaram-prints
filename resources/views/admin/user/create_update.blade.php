@@ -2,7 +2,7 @@
 @section('title', isset($user)?'Update'. ' '.'('.$user->first_name.')'.'('.$user->last_name.')':'Create User')
 @section('content')
     <div class="content-wrapper">
-        @include('layouts.admin.page_header',['breadcrumb'=>[route('users.index')=>'Data / Users']])
+        @include('layouts.admin.page_header',['breadcrumb'=>[route('users.index')=>'Users']])
         <!-- Content area -->
             <div class="content">
                 @if(Session::has('success'))
@@ -140,7 +140,7 @@
 
                                 <div class="text-right">
                                     {{ Form::submit('Submit',array('class'=>'btn btn-primary')) }}
-                                    <a href="{{ url('/users') }}" class="btn btn-primary">Cancel</a>
+                                    <a href="{{ route('users.index') }}" class="btn btn-primary">Cancel</a>
                                 </div>
                                 {{ Form::close() }}
                             </div>

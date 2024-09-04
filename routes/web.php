@@ -7,10 +7,11 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\RolesController;
 use App\Http\Controllers\Admin\InquiryController;
+use App\Http\Controllers\Admin\CustomerController;
 
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('login');
 });
 /**
  * Admin Route : Start
@@ -32,6 +33,9 @@ Route::group(['middleware' => ['auth']], function () {
 
         Route::resource('/inquiry', InquiryController::class);
         Route::get('inquiry-data', [InquiryController::class, 'getData'])->name('inquiry.data');
+
+        Route::resource('/customer', CustomerController::class);
+        Route::get('customer-data', [CustomerController::class, 'getData'])->name('customer.data');
     });
 });
 

@@ -13,13 +13,8 @@ return new class extends Migration
     {
         Schema::create('inquiries', function (Blueprint $table) {
             $table->id();
-            $table->string('customer_first_name');
-            $table->string('customer_last_name')->nullable();
-            $table->integer('customer_contact_no');
-            $table->string('email')->nullable();
-            $table->string('address')->nullable();
-            $table->string('city')->nullable();
-            $table->integer('pin_code')->nullable();
+            $table->bigInteger('customer_id')->nullable()->unsigned()->index();
+	        $table->foreign('customer_id')->references('id')->on('customers')->onDelete('cascade');
             $table->string('type_of_job')->nullable();
             $table->date('delivery_date')->nullable();
             $table->string('designing_details')->nullable();

@@ -36,6 +36,12 @@ if (!function_exists('getMenuItems')) {
                         'icon'  => 'fa fa-file-text',
                         'permission' => 'Inquiry List',
                     ],
+                    [
+                        'label' => 'Customer',
+                        'url'   => 'admin/customer',
+                        'icon'  => 'fa fa-file-text',
+                        'permission' => 'Customer List',
+                    ],
                 ]
             ],
             

@@ -41,10 +41,10 @@ class InquiryController extends Controller implements HasMiddleware
     {
         return [
             'auth',
-            // new Middleware('permission:Inquiry List', only: ['index', 'show','getData']),
-            // new Middleware('permission:Inquiry Create', only: ['create', 'store']),
-            // new Middleware('permission:Inquiry Edit', only: ['edit', 'update']),
-            // new Middleware('permission:Inquiry Delete', only: ['destroy']),
+            new Middleware('permission:Inquiry List', only: ['index', 'show','getData']),
+            new Middleware('permission:Inquiry Create', only: ['create', 'store']),
+            new Middleware('permission:Inquiry Edit', only: ['edit', 'update']),
+            new Middleware('permission:Inquiry Delete', only: ['destroy']),
         ];
     }
 

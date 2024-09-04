@@ -17,8 +17,8 @@ return new class extends Migration
             $table->string('media')->nullable();
             $table->string('gsm')->nullable();
             $table->integer('qty')->nullable();
-            $table->string('min_cost')->nullable();
-            $table->string('max_cost')->nullable();
+            $table->integer('min_cost')->nullable();
+            $table->integer('max_cost')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

@@ -1,8 +1,8 @@
 @extends('layouts.admin.master')
-@section('title', isset($user)?'Update'. ' '.'('.$user->first_name.')'.'('.$user->last_name.')':'Create Inquiry')
+@section('title', isset($user)?'Update'. ' '.'('.$user->first_name.')'.'('.$user->last_name.')':'Create Customer')
 @section('content')
     <div class="content-wrapper">
-        @include('layouts.admin.page_header',['breadcrumb'=>[route('inquiry.index')=>'Inquiry']])
+        @include('layouts.admin.page_header',['breadcrumb'=>[route('customer.index')=>'Customer']])
         <!-- Content area -->
             <div class="content">
                 @if(Session::has('success'))
@@ -14,7 +14,7 @@
                     <div class="col-sm-12">
                         <div class="card">
                             <div class="card-header header-elements-inline">
-                                <h6 class="card-title">@if(isset($user)) Update @else Create @endif Inquiry</h6>
+                                <h6 class="card-title">@if(isset($user)) Update @else Create @endif Customer</h6>
                                 <div class="header-elements">
                                     <div class="list-icons">
                                         <a class="list-icons-item" data-action="collapse"></a>
@@ -25,9 +25,9 @@
                             <div class="card-body">
 
                                 @if(isset($user))
-                                    {{ Form::model($user, ['route' => ['inquiry.update', $user->id], 'method' => 'patch' , 'enctype'=>'multipart/form-data']) }}
+                                    {{ Form::model($user, ['route' => ['customer.update', $user->id], 'method' => 'patch' , 'enctype'=>'multipart/form-data']) }}
                                 @else
-                                    {{ Form::open(['route' => 'inquiry.store' , 'enctype'=>'multipart/form-data']) }}
+                                    {{ Form::open(['route' => 'customer.store' , 'enctype'=>'multipart/form-data']) }}
                                 @endif
                                 <fieldset class="mb-3">
                                     <div class="form-group row">
