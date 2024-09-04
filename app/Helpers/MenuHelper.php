@@ -15,20 +15,26 @@ if (!function_exists('getMenuItems')) {
             [
                 'label' => 'Admin',
                 'url'   => 'admin',
-                'icon'  => 'bi bi-person-gear',
+                'icon'  => 'fa fa-file-text',
                 'permission' => 'Admin List',
                 'subItems' => [
                     [
                         'label' => 'Users',
                         'url'   => 'admin/users',
-                        'icon'  => 'bi bi-person',
+                        'icon'  => 'fa fa-file-text',
                         'permission' => 'User List',
                     ],
                     [
                         'label' => 'Roles',
                         'url'   => 'admin/roles',
-                        'icon'  => 'bi bi-card-heading',
+                        'icon'  => 'fa fa-file-text',
                         'permission' => 'Roles List',
+                    ],
+                    [
+                        'label' => 'Inquiry',
+                        'url'   => 'admin/inquiry',
+                        'icon'  => 'fa fa-file-text',
+                        'permission' => 'Inquiry List',
                     ],
                 ]
             ],

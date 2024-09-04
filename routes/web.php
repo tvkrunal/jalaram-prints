@@ -6,6 +6,7 @@ use App\Http\Middleware\UserAuthentication;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\RolesController;
+use App\Http\Controllers\Admin\InquiryController;
 
 
 Route::get('/', function () {
@@ -28,6 +29,9 @@ Route::group(['middleware' => ['auth']], function () {
 
         Route::resource('/users', UserController::class);
         Route::get('users-data', [UserController::class, 'getData'])->name('users.data');
+
+        Route::resource('/inquiry', InquiryController::class);
+        Route::get('inquiry-data', [InquiryController::class, 'getData'])->name('inquiry.data');
     });
 });
 
