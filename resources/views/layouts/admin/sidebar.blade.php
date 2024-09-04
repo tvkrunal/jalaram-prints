@@ -60,33 +60,37 @@
                 </li>
                 @if(auth::check())
                     @foreach($menuArr as $menuItem)
-                        {{--show item only if it has url or a sub menu--}}
-                        @if(!empty($menuItem['subItems']))
+                        @can($menuItem['permission'])
+                            {{--show item only if it has url or a sub menu--}}
                             @if(!empty($menuItem['subItems']))
-                                <li class="nav-item nav-item-submenu">
-                            @else
-                                <li class="nav-item">
-                            @endif
                                 @if(!empty($menuItem['subItems']))
-                                    <li class="nav-item-header">
+                                    <li class="nav-item nav-item-submenu">
                                 @else
-                                    <li class="nav-item-header">
+                                    <li class="nav-item">
                                 @endif
-                                        <span class="main-menu-label">{{ $menuItem['label'] }}</span>
-                                    </li>
                                     @if(!empty($menuItem['subItems']))
-                                        @foreach($menuItem['subItems'] as $subItem)
-                                            <li class="nav-item {{ ($currentMenuRoute == $subItem['url']) ? 'active':'' }}">
-                                                {{--add the icon and name to the menu item--}}
-                                                <a href="{{ URL::to($subItem['url']) }}" class="nav-link {{ ($currentMenuRoute == $subItem['url']) ? 'active':'' }}">
-                                                    <i class="{{ $subItem['icon'] }}"></i>
-                                                    <span>{{ $subItem['label'] }}</span>
-                                                </a>
-                                            </li>
-                                        @endforeach
+                                        <li class="nav-item-header">
+                                    @else
+                                        <li class="nav-item-header">
                                     @endif
-                                </li>
-                        @endif
+                                            <span class="main-menu-label">{{ $menuItem['label'] }}</span>
+                                        </li>
+                                        @if(!empty($menuItem['subItems']))
+                                            @foreach($menuItem['subItems'] as $subItem)
+                                                @can($subItem['permission'])
+                                                    <li class="nav-item {{ ($currentMenuRoute == $subItem['url']) ? 'active':'' }}">
+                                                        {{--add the icon and name to the menu item--}}
+                                                        <a href="{{ URL::to($subItem['url']) }}" class="nav-link {{ ($currentMenuRoute == $subItem['url']) ? 'active':'' }}">
+                                                            <i class="{{ $subItem['icon'] }}"></i>
+                                                            <span>{{ $subItem['label'] }}</span>
+                                                        </a>
+                                                    </li>
+                                                @endcan
+                                            @endforeach
+                                        @endif
+                                    </li>
+                            @endif
+                        @endcan
                     @endforeach
                 @endif
             </ul>
