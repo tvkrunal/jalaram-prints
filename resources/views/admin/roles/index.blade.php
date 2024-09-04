@@ -21,7 +21,7 @@
                             </div>  
                         </div>
                     </div>
-                    <a href="{{ route('users.create') }}" class="btn btn-success btn-labeled btn-labeled-left btn-sm legitRipple float-right"><b><i class="icon-plus3"></i></b> Add</a>
+                    <a href="{{ route('roles.create') }}" class="btn btn-success btn-labeled btn-labeled-left btn-sm legitRipple float-right"><b><i class="icon-plus3"></i></b> Add</a>
                 </div>
                 <div class="card-body p-0">
                     <table class="table datatable-basic roles-table" id="data-table">

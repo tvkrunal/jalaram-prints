@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6c4932908f20e95a9850fe9e68572f27",
+    "content-hash": "7b3ff78dc9cd6fd5aa3309caa3aed97d",
     "packages": [
         {
             "name": "bensampo/laravel-enum",
@@ -4009,6 +4009,67 @@
                 }
             ],
             "time": "2024-04-27T21:32:50+00:00"
+        },
+        {
+            "name": "rdx/laravelcollective-html",
+            "version": "6.7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/rudiedirkx/laravelcollective-html.git",
+                "reference": "3cc4bd1cb86e6296e4f8a824854d11c4dcec6fa6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/rudiedirkx/laravelcollective-html/zipball/3cc4bd1cb86e6296e4f8a824854d11c4dcec6fa6",
+                "reference": "3cc4bd1cb86e6296e4f8a824854d11c4dcec6fa6",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/http": "^6.0 || ^7.0 || ^8.0 || ^9.0 || ^10.0 || ^11.0",
+                "illuminate/routing": "^6.0 || ^7.0 || ^8.0 || ^9.0 || ^10.0 || ^11.0",
+                "illuminate/session": "^6.0 || ^7.0 || ^8.0 || ^9.0 || ^10.0 || ^11.0",
+                "illuminate/support": "^6.0 || ^7.0 || ^8.0 || ^9.0 || ^10.0 || ^11.0",
+                "illuminate/view": "^6.0 || ^7.0 || ^8.0 || ^9.0 || ^10.0 || ^11.0",
+                "php": "^7.2 || ^8.0"
+            },
+            "replace": {
+                "laravelcollective/html": "self.version"
+            },
+            "require-dev": {
+                "illuminate/database": "^6.0 || ^7.0 || ^8.0 || ^9.0 || ^10.0 || ^11.0",
+                "mockery/mockery": "~1.0",
+                "phpunit/phpunit": "~8.5 || ^9.5.10"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Collective\\Html\\HtmlServiceProvider"
+                    ],
+                    "aliases": {
+                        "Form": "Collective\\Html\\FormFacade",
+                        "Html": "Collective\\Html\\HtmlFacade"
+                    }
+                }
+            },
+            "autoload": {
+                "files": [
+                    "src/helpers.php"
+                ],
+                "psr-4": {
+                    "Collective\\Html\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "HTML and Form Builders for the Laravel Framework",
+            "support": {
+                "issues": "https://github.com/rudiedirkx/laravelcollective-html/issues",
+                "source": "https://github.com/rudiedirkx/laravelcollective-html"
+            },
+            "time": "2024-03-20T15:08:15+00:00"
         },
         {
             "name": "spatie/laravel-permission",

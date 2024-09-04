@@ -87,14 +87,14 @@
                                     <div class="form-group row">
                                         <label class="col-form-label col-lg-1">Categories</label>
                                         <div class="col-lg-5">
-                                            {{ Form::select('categories[]', $categories, isset($categoriesIds) ? $categoriesIds : null, array('class'=>"form-control select2", 'multiple'=>true))}}
+                                            {{ Form::select('categories[]', [], isset($categoriesIds) ? $categoriesIds : null, array('class'=>"form-control select2", 'multiple'=>true))}}
                                             @if ($errors->has('categories'))
                                                 <span class="text-danger">{{ $errors->first('categories') }}</span>
                                             @endif
                                         </div>
                                             <label class="col-form-label col-lg-1">Tags</label>
                                         <div class="col-lg-5">
-                                            {{ Form::select('tag_ids[]', $tags, isset($tagIds) ? $tagIds : null, array('class'=>"form-control select2", 'multiple'=>true)) }}
+                                            {{ Form::select('tag_ids[]', [], isset($tagIds) ? $tagIds : null, array('class'=>"form-control select2", 'multiple'=>true)) }}
                                             @if ($errors->has('tags'))
                                                 <span class="text-danger">{{ $errors->first('tags') }}</span>
                                             @endif
@@ -104,11 +104,11 @@
                                     <div class="form-group row">
                                         <label class="col-form-label col-lg-1">Membership Type</label>
                                         <div class="col-lg-5">
-                                        {{ Form::select('membership_tier', $membership_tire,Request::old('membership_tier'),array('class'=>'form-control select2','id'=>'membership_tier')) }}
+                                        {{ Form::select('membership_tier', [],Request::old('membership_tier'),array('class'=>'form-control select2','id'=>'membership_tier')) }}
                                         </div>
                                         <label class="col-form-label col-lg-1">Gender <span class="text-danger">*</span></label>
                                         <div class="col-lg-5">
-                                            {{ Form::select('gender', $gender_options,Request::old('gender'),array('class'=>'form-control select2','id'=>'gender','placeholder' => 'Select Gender')) }}
+                                            {{ Form::select('gender', [],Request::old('gender'),array('class'=>'form-control select2','id'=>'gender','placeholder' => 'Select Gender')) }}
                                             @if ($errors->has('gender'))
                                                 <span class="text-danger">{{ $errors->first('gender') }}</span>
                                             @endif
