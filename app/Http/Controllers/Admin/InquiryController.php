@@ -41,10 +41,10 @@ class InquiryController extends Controller implements HasMiddleware
     {
         return [
             'auth',
-            new Middleware('permission:Inquiry List', only: ['index', 'show','getData']),
-            new Middleware('permission:Inquiry Create', only: ['create', 'store']),
-            new Middleware('permission:Inquiry Edit', only: ['edit', 'update']),
-            new Middleware('permission:Inquiry Delete', only: ['destroy']),
+            // new Middleware('permission:Inquiry List', only: ['index', 'show','getData']),
+            // new Middleware('permission:Inquiry Create', only: ['create', 'store']),
+            // new Middleware('permission:Inquiry Edit', only: ['edit', 'update']),
+            // new Middleware('permission:Inquiry Delete', only: ['destroy']),
         ];
     }
 
@@ -113,6 +113,7 @@ class InquiryController extends Controller implements HasMiddleware
      */
     public function create()
     {
+
         $activeOrNot = StatusOption::asSelectArray();
         $projectManager = [];
         $teamLeader = [];
@@ -171,58 +172,13 @@ class InquiryController extends Controller implements HasMiddleware
      */
     public function show($id)
     {
-        $user = Inquiry::find($id);
-        $remineSeekLeave = $reminePaidLeave = 0;
-        $seekLeaveCount = Leave::where(['user_id' => $user->id, 'status' => Status::APPROVED])
-            ->whereHas('leaveType', function ($query) {
-                $query->where('id', LeaveType::SICK_LEAVE_ID);
-            })->count();
+        $query = Inquiry::all();
 
-        $paidLeaveCount = Leave::where(['user_id' => $user->id, 'status' => Status::APPROVED])
-            ->whereHas('leaveType', function ($query) {
-                $query->where('id', LeaveType::PAID_LEAVE_ID);
-            })->count();
+        return Datatables::of($query)
+            ->addIndexColumn()
+            ->rawColumns(['action'])
 
-        $paidLeaveCount = Leave::where(['user_id' => $user->id, 'status' => Status::APPROVED])
-            ->whereHas('leaveType', function ($query) {
-                $query->where('id', LeaveType::PAID_LEAVE_ID);
-            })->count();
-
-        $extraLeaveCount = Leave::whereHas('leaveType', function ($query) {
-            $query->where('id', LeaveType::EXTRA_LEAVE_ID);
-        })->where(['user_id' => $user->id, 'status' => Status::APPROVED])
-            ->sum('leave_days');
-
-        $earlyLeaveCount = Leave::whereHas('leaveType', function ($query) {
-            $query->where('id', LeaveType::EARLY_LEAVE_ID);
-        })->where(['user_id' => $user->id, 'status' => Status::APPROVED])
-            ->count();
-
-        $seekLeave = LeaveType::find(LeaveType::SICK_LEAVE_ID);
-        $paidLeave = LeaveType::find(LeaveType::PAID_LEAVE_ID);
-
-        if ($seekLeave) {
-            $remineSeekLeave = $seekLeave->count - $seekLeaveCount;
-        }
-
-        if ($paidLeave) {
-            $reminePaidLeave = $paidLeave->count - $paidLeaveCount;
-        }
-
-        $remainingLeaveCount = $remineSeekLeave + $reminePaidLeave;
-
-        $data  = [
-            'Name'           =>  $user->first_name . ' ' . $user->last_name,
-            'Email'          =>  $user->email,
-            'Status'         =>  $user->is_active == 1 ? 'Active' : 'Inactive',
-            'Role'           =>  $user->getRoleNames()->first(),
-            'Sick Leave'     =>  $seekLeaveCount,
-            'Paid Leave'     =>  $paidLeaveCount,
-            'Extra Leave'    => $extraLeaveCount,
-            'Earlier Leave'  => $earlyLeaveCount,
-            'Remaining Leave' => $remainingLeaveCount,
-        ];
-        return $data;
+            ->make(true);
     }
 
     /**
