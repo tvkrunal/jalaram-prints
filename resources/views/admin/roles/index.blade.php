@@ -11,20 +11,17 @@
             <!-- Basic datatable -->
             <div class="card">
                 <div class="card-header">
-                    <div class="row gy-4">
-                        <div class="col-md-5 col-sm-4 col-12 hstack">
-                            <h4>Roles</h4>
-                        </div>
-                        <div class="col-md-7 col-sm-8 col-12 hstack justify-content-end gap-3">
-                            <div class="input-group input-group-sm w-md-56">
-                                <span class="input-group-text"><i class="bi bi-search"></i></span>
-                                <input type="search" class="form-control" id="roleSearch" placeholder="Type to filter..."
-                                    aria-controls="data-table">
-                            </div>
-                            <a href="{{ route('roles.create') }}" class="btn btn-sm btn-success flex-none"><i
-                                    class="bi bi-plus-lg me-2"></i>Add</a>
+                    <div class="header-elements-inline mb-3">
+                        <h5 class="card-title">Roles</h5>
+                        <div class="header-elements">
+                            <div class="list-icons">
+                                <a class="list-icons-item" data-action="collapse"></a>
+                                <a class="list-icons-item" data-action="reload"></a>
+                                <a class="list-icons-item" data-action="remove"></a>
+                            </div>  
                         </div>
                     </div>
+                    <a href="{{ route('users.create') }}" class="btn btn-success btn-labeled btn-labeled-left btn-sm legitRipple float-right"><b><i class="icon-plus3"></i></b> Add</a>
                 </div>
                 <div class="card-body p-0">
                     <table class="table datatable-basic roles-table" id="data-table">
