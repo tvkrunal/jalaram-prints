@@ -116,7 +116,7 @@ class InquiryController extends Controller implements HasMiddleware
         $activeOrNot = StatusOption::asSelectArray();
         $projectManager = [];
         $teamLeader = [];
-        $parentUsers = Inquiry::pluck('first_name', 'id');
+        $parentUsers = Inquiry::pluck('customer_first_name', 'id');
         $userRoles = Role::pluck('name', 'name');
         return view('admin.inquiry.create_update', compact('activeOrNot', 'projectManager', 'teamLeader', 'userRoles', 'parentUsers'));
     }

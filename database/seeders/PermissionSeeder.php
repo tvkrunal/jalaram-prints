@@ -19,8 +19,7 @@ class PermissionSeeder extends Seeder
                 'name' => 'Admin List',
                 'guard_name' => 'web',
                 'model_name' => 'admin',
-            ],
-            [
+            ],[
                 'name' => 'Dashboard List',
                 'guard_name' => 'web',
                 'model_name' => 'dashboard',
@@ -53,10 +52,27 @@ class PermissionSeeder extends Seeder
                 'guard_name' => 'web',
                 'model_name' => 'roles',
             ],[
-                'name' => 'Roles Delete',
+                'name' => 'Inquiry Delete',
+                'guard_name' => 'web',
+                'model_name' => 'roles',
+            ],[
+                'name' => 'Inquiry List',
+                'guard_name' => 'web',
+                'model_name' => 'roles',
+            ],[
+                'name' => 'Inquiry Create',
+                'guard_name' => 'web',
+                'model_name' => 'roles',
+            ],[
+                'name' => 'Inquiry Edit',
+                'guard_name' => 'web',
+                'model_name' => 'roles',
+            ],[
+                'name' => 'Inquiry Delete',
                 'guard_name' => 'web',
                 'model_name' => 'roles',
             ],
+            
         ];
 
         foreach ($data as $item) {
