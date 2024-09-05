@@ -8,6 +8,7 @@ use App\Models\PriceMaster;
 use App\Http\Requests\PriceMasterRequest;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Auth;
 use Session;
 
 
@@ -88,6 +89,7 @@ class PriceMasterController extends Controller
         public function store(PriceMasterRequest $request)
         {
             $data = $request->all();
+            $data['user_id'] = Auth::user()->id;
          
             if ($price = PriceMaster::create($data)) {
                 Session::flash('success', 'Price has been added');

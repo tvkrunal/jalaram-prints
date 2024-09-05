@@ -19,6 +19,8 @@ return new class extends Migration
             $table->integer('qty')->nullable();
             $table->integer('min_cost')->nullable();
             $table->integer('max_cost')->nullable();
+            $table->bigInteger('user_id')->nullable()->unsigned()->index();
+	        $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
             $table->softDeletes();
         });
