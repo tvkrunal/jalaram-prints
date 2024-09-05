@@ -195,7 +195,6 @@
     $(function (){
         if($('.select2').length){
             $('.select2').select2({
-                placeholder: "Please Select",
                 allowClear: true
             });
         }

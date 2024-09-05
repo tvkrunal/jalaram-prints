@@ -59,7 +59,7 @@
                                         </div>
                                         <label class="col-form-label col-lg-1">Contact No <span class="text-danger">*</span></label>
                                         <div class="col-lg-5">
-                                            {{ Form::number('contact_no',Request::old('contact_no'),array('class'=>"form-control")) }}
+                                            {{ Form::text('contact_no',Request::old('contact_no'),array('class'=>"form-control")) }}
                                             @if ($errors->has('contact_no'))
                                                 <span class="text-danger">{{ $errors->first('contact_no') }}</span>
                                             @endif

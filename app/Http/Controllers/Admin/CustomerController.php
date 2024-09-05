@@ -43,8 +43,6 @@ class CustomerController extends Controller implements HasMiddleware
      */
     public function getData(Request $request)
     {
-        $role = (Auth()->user()) ? Auth()->user()->getRoleNames()->first() : null;
-
         $search = $request->input('search');
         $query = Customer::query();
         
@@ -151,5 +149,19 @@ class CustomerController extends Controller implements HasMiddleware
     public function destroy(Customer $customer)
     {
         $customer->delete();
+    }
+
+      /**
+     * Display the specified resource.
+     */
+    public function getCustomerDetails($id)
+    {
+        $customer = Customer::findOrfail($id);
+
+        if(!empty($customer)) {
+            return response()->json(['status' => true, 'message' => __('Customer Details Retrieved Successfully'),'customer' => $customer]);
+        } else {
+            return response()->json(['status' => false, 'message' => __('Something went wrong')]);
+        }
     }
 }
