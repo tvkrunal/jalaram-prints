@@ -33,9 +33,19 @@
                                     <div class="form-group row">
                                         <label class="col-form-label col-lg-1">Customer <span class="text-danger">*</span></label>
                                         <div class="col-lg-5">
-                                            {{ Form::text('customer_id',Request::old('customer_id'),array('class'=>"form-control")) }}
-                                            @if ($errors->has('customer_id'))
-                                                <span class="text-danger">{{ $errors->first('customer_id') }}</span>
+                                            <div class="d-flex align-items-center">
+                                                {{ Form::select('customer_id[]', $customers, null, array('class'=>"form-control select2"))}}
+                                                @if ($errors->has('customer_id'))
+                                                    <span class="text-danger">{{ $errors->first('customer_id') }}</span>
+                                                @endif
+                                                <button type="button" class="ml-3 btn btn-primary fa-2x py-0">+</button>
+                                            </div>
+                                        </div>
+                                        <label class="col-form-label col-lg-1">Date Of Delivery <span class="text-danger">*</span></label>
+                                        <div class="col-lg-5">
+                                            {{ Form::date('delivery_date',Request::old('delivery_date'),array('class'=>"form-control")) }}
+                                            @if ($errors->has('delivery_date'))
+                                                <span class="text-danger">{{ $errors->first('delivery_date') }}</span>
                                             @endif
                                         </div>
                                         <label class="col-form-label col-lg-1 d-none">Last Name <span class="text-danger">*</span></label>
@@ -46,7 +56,6 @@
                                             @endif
                                         </div>
                                     </div>
-
 
                                     <div class="form-group row d-none">
                                         <label class="col-form-label col-lg-1">Email <span class="text-danger">*</span></label>
@@ -91,34 +100,10 @@
                                                 <span class="text-danger">{{ $errors->first('pin_code') }}</span>
                                             @endif
                                         </div>
-                                        <label class="col-form-label col-lg-1">Date Of Delivery <span class="text-danger">*</span></label>
-                                        <div class="col-lg-5">
-                                            {{ Form::date('delivery_date',Request::old('delivery_date'),array('class'=>"form-control")) }}
-                                            @if ($errors->has('delivery_date'))
-                                                <span class="text-danger">{{ $errors->first('delivery_date') }}</span>
-                                            @endif
-                                        </div>
                                    </div>
 
+
                                    <div class="form-group row">
-                                   <label class="col-form-label col-lg-1">Type of Job <span class="text-danger">*</span></label>
-                                        <div class="col-lg-5">
-                                            <span class="col-5 ml-3">
-                                                {{ Form::radio('type_of_job', 'Design', old('type_of_job') == 'Design', ['class' => 'form-check-input', 'id' => 'job_design']) }}
-                                                {{ Form::label('job_design', 'Design', ['class' => 'form-check-label']) }}
-                                            </span>
-                                            <span class="col-5 ml-3">
-                                                {{ Form::radio('type_of_job', 'Print', old('type_of_job') == 'Print', ['class' => 'form-check-input', 'id' => 'job_print']) }}
-                                                {{ Form::label('job_print', 'Print', ['class' => 'form-check-label']) }}
-                                            </span>
-                                            <span class="col-5 ml-3">
-                                                {{ Form::radio('type_of_job', 'Design + Print', old('type_of_job') == 'Design + Print', ['class' => 'form-check-input', 'id' => 'job_design_print']) }}
-                                                {{ Form::label('job_design_print', 'Design + Print', ['class' => 'form-check-label']) }}
-                                            </span>
-                                            @if ($errors->has('type_of_job'))
-                                                <span class="text-danger">{{ $errors->first('type_of_job') }}</span>
-                                            @endif
-                                        </div>
                                         <label class="col-form-label col-lg-1">Job Description <span class="text-danger">*</span></label>
                                         <div class="col-lg-5">
                                             {{ Form::textarea('job_description',Request::old('job_description'),array('class'=>"form-control",'rows' => '2')) }}
@@ -126,10 +111,7 @@
                                                 <span class="text-danger">{{ $errors->first('job_description') }}</span>
                                             @endif
                                         </div>
-                                   </div>
-
-                                   <div class="form-group row">
-                                       <label class="col-form-label col-lg-1">Process <span class="text-danger">*</span></label>
+                                            <label class="col-form-label col-lg-1">Process <span class="text-danger">*</span></label>
                                             <div class="col-lg-5">
                                                 {{ Form::select('processes[]', [
                                                 'Print' => 'Print',
@@ -145,6 +127,43 @@
                                                 ]) }}
                                             @if ($errors->has('processes'))
                                                 <span class="text-danger">{{ $errors->first('processes') }}</span>
+                                            @endif
+                                        </div>
+                                   </div>
+
+                                   <div class="form-group row">
+                                        <label class="col-form-label col-lg-1">Type of Job <span class="text-danger">*</span></label>
+                                        <div class="col-lg-5">
+                                            <span class="col-5 ml-3">
+                                                {{ Form::radio('type_of_job', 'Design', old('type_of_job') == 'Design', ['class' => 'form-check-input', 'id' => 'job_design']) }}
+                                                {{ Form::label('job_design', 'Design', ['class' => 'form-check-label']) }}
+                                            </span>
+                                            <span class="col-5 ml-3">
+                                                {{ Form::radio('type_of_job', 'Print', old('type_of_job') == 'Print', ['class' => 'form-check-input', 'id' => 'job_print']) }}
+                                                {{ Form::label('job_print', 'Print', ['class' => 'form-check-label']) }}
+                                            </span>
+                                            <span class="col-5 ml-3">
+                                                {{ Form::radio('type_of_job', 'Design Print', old('type_of_job') == 'Design Print', ['class' => 'form-check-input', 'id' => 'job_design_print']) }}
+                                                {{ Form::label('job_design_print', 'Design Print', ['class' => 'form-check-label']) }}
+                                            </span>
+                                            @if ($errors->has('type_of_job'))
+                                                <span class="text-danger">{{ $errors->first('type_of_job') }}</span>
+                                            @endif
+                                        </div>
+
+                                        <label class="col-form-label col-lg-1 d-none designing-details-container">Designing Details</label>
+                                        <div class="col-lg-5 d-none designing-details-container">
+                                            {{ Form::text('designing_details',Request::old('designing_details'),array('class'=>"form-control")) }}
+                                            @if ($errors->has('designing_details'))
+                                                <span class="text-danger">{{ $errors->first('designing_details') }}</span>
+                                            @endif
+                                        </div>
+
+                                        <label class="col-form-label col-lg-1 d-none designing-details-print-container">Designing Details Print</label>
+                                        <div class="col-lg-5 d-none designing-details-print-container">
+                                            {{ Form::text('designing_details',Request::old('designing_details'),array('class'=>"form-control")) }}
+                                            @if ($errors->has('designing_details'))
+                                                <span class="text-danger">{{ $errors->first('designing_details') }}</span>
                                             @endif
                                         </div>
                                    </div>
@@ -164,4 +183,34 @@
         <!-- /content area -->
         @include('layouts.admin.page_footer')
     </div>
+@endsection
+
+@section('scripts')
+<script>
+    $(document).ready(function() {
+        // Function to show/hide the Designing Details field based on the selected radio button
+        $('.designing-details-container').addClass('d-none');
+        $('.designing-details-print-container').addClass('d-none');
+        
+        function toggleDesigningDetails() {
+            let selectedJobType = $('input[name="type_of_job"]:checked').val();
+            console.log(selectedJobType);
+            if (selectedJobType === 'Design' || selectedJobType === 'Design Print') {
+                $('.designing-details-container').removeClass('d-none');
+                $('.designing-details-print-container').addClass('d-none');
+            } else if(selectedJobType === 'Print'){
+                $('.designing-details-container').addClass('d-none');
+                $('.designing-details-print-container').removeClass('d-none');
+            }
+        }
+
+        // Initial check on page load
+        toggleDesigningDetails();
+
+        // Check when radio buttons are clicked
+        $('input[name="type_of_job"]').on('change', function() {
+            toggleDesigningDetails();
+        });
+    });
+</script>
 @endsection

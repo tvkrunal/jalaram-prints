@@ -53,7 +53,7 @@
             <ul class="nav nav-sidebar edge-sidebar" data-nav-type="accordion">
                 <!-- Main -->
                 <li class="nav-item">
-                    <a href="{{ url('home')  }}" class="nav-link {{ Request::is('home') || Request::is('/') ? 'active' : '' }}">
+                    <a href="{{ url('admin')  }}" class="nav-link {{ Request::is('admin') || Request::is('/') ? 'active' : '' }}">
                         <i class="fa fa-tachometer"></i>
                         <span>Dashboard</span>
                     </a>
@@ -78,7 +78,7 @@
                                         @if(!empty($menuItem['subItems']))
                                             @foreach($menuItem['subItems'] as $subItem)
                                                 @can($subItem['permission'])
-                                                    <li class="nav-item {{ ($currentMenuRoute == $subItem['url']) ? 'active':'' }}">
+                                                    <li class="nav-item {{ ($currentMenuRoute == $subItem['url']) ? 'active':'' }} {{ $currentMenuRoute == $subItem['url']}}">
                                                         {{--add the icon and name to the menu item--}}
                                                         <a href="{{ URL::to($subItem['url']) }}" class="nav-link {{ ($currentMenuRoute == $subItem['url']) ? 'active':'' }}">
                                                             <i class="{{ $subItem['icon'] }}"></i>

@@ -13,6 +13,7 @@ use Illuminate\Http\Response;
 use App\Enums\StatusOption;
 use App\Enums\Status;
 use App\Models\Role;
+use App\Models\Customer;
 use App\Models\Inquiry;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
@@ -93,8 +94,8 @@ class InquiryController extends Controller implements HasMiddleware
         $projectManager = [];
         $teamLeader = [];
         $parentUsers = [];
-        $userRoles = [];
-        return view('admin.inquiry.create_update', compact('activeOrNot', 'projectManager', 'teamLeader', 'userRoles', 'parentUsers'));
+        $customers = Customer::get()->pluck('full_name', 'id');
+        return view('admin.inquiry.create_update', compact('activeOrNot', 'projectManager', 'teamLeader', 'customers', 'parentUsers'));
     }
 
     /**
@@ -170,8 +171,8 @@ class InquiryController extends Controller implements HasMiddleware
         $projectManager = [];
         $teamLeader = [];
         $parentUsers = Inquiry::pluck('first_name', 'id');
-        $userRoles = Role::pluck('name', 'name');
-        return view('admin.inquiry.create_update', compact('user', 'activeOrNot', 'projectManager', 'teamLeader', 'userRoles', 'parentUsers'));
+        $customers = Customer::get()->pluck('full_name', 'id');
+        return view('admin.inquiry.create_update', compact('user', 'activeOrNot', 'projectManager', 'teamLeader', 'customers', 'parentUsers'));
     }
 
     /**

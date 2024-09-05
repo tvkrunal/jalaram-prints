@@ -56,6 +56,13 @@
                                                 <span class="text-danger">{{ $errors->first('email') }}</span>
                                             @endif
                                         </div>
+                                        <label class="col-form-label col-lg-1">Role</label>
+                                        <div class="col-lg-5">
+                                            {{ Form::select('role[]', $userRoles, null, array('class'=>"form-control select2"))}}
+                                            @if ($errors->has('role'))
+                                                <span class="text-danger">{{ $errors->first('role') }}</span>
+                                            @endif
+                                        </div>
                                     </div>
 
                                     @if(!isset($user))
@@ -69,13 +76,28 @@
                                             </div>
                                             <label class="col-form-label col-lg-1">Confirm Password <span class="text-danger">*</span></label>
                                             <div class="col-lg-5">
-                                                {{ Form::password('confirm_password', array('class = "form-control"')) }}
+                                                {{ Form::text('confirm_password',Request::old('confirm_password'),array('class'=>"form-control")) }}
                                                 @if ($errors->has('confirm_password'))
                                                     <span class="text-danger">{{ $errors->first('confirm_password') }}</span>
                                                 @endif
                                             </div>
                                         </div>
                                     @endif
+
+                                    <div class="form-group row">
+                                        <label class="col-form-label col-lg-1">Status <span class="text-danger">*</span></label>
+                                        <div class="col-lg-5">
+                                            <div class="form-check form-switch">
+                                                @if (isset($user) && $user->is_active == \App\Enums\StatusOption::ACTIVE)
+                                                    <input class="form-check-input" type="checkbox" id="user-status" value="1"
+                                                        name="is_active" checked>
+                                                @else
+                                                    <input class="form-check-input" type="checkbox" id="user-status" value="1"
+                                                        name="is_active">
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </div>
 
                                 </fieldset>
 
