@@ -108,7 +108,7 @@ class PriceMasterController extends Controller
          *
          * @return Response
          */
-        public function show($id)
+        public function show(PriceMaster $price)
         {
             $price = PriceMaster::all();
     
@@ -126,9 +126,9 @@ class PriceMasterController extends Controller
          *
          * @return Response
          */
-        public function edit($id)
+        public function edit(PriceMaster $price)
         {
-            $price = PriceMaster::findOrFail($id);
+            // $price = PriceMaster::findOrFail($price);
 
             return view('admin.price_master.create_update', compact('price'));
         }
@@ -141,12 +141,12 @@ class PriceMasterController extends Controller
          *
          * @return Response
          */
-        public function update(PriceMasterRequest $request, $id)
+        public function update(PriceMasterRequest $request,PriceMaster $price)
         {
-            $price = PriceMaster::findOrFail($id);
-            $price->update($request->all());
-         
-            if ($price->update($request->all())) {
+            $data = $request->all();
+            $price->update($data);
+            
+            if ($price->update($data)) {
                 Session::flash('success', 'Price has been updeted successfully');
                 return redirect()->route('price.index');
             } else {
@@ -163,9 +163,8 @@ class PriceMasterController extends Controller
          *
          * @return Response
          */
-        public function destroy($id)
+        public function destroy(PriceMaster $price)
         {
-            $price = PriceMaster::findOrFail($id);
             $price->delete();
 
             if ($price->delete()) {
