@@ -645,3 +645,7 @@ legend {
     }
 }
 /***********************/
+
+#modal_for_add_customer .form-control{
+    color: #fff;
+}

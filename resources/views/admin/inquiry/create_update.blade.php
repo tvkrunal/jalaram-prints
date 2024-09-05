@@ -34,7 +34,7 @@
                                         <label class="col-form-label col-lg-1">Customer <span class="text-danger">*</span></label>
                                         <div class="col-lg-5">
                                             <div class="d-flex align-items-center">
-                                                {{ Form::select('customer_id[]', $customers, [], array('class'=>"form-control select2", 'id' => "customer_id",'placeholder' => 'Select Gender'))}}
+                                                {{ Form::select('customer_id[]', $customers, [], array('class'=>"form-control select2", 'id' => "customer_id",'placeholder' => 'Select Customer'))}}
                                                 @if ($errors->has('customer_id'))
                                                     <span class="text-danger">{{ $errors->first('customer_id') }}</span>
                                                 @endif
@@ -48,43 +48,50 @@
                                                 <span class="text-danger">{{ $errors->first('delivery_date') }}</span>
                                             @endif
                                         </div>
-                                        <label class="col-form-label col-lg-1 d-none">Last Name <span class="text-danger">*</span></label>
-                                        <div class="col-lg-5 d-none">
-                                            {{ Form::text('customer_last_name',Request::old('customer_last_name'),array('class'=>"form-control")) }}
-                                            @if ($errors->has('customer_last_name'))
-                                                <span class="text-danger">{{ $errors->first('customer_last_name') }}</span>
+                                        
+                                    </div>
+                                    <div class="form-group row d-none customer-details">
+                                        <label class="col-form-label col-lg-1">First Name <span class="text-danger">*</span></label>
+                                        <div class="col-lg-5">
+                                            {{ Form::text('first_name','',array('class'=>"form-control", 'id' => 'first_name','readonly' => 'true')) }}
+                                        </div>
+                                        <label class="col-form-label col-lg-1">Last Name <span class="text-danger">*</span></label>
+                                        <div class="col-lg-5">
+                                            {{ Form::text('last_name',Request::old('last_name'),array('class'=>"form-control",'id' => 'last_name','readonly' => 'true')) }}
+                                            @if ($errors->has('last_name'))
+                                                <span class="text-danger">{{ $errors->first('last_name') }}</span>
                                             @endif
                                         </div>
                                     </div>
 
-                                    <div class="form-group row d-none">
+                                    <div class="form-group row d-none customer-details">
                                         <label class="col-form-label col-lg-1">Email <span class="text-danger">*</span></label>
                                         <div class="col-lg-5">
-                                            {{ Form::text('email',Request::old('email'),array('class'=>"form-control")) }}
+                                            {{ Form::text('email',Request::old('email'),array('class'=>"form-control",'id' => 'email','readonly' => 'true')) }}
                                             @if ($errors->has('email'))
                                                 <span class="text-danger">{{ $errors->first('email') }}</span>
                                             @endif
                                         </div>
                                         <label class="col-form-label col-lg-1">Contact No <span class="text-danger">*</span></label>
                                         <div class="col-lg-5">
-                                            {{ Form::number('customer_contact_no',Request::old('customer_contact_no'),array('class'=>"form-control")) }}
-                                            @if ($errors->has('customer_contact_no'))
-                                                <span class="text-danger">{{ $errors->first('customer_contact_no') }}</span>
+                                            {{ Form::number('contact_no',Request::old('contact_no'),array('class'=>"form-control",'id' => 'contact_no','readonly' => 'true')) }}
+                                            @if ($errors->has('contact_no'))
+                                                <span class="text-danger">{{ $errors->first('contact_no') }}</span>
                                             @endif
                                         </div>
                                     </div>
 
-                                    <div class="form-group row d-none">
+                                    <div class="form-group row d-none customer-details">
                                         <label class="col-form-label col-lg-1">Address <span class="text-danger">*</span></label>
                                         <div class="col-lg-5">
-                                            {{ Form::text('address',Request::old('address'),array('class'=>"form-control")) }}
+                                            {{ Form::text('address',Request::old('address'),array('class'=>"form-control",'id' => 'address','readonly' => 'true')) }}
                                             @if ($errors->has('address'))
                                                 <span class="text-danger">{{ $errors->first('address') }}</span>
                                             @endif
                                         </div>
                                         <label class="col-form-label col-lg-1">City <span class="text-danger">*</span></label>
                                         <div class="col-lg-5">
-                                            {{ Form::text('city',Request::old('city'),array('class'=>"form-control")) }}
+                                            {{ Form::text('city',Request::old('city'),array('class'=>"form-control",'id' => 'city','readonly' => 'true')) }}
                                             @if ($errors->has('city'))
                                                 <span class="text-danger">{{ $errors->first('city') }}</span>
                                             @endif
@@ -92,10 +99,10 @@
                                     </div>
 
 
-                                    <div class="form-group row">
-                                        <label class="col-form-label col-lg-1 d-none">Pin Code <span class="text-danger">*</span></label>
-                                        <div class="col-lg-5 d-none">
-                                            {{ Form::text('pin_code',Request::old('pin_code'),array('class'=>"form-control")) }}
+                                    <div class="form-group row customer-details d-none">
+                                        <label class="col-form-label col-lg-1">Pin Code <span class="text-danger">*</span></label>
+                                        <div class="col-lg-5">
+                                            {{ Form::text('pin_code',Request::old('pin_code'),array('class'=>"form-control",'id' => 'pin_code','readonly' => 'true')) }}
                                             @if ($errors->has('pin_code'))
                                                 <span class="text-danger">{{ $errors->first('pin_code') }}</span>
                                             @endif
@@ -315,13 +322,23 @@
         $('#customer_id').on('change', function() {
             let customerId = $(this).val();
             let customerUrl= "{{ route('get.customer','')}}";
+            $('.customer-details').addClass('d-none');
             if(customerId != '') {
                 $.ajax({
                     url: customerUrl + '/' + customerId,
                     type: 'GET',
                     success: function (response) {
                         if(response.status) {
-                            alert("sfd");
+                            $('.customer-details').removeClass('d-none');
+                            if(response.customer) {
+                                $('#first_name').val(response.customer.first_name);
+                                $('#last_name').val(response.customer.last_name);
+                                $('#email').val(response.customer.email);
+                                $('#contact_no').val(response.customer.contact_no);
+                                $('#address').val(response.customer.address);
+                                $('#city').val(response.customer.city);
+                                $('#pin_code').val(response.customer.pin_code);
+                            }
                         }
                     },
                     error: function (xhr, status, error) {
