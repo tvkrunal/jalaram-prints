@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\PriceMaster;
+use App\Http\Requests\PriceMasterRequest;
 use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Support\Facades\Gate;
 use Session;
 
 
@@ -89,7 +91,7 @@ class PriceMasterController extends Controller
          
             if ($price = PriceMaster::create($data)) {
                 Session::flash('success', 'Price has been added');
-                return redirect()->route('pricemaster.index');
+                return redirect()->route('price.index');
             } else {
                 Session::flash('error', 'Unable to create Price');
                 return redirect()->back();
@@ -144,7 +146,7 @@ class PriceMasterController extends Controller
          
             if ($price->update($request->all())) {
                 Session::flash('success', 'Price has been updeted successfully');
-                return redirect()->route('pricemaster.index');
+                return redirect()->route('price.index');
             } else {
                 Session::flash('error', 'Unable to update Price');
                 return redirect()->back();
@@ -166,7 +168,7 @@ class PriceMasterController extends Controller
 
             if ($price->delete()) {
                 Session::flash('success', 'Price has been deleted successfully');
-                return redirect()->route('pricemaster.index');
+                return redirect()->route('price.index');
             } else {
                 Session::flash('error', 'Unable to deteted Price');
                 return redirect()->back();
