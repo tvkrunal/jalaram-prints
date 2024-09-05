@@ -85,7 +85,7 @@
 
                                 <div class="text-right">
                                     {{ Form::submit('Submit',array('class'=>'btn btn-primary')) }}
-                                    <a href="{{ route('orice.index') }}" class="btn btn-primary">Cancel</a>
+                                    <a href="{{ route('price.index') }}" class="btn btn-primary">Cancel</a>
                                 </div>
                                 {{ Form::close() }}
                             </div>
