@@ -35,8 +35,7 @@ class InquiryRequest extends FormRequest
     }
     public function messages()
     {
-        return                
-
+        return
             [
                 'customer_id.required' => 'The customer field is required.',
                 'type_of_job.required' => ' The type of job  field  is required.',

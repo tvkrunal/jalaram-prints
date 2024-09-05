@@ -19,5 +19,10 @@ class Customer extends Model
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
-    } 
+    }
+
+    public function getFullNameAttribute()
+    {
+        return preg_replace('/\s+/', ' ', $this->customer_first_name . ' ' . $this->customer_last_name);
+    }
 }

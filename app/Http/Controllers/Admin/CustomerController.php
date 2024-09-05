@@ -9,6 +9,8 @@ use App\Http\Requests\CustomerRequest;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Auth;
 use Session;
 
 class CustomerController extends Controller implements HasMiddleware
@@ -44,26 +46,20 @@ class CustomerController extends Controller implements HasMiddleware
         $role = (Auth()->user()) ? Auth()->user()->getRoleNames()->first() : null;
 
         $search = $request->input('search');
-        $status = $request->input('status');
         $query = Customer::query();
         
         
-        $users = $query->select('id', 'customer_first_name', 'customer_last_name', 'email');
+        $users = $query->select('id', 'customer_first_name', 'customer_last_name', 'email','customer_contact_no','address','city','pin_code','status','user_id');
 
-        if ($role == 'HR') {
-            $users->whereDoesntHave('roles', function ($query) {
-                $query->where('name', 'Administrator');
-            });
-        }
         $users = $users->get();
 
         return Datatables::of($users)
             ->addIndexColumn()
             ->addColumn('user_id', function ($data) {
-                return '<span class="fw-bold">' . $data->user->customer_first_name . ' ' . $data->user->customer_first_name . '</span>';
+                return '<span class="fw-bold">' . $data->user->first_name . ' ' . $data->user->last_name . '</span>';
             })
             ->editColumn('name', function ($data) {
-                return $data->customer_first_name . ' ' . $data->customer_first_name;
+                return $data->full_name;
             })
             ->addColumn('action', function ($data) {
                 $actions = '';
@@ -81,7 +77,7 @@ class CustomerController extends Controller implements HasMiddleware
                 }
                 return $actions;
             })
-            ->rawColumns(['action'])
+            ->rawColumns(['action','user_id','status'])
             ->make(true);
     }
 
@@ -98,9 +94,8 @@ class CustomerController extends Controller implements HasMiddleware
      */
     public function store(CustomerRequest $request)
     {
-        dd($request->all());
-        exit;
         $data = $request->all();
+        $data['user_id'] = Auth::user()->id;
          
         if ($customer = Customer::create($data)) {
             Session::flash('success', 'customer has been added');

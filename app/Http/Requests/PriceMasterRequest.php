@@ -22,8 +22,8 @@ class PriceMasterRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'item_type	'=>'required',
-            'media	' => 'required',
+            'item_type' => 'required',
+            'media' => 'required',
             'gsm' => 'required',
             'qty' => 'required',
             'min_cost' => 'required',
@@ -32,8 +32,7 @@ class PriceMasterRequest extends FormRequest
     }
     public function messages()
     {
-        return                
-
+        return
             [
                 'item_type.required' => 'The item type field is required.',
                 'media.required' => ' The media field  is required.',

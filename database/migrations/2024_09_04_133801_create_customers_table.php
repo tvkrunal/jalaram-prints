@@ -15,14 +15,14 @@ return new class extends Migration
             $table->id();
             $table->string('customer_first_name');
             $table->string('customer_last_name')->nullable();
-            $table->integer('customer_contact_no');
+            $table->string('customer_contact_no');
             $table->string('email')->nullable();
             $table->string('address')->nullable();
             $table->string('city')->nullable();
             $table->integer('pin_code')->nullable();
             $table->bigInteger('user_id')->nullable()->unsigned()->index();
 	        $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->boolean('is_active')->default(1);
+            $table->boolean('status')->default(1);
             $table->timestamps();
             $table->softDeletes();
         });

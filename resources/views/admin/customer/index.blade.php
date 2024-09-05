@@ -29,15 +29,14 @@
 						<thead>
 							<tr>
                             	<th>ID</th>
-                           		<th>First Name</th>
-								<th>Last Name</th>
-								<th>contact_no</th>
-								<th>email</th>
-								<th>address</th>
-								<th>city</th>
-								<th>pin_code</th>
-								<th>user_id</th>
-								<th>is_active</th>
+                           		<th>Name</th>
+								<th>Contact No</th>
+								<th>Email</th>
+								<th>Address</th>
+								<th>City</th>
+								<th>Pin Code</th>
+								<th>User</th>
+								<th>Status</th>
                                 <th>Action</th>
 							</tr>
 						</thead>
@@ -60,15 +59,14 @@
                 ajax: '{!! route('customer.data') !!}',
                 columns: [
                     { data: 'id', name: 'id' },
-                    { data: 'customer_first_name', name: 'customer_first_name' },
-                    { data: 'customer_last_name', name: 'customer_last_name' },
+                    { data: 'name', name: 'name' },
 					{ data: 'customer_contact_no', name: 'customer_contact_no' },
                     { data: 'email', name: 'email' },
 					{ data: 'address', name: 'address' },
-                    { data: 'city	', name: 'city	' },
+                    { data: 'city', name: 'city' },
 					{ data: 'pin_code', name: 'pin_code' },
-                    { data: 'user_id', name: 'user_id', orderable: false, searchable: false },          
-					{ data: 'is_active', name: 'is_active' },
+					{ data: 'user_id', name: 'user_id' },
+					{ data: 'status', name: 'status' },
                     { data: 'action', name: 'action', orderable: false, searchable: false }
                 ]
 			});

@@ -92,13 +92,6 @@
                                                 <span class="text-danger">{{ $errors->first('pin_code') }}</span>
                                             @endif
                                         </div>
-                                        <label class="col-form-label col-lg-1">Date Of Delivery <span class="text-danger">*</span></label>
-                                        <div class="col-lg-5">
-                                            {{ Form::date('delivery_date',Request::old('delivery_date'),array('class'=>"form-control")) }}
-                                            @if ($errors->has('delivery_date'))
-                                                <span class="text-danger">{{ $errors->first('delivery_date') }}</span>
-                                            @endif
-                                        </div>
                                    </div>
                                     
                                 </fieldset>

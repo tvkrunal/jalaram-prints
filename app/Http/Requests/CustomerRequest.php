@@ -29,8 +29,6 @@ class CustomerRequest extends FormRequest
             'address' => 'required',
             'city' => 'required',
             'pin_code' => 'required',
-            'type_of_job' => 'required',
-            'delivery_date' => 'required',
         ];
     }
     public function messages()
@@ -44,12 +42,6 @@ class CustomerRequest extends FormRequest
                 'address.required'=>'The address field is required',
                 'city.required'=>'The city field is required',
                 'pin_code.required|max:6' => 'The pin code is required',
-                'type_of_job.required' => 'The type of job field is required.', 
-                'delivery_date.required' => 'The delivery date field is required',
-                'job_description.required' => 'The job description field is required.',
-                'designing_details.required' => ' The designing details  field  is required.',
-                'user_id.required' => 'The user_id field is required',
-                'process.required'=>'The process field is required',
             ];
     }
 }

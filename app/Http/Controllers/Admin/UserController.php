@@ -3,22 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\IdentificationDocumentsRequest;
-use App\Http\Requests\PreviousExperienceRequest;
-use App\Http\Requests\EmployeeContactRequest;
-use App\Http\Requests\EmployeeRelativeRequest;
-use App\Http\Requests\EmployeeDocumentRequest;
-use App\Http\Requests\BankingDocumentRequest;
-use App\Http\Requests\EmployeeJobRequest;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Gate;
 use App\Http\Controllers\Controller;
-use App\Models\EmployeeJobDetail;
-use App\Models\EmployeeDocument;
-use App\Models\EmployeeRelative;
 use App\Classes\Helper\CommonUtil;
 use App\Http\Requests\UserRequest;
-use App\Http\Requests\BlogAuthorRequest;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Enums\StatusOption;
@@ -41,10 +31,10 @@ class UserController extends Controller implements HasMiddleware
     {
         return [
             'auth',
-            // new Middleware('permission:User List', only: ['index', 'show','getData']),
-            // new Middleware('permission:User Create', only: ['create', 'store']),
-            // new Middleware('permission:User Edit', only: ['edit', 'update']),
-            // new Middleware('permission:User Delete', only: ['destroy']),
+            new Middleware('permission:User List', only: ['index', 'show','getData']),
+            new Middleware('permission:User Create', only: ['create', 'store']),
+            new Middleware('permission:User Edit', only: ['edit', 'update']),
+            new Middleware('permission:User Delete', only: ['destroy']),
         ];
     }
 
