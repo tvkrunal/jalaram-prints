@@ -194,7 +194,7 @@
                         <div class="modal-content bg-teal-300 view-table-bg">
                             <div class="modal-header">
                                 <h5 class="modal-title">Create Customer</h5>
-                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <button type="button" class="close">&times;</button>
                             </div>
 
                             <div class="modal-body">
@@ -209,16 +209,14 @@
                                         <label class="form-label">First Name <span class="text-danger">*</span></label>
                                         <div class="mb-4">
                                             {{ Form::text('first_name',Request::old('first_name'),array('class'=>"form-control")) }}
-                                            @if ($errors->has('first_name'))
-                                                <span class="text-danger">{{ $errors->first('first_name') }}</span>
-                                            @endif
+                                            <span class="text-danger print-error-msg print-msg-first_name"
+                                                    style="display:none"></span>
                                         </div>
                                         <label class="form-label">Last Name <span class="text-danger">*</span></label>
                                         <div>
                                             {{ Form::text('last_name',Request::old('last_name'),array('class'=>"form-control")) }}
-                                            @if ($errors->has('last_name'))
-                                                <span class="text-danger">{{ $errors->first('last_name') }}</span>
-                                            @endif
+                                            <span class="text-danger print-error-msg print-msg-last_name"
+                                            style="display:none"></span>
                                         </div>
                                     </div>
 
@@ -227,16 +225,14 @@
                                         <label class="form-label">Email <span class="text-danger">*</span></label>
                                         <div class="mb-4">
                                             {{ Form::text('email',Request::old('email'),array('class'=>"form-control")) }}
-                                            @if ($errors->has('email'))
-                                                <span class="text-danger">{{ $errors->first('email') }}</span>
-                                            @endif
+                                            <span class="text-danger print-error-msg print-msg-email"
+                                            style="display:none"></span>
                                         </div>
                                         <label class="form-label">Contact No <span class="text-danger">*</span></label>
                                         <div>
                                             {{ Form::text('contact_no',Request::old('contact_no'),array('class'=>"form-control")) }}
-                                            @if ($errors->has('contact_no'))
-                                                <span class="text-danger">{{ $errors->first('contact_no') }}</span>
-                                            @endif
+                                            <span class="text-danger print-error-msg print-msg-contact_no"
+                                            style="display:none"></span>
                                         </div>
                                     </div>
 
@@ -244,16 +240,14 @@
                                         <label class="form-label">Address <span class="text-danger">*</span></label>
                                         <div class="mb-4">
                                             {{ Form::text('address',Request::old('address'),array('class'=>"form-control")) }}
-                                            @if ($errors->has('address'))
-                                                <span class="text-danger">{{ $errors->first('address') }}</span>
-                                            @endif
+                                            <span class="text-danger print-error-msg print-msg-address"
+                                            style="display:none"></span>
                                         </div>
                                         <label class="form-label">City <span class="text-danger">*</span></label>
                                         <div>
                                             {{ Form::text('city',Request::old('city'),array('class'=>"form-control")) }}
-                                            @if ($errors->has('city'))
-                                                <span class="text-danger">{{ $errors->first('city') }}</span>
-                                            @endif
+                                            <span class="text-danger print-error-msg print-msg-city"
+                                            style="display:none"></span>
                                         </div>
                                     </div>
 
@@ -262,9 +256,8 @@
                                         <label class="form-label">Pin Code <span class="text-danger">*</span></label>
                                         <div>
                                             {{ Form::text('pin_code',Request::old('pin_code'),array('class'=>"form-control")) }}
-                                            @if ($errors->has('pin_code'))
-                                                <span class="text-danger">{{ $errors->first('pin_code') }}</span>
-                                            @endif
+                                            <span class="text-danger print-error-msg print-msg-pin_code"
+                                            style="display:none"></span>
                                         </div>
                                    </div>
                                     
@@ -272,7 +265,6 @@
 
                                 <div class="text-right">
                                     {{ Form::submit('Submit',array('class'=>'btn btn-primary')) }}
-                                    <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
                                 </div>
                                 {{ Form::close() }}
                             </div>
@@ -347,6 +339,11 @@
                 });
             }
         });
+
+        $('.close').on('click', function() {
+            $('.print-error-msg').css('display', 'none');
+            $('#modal_for_add_customer').modal('hide');
+        });
     });
 </script>
 <script>
@@ -363,15 +360,12 @@ $(document).ready(function() {
                 $('#modal_for_add_customer').modal('hide');
                 alert('Customer successfully submitted!');
             },
-            error: function(xhr) {
-                console.log(xhr.responseText);
-                var errors = xhr.responseJSON ? xhr.responseJSON.errors : {};
-                $('.text-danger').text('');
-                for (var field in errors) {
-                    if (errors.hasOwnProperty(field)) {
-                        $('input[name="' + field + '"]').next('.text-danger').text(errors[field][0]);
-                    }
-                }
+            error: function(data) {
+                $("#device-update-btn").prop("disabled", false);
+                $.each(data.responseJSON.errors, function (key, value) {
+                    $(".print-msg-" + key + "").css("display", "block");
+                    $(".print-msg-" + key + "").html(value[0]);
+                });
             }
         });
     });

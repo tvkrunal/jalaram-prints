@@ -35,10 +35,11 @@ Route::group(['middleware' => ['auth']], function () {
 
         Route::resource('/inquiry', InquiryController::class);
         Route::get('inquiry-data', [InquiryController::class, 'getData'])->name('inquiry.data');
+        Route::get('get-customer-details/{id}', [InquiryController::class, 'getCustomerDetails'])->name('get.customer');
+
 
         Route::resource('/customer', CustomerController::class);
         Route::get('customer-data', [CustomerController::class, 'getData'])->name('customer.data');
-        Route::get('get-customer-details/{id}', [CustomerController::class, 'getCustomerDetails'])->name('get.customer');
 
         Route::resource('/price-master', PriceMasterController::class);
         Route::get('price-master-data', [PriceMasterController::class, 'getData'])->name('price.master.data');

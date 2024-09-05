@@ -151,17 +151,4 @@ class CustomerController extends Controller implements HasMiddleware
         $customer->delete();
     }
 
-      /**
-     * Display the specified resource.
-     */
-    public function getCustomerDetails($id)
-    {
-        $customer = Customer::findOrfail($id);
-
-        if(!empty($customer)) {
-            return response()->json(['status' => true, 'message' => __('Customer Details Retrieved Successfully'),'customer' => $customer]);
-        } else {
-            return response()->json(['status' => false, 'message' => __('Something went wrong')]);
-        }
-    }
 }

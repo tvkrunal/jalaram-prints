@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Gate;
 use App\Http\Controllers\Controller;
 use App\Classes\Helper\CommonUtil;
 use App\Http\Requests\InquiryRequest;
+use App\Http\Requests\CustomerRequest;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Enums\StatusOption;
@@ -239,5 +240,35 @@ class InquiryController extends Controller implements HasMiddleware
         $user->projectHours()->delete();
         $user->projectMembers()->detach();
         $user->delete();
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function getCustomerDetails($id)
+    {
+        $customer = Customer::findOrfail($id);
+
+        if(!empty($customer)) {
+            return response()->json(['status' => true, 'message' => __('Customer Details Retrieved Successfully'),'customer' => $customer]);
+        } else {
+            return response()->json(['status' => false, 'message' => __('Something went wrong')]);
+        }
+    }
+
+
+     /**
+     * Display the specified resource.
+     */
+    public function storeCustomerDetails(CustomerRequest $request)
+    {
+        $data = $request->all();
+        $data['user_id'] = Auth::user()->id;
+
+        if ($customer = Customer::create($data)) {
+            return response()->json(['status' => true, 'url' => route('inquiry.create'), 'message' => 'Customer has been added']);
+        } else {
+            return response()->json(['status' => false, 'message' => __('Something went wrong')]);
+        }
     }
 }
