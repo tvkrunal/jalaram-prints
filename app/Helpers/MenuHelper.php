@@ -42,6 +42,12 @@ if (!function_exists('getMenuItems')) {
                         'icon'  => 'fa fa-file-text',
                         'permission' => 'Customer List',
                     ],
+                    [
+                        'label' => 'Price Master',
+                        'url'   => 'admin/price',
+                        'icon'  => 'fa fa-file-text',
+                        'permission' => 'Price List',
+                    ],
                 ]
             ],
             

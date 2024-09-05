@@ -8,6 +8,8 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\RolesController;
 use App\Http\Controllers\Admin\InquiryController;
 use App\Http\Controllers\Admin\CustomerController;
+use App\Http\Controllers\Admin\PriceMasterController;
+
 
 
 Route::get('/', function () {
@@ -36,6 +38,9 @@ Route::group(['middleware' => ['auth']], function () {
 
         Route::resource('/customer', CustomerController::class);
         Route::get('customer-data', [CustomerController::class, 'getData'])->name('customer.data');
+
+        Route::resource('/price', PriceMasterController::class);
+        Route::get('price-data', [PriceMasterController::class, 'getData'])->name('price.data');
     });
 });
 

@@ -1,9 +1,9 @@
 @extends('layouts.admin.master')
-@section('title', 'Customer')
+@section('title', 'PriceMaster')
 @section('content')
     <div class="content-wrapper">
-		@include('layouts.admin.page_header',['breadcrumb'=>[route('customer.index')=>'Customer']])
-			<!-- Content area -->
+    @include('layouts.admin.page_header',['breadcrumb'=>[route('price.index')=>'Price']])
+    <!-- Content area -->
 			<div class="content">
 				@if(Session::has('success'))
 					<div class="alert alert-success">
@@ -13,7 +13,7 @@
 				<!-- Basic datatable -->
 				<div class="card">
 					<div class="card-header header-elements-inline">
-						<h5 class="card-title">Customer</h5>
+						<h5 class="card-title">Price Master</h5>
                         <div class="header-elements">
 							<div class="list-icons">
 								<a class="list-icons-item" data-action="collapse"></a>
@@ -23,21 +23,18 @@
 						</div>
                     </div>
                     <div class="card-body">
-						<a href="{{ route('customer.create') }}" class="btn btn-success btn-labeled btn-labeled-left btn-sm legitRipple float-right"><b><i class="icon-plus3"></i></b> Add</a>
+						<a href="{{ route('price.create') }}" class="btn btn-success btn-labeled btn-labeled-left btn-sm legitRipple float-right"><b><i class="icon-plus3"></i></b> Add</a>
                     </div>
                     <table class="table table-responsive datatable-basic customer-table" id="data-table">
 						<thead>
 							<tr>
                             	<th>ID</th>
-                           		<th>First Name</th>
-								<th>Last Name</th>
-								<th>contact_no</th>
-								<th>email</th>
-								<th>address</th>
-								<th>city</th>
-								<th>pin_code</th>
-								<th>user_id</th>
-								<th>is_active</th>
+                           		<th>Item Type</th>
+								<th>Media</th>
+                                <th>GSM</th>
+                           		<th>Qty</th>
+								<th>Min Cost</th>
+                                <th>Max Cost</th>
                                 <th>Action</th>
 							</tr>
 						</thead>
@@ -57,18 +54,15 @@
                 serverSide: true,
                 responsive: true,
 				"order": [[ 1, "asc" ]],
-                ajax: '{!! route('customer.data') !!}',
+                ajax: '{!! route('price.data') !!}',
                 columns: [
                     { data: 'id', name: 'id' },
-                    { data: 'customer_first_name', name: 'customer_first_name' },
-                    { data: 'customer_last_name', name: 'customer_last_name' },
-					{ data: 'customer_contact_no', name: 'customer_contact_no' },
-                    { data: 'email', name: 'email' },
-					{ data: 'address', name: 'address' },
-                    { data: 'city	', name: 'city	' },
-					{ data: 'pin_code', name: 'pin_code' },
-                    { data: 'user_id', name: 'user_id', orderable: false, searchable: false },          
-					{ data: 'is_active', name: 'is_active' },
+                    { data: 'item_type', name: 'item_type' },
+                    { data: 'media', name: 'media' },
+                    { data: 'gsm', name: 'gsm' },
+                    { data: 'qty', name: 'qty' },
+                    { data: 'min_cost', name: 'min_cost' },
+                    { data: 'max_cost', name: 'max_cost' },
                     { data: 'action', name: 'action', orderable: false, searchable: false }
                 ]
 			});

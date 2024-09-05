@@ -18,7 +18,7 @@ use App\Models\EmployeeDocument;
 use App\Models\EmployeeRelative;
 use App\Classes\Helper\CommonUtil;
 use App\Http\Requests\UserRequest;
-use App\Http\Requests\BlogAuthorRequest;
+use App\Http\Requests\InquiryRequest;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Enums\StatusOption;
@@ -125,11 +125,11 @@ class InquiryController extends Controller implements HasMiddleware
     /**
      * Store a newly created resource in storage.
      *
-     * @param UserRequest $request
+     * @param InquiryRequest $request
      *
      * @return Response
      */
-    public function store(UserRequest $request)
+    public function store(InquiryRequest $request)
     {
         $data = $request->all();
         $trashedUser = Inquiry::onlyTrashed()->where('email', $data['email'])->first();
@@ -202,12 +202,12 @@ class InquiryController extends Controller implements HasMiddleware
     /**
      * Update the specified resource in storage.
      *
-     * @param UserRequest $request
+     * @param InquiryRequest $request
      * @param User $user
      *
      * @return Response
      */
-    public function update(UserRequest $request, $id)
+    public function update(InquiryRequest $request, $id)
     {
         $user = Inquiry::find($id);
         $data = $request->all();

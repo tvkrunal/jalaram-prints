@@ -4,14 +4,14 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UserRequest extends FormRequest
+class CustomerRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -56,5 +56,5 @@ class UserRequest extends FormRequest
                 'user_id.required' => 'The user_id field is required',
                 'process.required'=>'The process field is required',
             ];
-}
+    }
 }

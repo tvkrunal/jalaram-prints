@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 use Yajra\DataTables\Facades\DataTables;
+use Session;
 
 class CustomerController extends Controller implements HasMiddleware
 {
@@ -57,6 +58,9 @@ class CustomerController extends Controller implements HasMiddleware
 
         return Datatables::of($users)
             ->addIndexColumn()
+            ->addColumn('user_id', function ($data) {
+                return '<span class="fw-bold">' . $data->user->customer_first_name . ' ' . $data->user->customer_first_name . '</span>';
+            })
             ->editColumn('name', function ($data) {
                 return $data->customer_first_name . ' ' . $data->customer_first_name;
             })
@@ -93,7 +97,16 @@ class CustomerController extends Controller implements HasMiddleware
      */
     public function store(Request $request)
     {
-        //
+
+        $data = $request->all();
+         
+        if ($customer = Customer::create($data)) {
+            Session::flash('success', 'customer has been added');
+            return redirect()->route('customer.index');
+        } else {
+            Session::flash('error', 'Unable to create customer');
+            return redirect()->back();
+        }
     }
 
     /**
@@ -109,6 +122,8 @@ class CustomerController extends Controller implements HasMiddleware
      */
     public function edit(Customer $customer)
     {
+        $customer = Customer::findOrFail($id);
+
         return view('admin.customer.create_update');
     }
 
@@ -117,7 +132,16 @@ class CustomerController extends Controller implements HasMiddleware
      */
     public function update(Request $request, Customer $customer)
     {
-        //
+        $customer = Customer::findOrFail($id);
+        $customer->update($request->all());
+     
+        if ($customer->update($request->all())) {
+            Session::flash('success', 'customer has been updeted successfully');
+            return redirect()->route('customer.index');
+        } else {
+            Session::flash('error', 'Unable to update customer');
+            return redirect()->back();
+        }   
     }
 
     /**
@@ -125,6 +149,15 @@ class CustomerController extends Controller implements HasMiddleware
      */
     public function destroy(Customer $customer)
     {
-        //
+        $customer = Customer::findOrFail($id);
+        $customer->delete();
+
+        if ($customer->delete()) {
+            Session::flash('success', 'customer has been deleted successfully');
+            return redirect()->route('pricemaster.index');
+        } else {
+            Session::flash('error', 'Unable to deteted customer');
+            return redirect()->back();
+        }
     }
 }
