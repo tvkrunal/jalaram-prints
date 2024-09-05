@@ -159,7 +159,7 @@
                                             @endif
                                         </div>
 
-                                        <label class="col-form-label col-lg-1 d-none designing-details-print-container">Designing Details Print</label>
+                                        <label class="col-form-label col-lg-1 d-none designing-details-print-container">Designing Details <span class="d-block">Print<span></label>
                                         <div class="col-lg-5 d-none designing-details-print-container">
                                             {{ Form::text('designing_details',Request::old('designing_details'),array('class'=>"form-control")) }}
                                             @if ($errors->has('designing_details'))
