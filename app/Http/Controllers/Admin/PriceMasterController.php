@@ -65,13 +65,13 @@ class PriceMasterController extends Controller implements HasMiddleware
                 ->addColumn('action', function ($data) {
                     $actions = '';
                     if (Gate::allows('User List')) {
-                        $actions .= '<a href="javascript:;" data-url="' . url('admin/employees/' . $data->id) . '" class="btn btn-sm btn-square btn-neutral me-2 modal-popup-view" data-modal-title="Employee Details"><i class="fa fa-eye"></i></a>';
+                        $actions .= '<a href="javascript:;" data-url="' . url('admin/price-master/' . $data->id) . '" class="btn btn-sm btn-square btn-neutral me-2 modal-popup-view" data-modal-title="Employee Details"><i class="fa fa-eye"></i></a>';
                     }
                     if (Gate::allows('User Edit')) {
-                        $actions .= '<a href="' . url('admin/employees/' . $data->id . '/edit') . '" class="btn btn-sm btn-square btn-neutral me-2"><i class="fa fa-pencil-square-o""></i></a>';
+                        $actions .= '<a href="' . url('admin/price-master/' . $data->id . '/edit') . '" class="btn btn-sm btn-square btn-neutral me-2"><i class="fa fa-pencil-square-o""></i></a>';
                     }
                     if (Gate::allows('User Delete')) {
-                        $actions .= '<a href="javascript:;" data-url="' . url('admin/employees/' . $data->id) . '" class="btn btn-sm btn-square btn-neutral text-danger-hover modal-popup-delete" data-modal-delete-text="Are you sure you want to delete this user?"><i class="fa fa-trash-o"></i></a>';
+                        $actions .= '<a href="javascript:;" data-url="' . url('admin/price-master/' . $data->id) . '" class="btn btn-sm btn-square btn-neutral text-danger-hover modal-popup-delete" data-modal-delete-text="Are you sure you want to delete this user?"><i class="fa fa-trash-o"></i></a>';
                     }
                     return $actions;
                 })
@@ -103,7 +103,7 @@ class PriceMasterController extends Controller implements HasMiddleware
          
             if ($price = PriceMaster::create($data)) {
                 Session::flash('success', 'Price has been added');
-                return redirect()->route('price.index');
+                return redirect()->route('price-master.index');
             } else {
                 Session::flash('error', 'Unable to create Price');
                 return redirect()->back();
@@ -118,15 +118,19 @@ class PriceMasterController extends Controller implements HasMiddleware
          *
          * @return Response
          */
-        public function show(PriceMaster $price)
+        public function show(PriceMaster $priceMaster)
         {
-            $price = PriceMaster::all();
+            $data  = [
+                'ID'                        =>  $priceMaster->id,
+                'Item Type'                 =>  $priceMaster->item_type,
+                'Media'                     =>  $priceMaster->media,
+                'GSM'                       =>  $priceMaster->gsm,
+                'Qty'                       =>  $priceMaster->qty,
+                'Min Cost'                  =>  $priceMaster->min_cost,
+                'Max Cost'                  =>  $priceMaster->max_cost,
+            ];
     
-            return Datatables::of($query)
-                ->addIndexColumn()
-                ->rawColumns(['action'])
-    
-                ->make(true);
+            return $data;
         }
     
         /**
@@ -136,11 +140,9 @@ class PriceMasterController extends Controller implements HasMiddleware
          *
          * @return Response
          */
-        public function edit(PriceMaster $price)
+        public function edit(PriceMaster $priceMaster)
         {
-            // $price = PriceMaster::findOrFail($price);
-
-            return view('admin.price_master.create_update', compact('price'));
+            return view('admin.price_master.create_update', compact('priceMaster'));
         }
     
         /**
@@ -151,16 +153,15 @@ class PriceMasterController extends Controller implements HasMiddleware
          *
          * @return Response
          */
-        public function update(PriceMasterRequest $request,PriceMaster $price)
+        public function update(PriceMasterRequest $request,PriceMaster $priceMaster)
         {
             $data = $request->all();
-            $price->update($data);
             
-            if ($price->update($data)) {
-                Session::flash('success', 'Price has been updeted successfully');
-                return redirect()->route('price.index');
+            if ($priceMaster->update($data)) {
+                Session::flash('success', 'Price master has been updeted successfully');
+                return redirect()->route('price-master.index');
             } else {
-                Session::flash('error', 'Unable to update Price');
+                Session::flash('error', 'Unable to update price master');
                 return redirect()->back();
             }
 
@@ -173,17 +174,8 @@ class PriceMasterController extends Controller implements HasMiddleware
          *
          * @return Response
          */
-        public function destroy(PriceMaster $price)
+        public function destroy(PriceMaster $priceMaster)
         {
-            $price->delete();
-
-            if ($price->delete()) {
-                Session::flash('success', 'Price has been deleted successfully');
-                return redirect()->route('price.index');
-            } else {
-                Session::flash('error', 'Unable to deteted Price');
-                return redirect()->back();
-            }
-         
+            $priceMaster->delete();
         }
     }

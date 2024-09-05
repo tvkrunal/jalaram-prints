@@ -23,6 +23,6 @@ class Customer extends Model
 
     public function getFullNameAttribute()
     {
-        return preg_replace('/\s+/', ' ', $this->customer_first_name . ' ' . $this->customer_last_name);
+        return preg_replace('/\s+/', ' ', $this->first_name . ' ' . $this->last_name);
     }
 }

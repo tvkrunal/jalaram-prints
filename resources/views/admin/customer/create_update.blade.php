@@ -1,5 +1,5 @@
 @extends('layouts.admin.master')
-@section('title', isset($user)?'Update'. ' '.'('.$user->first_name.')'.'('.$user->last_name.')':'Create Customer')
+@section('title', isset($customer)?'Update'. ' '.'('.$customer->first_name.')'.'('.$customer->last_name.')':'Create Customer')
 @section('content')
     <div class="content-wrapper">
         @include('layouts.admin.page_header',['breadcrumb'=>[route('customer.index')=>'Customer']])
@@ -14,7 +14,7 @@
                     <div class="col-sm-12">
                         <div class="card">
                             <div class="card-header header-elements-inline">
-                                <h6 class="card-title">@if(isset($user)) Update @else Create @endif Customer</h6>
+                                <h6 class="card-title">@if(isset($customer)) Update @else Create @endif Customer</h6>
                                 <div class="header-elements">
                                     <div class="list-icons">
                                         <a class="list-icons-item" data-action="collapse"></a>
@@ -24,8 +24,8 @@
                             </div>
                             <div class="card-body">
 
-                                @if(isset($user))
-                                    {{ Form::model($user, ['route' => ['customer.update', $user->id], 'method' => 'patch' , 'enctype'=>'multipart/form-data']) }}
+                                @if(isset($customer))
+                                    {{ Form::model($customer, ['route' => ['customer.update', $customer->id], 'method' => 'patch' , 'enctype'=>'multipart/form-data']) }}
                                 @else
                                     {{ Form::open(['route' => 'customer.store' , 'enctype'=>'multipart/form-data']) }}
                                     @csrf
@@ -34,16 +34,16 @@
                                     <div class="form-group row">
                                         <label class="col-form-label col-lg-1">First Name <span class="text-danger">*</span></label>
                                         <div class="col-lg-5">
-                                            {{ Form::text('customer_first_name',Request::old('customer_first_name'),array('class'=>"form-control")) }}
-                                            @if ($errors->has('customer_first_name'))
-                                                <span class="text-danger">{{ $errors->first('customer_first_name') }}</span>
+                                            {{ Form::text('first_name',Request::old('first_name'),array('class'=>"form-control")) }}
+                                            @if ($errors->has('first_name'))
+                                                <span class="text-danger">{{ $errors->first('first_name') }}</span>
                                             @endif
                                         </div>
                                         <label class="col-form-label col-lg-1">Last Name <span class="text-danger">*</span></label>
                                         <div class="col-lg-5">
-                                            {{ Form::text('customer_last_name',Request::old('customer_last_name'),array('class'=>"form-control")) }}
-                                            @if ($errors->has('customer_last_name'))
-                                                <span class="text-danger">{{ $errors->first('customer_last_name') }}</span>
+                                            {{ Form::text('last_name',Request::old('last_name'),array('class'=>"form-control")) }}
+                                            @if ($errors->has('last_name'))
+                                                <span class="text-danger">{{ $errors->first('last_name') }}</span>
                                             @endif
                                         </div>
                                     </div>
@@ -59,9 +59,9 @@
                                         </div>
                                         <label class="col-form-label col-lg-1">Contact No <span class="text-danger">*</span></label>
                                         <div class="col-lg-5">
-                                            {{ Form::number('customer_contact_no',Request::old('customer_contact_no'),array('class'=>"form-control")) }}
-                                            @if ($errors->has('customer_contact_no'))
-                                                <span class="text-danger">{{ $errors->first('customer_contact_no') }}</span>
+                                            {{ Form::number('contact_no',Request::old('contact_no'),array('class'=>"form-control")) }}
+                                            @if ($errors->has('contact_no'))
+                                                <span class="text-danger">{{ $errors->first('contact_no') }}</span>
                                             @endif
                                         </div>
                                     </div>

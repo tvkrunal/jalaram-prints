@@ -1,8 +1,8 @@
 @extends('layouts.admin.master')
-@section('title', 'PriceMaster')
+@section('title', 'Price Master')
 @section('content')
     <div class="content-wrapper">
-    @include('layouts.admin.page_header',['breadcrumb'=>[route('price.index')=>'Price']])
+    @include('layouts.admin.page_header',['breadcrumb'=>[route('price-master.index')=>'Price Master']])
     <!-- Content area -->
 			<div class="content">
 				@if(Session::has('success'))
@@ -23,7 +23,7 @@
 						</div>
                     </div>
                     <div class="card-body">
-						<a href="{{ route('price.create') }}" class="btn btn-success btn-labeled btn-labeled-left btn-sm legitRipple float-right"><b><i class="icon-plus3"></i></b> Add</a>
+						<a href="{{ route('price-master.create') }}" class="btn btn-success btn-labeled btn-labeled-left btn-sm legitRipple float-right"><b><i class="icon-plus3"></i></b> Add</a>
                     </div>
                     <table class="table table-responsive datatable-basic customer-table" id="data-table">
 						<thead>
@@ -54,7 +54,7 @@
                 serverSide: true,
                 responsive: true,
 				"order": [[ 1, "asc" ]],
-                ajax: '{!! route('price.data') !!}',
+                ajax: '{!! route('price.master.data') !!}',
                 columns: [
                     { data: 'id', name: 'id' },
                     { data: 'item_type', name: 'item_type' },

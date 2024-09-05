@@ -39,8 +39,8 @@ Route::group(['middleware' => ['auth']], function () {
         Route::resource('/customer', CustomerController::class);
         Route::get('customer-data', [CustomerController::class, 'getData'])->name('customer.data');
 
-        Route::resource('/price', PriceMasterController::class);
-        Route::get('price-data', [PriceMasterController::class, 'getData'])->name('price.data');
+        Route::resource('/price-master', PriceMasterController::class);
+        Route::get('price-master-data', [PriceMasterController::class, 'getData'])->name('price.master.data');
     });
 });
 

@@ -22,9 +22,9 @@ class CustomerRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'customer_first_name'=>'required',
-            'customer_last_name' => 'required',
-            'customer_contact_no' => 'required',
+            'first_name'=>'required',
+            'last_name' => 'required',
+            'contact_no' => 'required',
             'email' => 'required',
             'address' => 'required',
             'city' => 'required',
@@ -35,9 +35,9 @@ class CustomerRequest extends FormRequest
     {
         return
             [
-                'customer_first_name.required' => 'The first name field is required.',
-                'customer_last_name.required' => 'The last name  field  is required.',
-                'customer_contact_no.required' => 'The contect no field  is required.',
+                'first_name.required' => 'The first name field is required.',
+                'last_name.required' => 'The last name  field  is required.',
+                'contact_no.required' => 'The contect no field  is required.',
                 'email.email' => 'Please enter a valid email address.',
                 'address.required'=>'The address field is required',
                 'city.required'=>'The city field is required',

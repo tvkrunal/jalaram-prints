@@ -48,7 +48,7 @@ class CustomerController extends Controller implements HasMiddleware
         $search = $request->input('search');
         $query = Customer::query();
         
-        $customers = $query->select('id', 'customer_first_name', 'customer_last_name', 'email','customer_contact_no','address','city','pin_code','status','user_id');
+        $customers = $query->select('id', 'first_name', 'last_name', 'email','contact_no','address','city','pin_code','status','user_id');
 
         $customers = $customers->get();
 
@@ -63,13 +63,13 @@ class CustomerController extends Controller implements HasMiddleware
             ->addColumn('action', function ($data) {
                 $actions = '';
                 if (Gate::allows('Customer List')) {
-                    $actions .= '<a href="javascript:;" data-url="' . url('admin/employees/' . $data->id) . '" class="btn btn-sm btn-square btn-neutral me-2 modal-popup-view" data-modal-title="Employee Details"><i class="fa fa-eye"></i></a>';
+                    $actions .= '<a href="javascript:;" data-url="' . url('admin/customer/' . $data->id) . '" class="btn btn-sm btn-square btn-neutral me-2 modal-popup-view" data-modal-title="Employee Details"><i class="fa fa-eye"></i></a>';
                 }
                 if (Gate::allows('Customer Edit')) {
-                    $actions .= '<a href="' . url('admin/employees/' . $data->id . '/edit') . '" class="btn btn-sm btn-square btn-neutral me-2"><i class="fa fa-pencil-square-o"></i></a>';
+                    $actions .= '<a href="' . url('admin/customer/' . $data->id . '/edit') . '" class="btn btn-sm btn-square btn-neutral me-2"><i class="fa fa-pencil-square-o"></i></a>';
                 }
                 if (Gate::allows('Customer Delete')) {
-                    $actions .= '<a href="javascript:;" data-url="' . url('admin/employees/' . $data->id) . '" class="btn btn-sm btn-square btn-neutral text-danger-hover modal-popup-delete" data-modal-delete-text="Are you sure you want to delete this user?"><i class="fa fa-trash-o"></i></a>';
+                    $actions .= '<a href="javascript:;" data-url="' . url('admin/customer/' . $data->id) . '" class="btn btn-sm btn-square btn-neutral text-danger-hover modal-popup-delete" data-modal-delete-text="Are you sure you want to delete this user?"><i class="fa fa-trash-o"></i></a>';
                 }
                 return $actions;
             })
@@ -94,7 +94,7 @@ class CustomerController extends Controller implements HasMiddleware
         $data['user_id'] = Auth::user()->id;
          
         if ($customer = Customer::create($data)) {
-            Session::flash('success', 'customer has been added');
+            Session::flash('success', 'Customer has been added');
             return redirect()->route('customer.index');
         } else {
             Session::flash('error', 'Unable to create customer');
@@ -107,7 +107,18 @@ class CustomerController extends Controller implements HasMiddleware
      */
     public function show(Customer $customer)
     {
-        //
+        $data  = [
+            'ID'                        =>  $customer->id,
+            'First Name'                =>  $customer->first_name,
+            'Last Name'                 =>  $customer->last_name,
+            'Email'                     =>  $customer->email,
+            'Contact No'                =>  $customer->contact_no,
+            'Address'                   =>  $customer->address,
+            'City'                      =>  $customer->city,
+            'Pin Code'                  =>  $customer->pin_code,
+        ];
+
+        return $data;
     }
 
     /**
@@ -126,7 +137,7 @@ class CustomerController extends Controller implements HasMiddleware
         $data = $request->all();
      
         if ($customer->update($data)) {
-            Session::flash('success', 'customer has been updeted successfully');
+            Session::flash('success', 'Customer has been updeted successfully');
             return redirect()->route('customer.index');
         } else {
             Session::flash('error', 'Unable to update customer');
@@ -139,12 +150,6 @@ class CustomerController extends Controller implements HasMiddleware
      */
     public function destroy(Customer $customer)
     {
-        if ($customer->delete()) {
-            Session::flash('success', 'customer has been deleted successfully');
-            return redirect()->route('pricemaster.index');
-        } else {
-            Session::flash('error', 'Unable to deteted customer');
-            return redirect()->back();
-        }
+        $customer->delete();
     }
 }

@@ -1,8 +1,8 @@
 @extends('layouts.admin.master')
-@section('title', isset($user)?'Update'. ' '.'('.$user->first_name.')'.'('.$user->last_name.')':'Create PriceMaster')
+@section('title', isset($priceMaster)?'Update'. ' '.'('.$priceMaster->item_type.')':'Create Price Master')
 @section('content')
     <div class="content-wrapper">
-        @include('layouts.admin.page_header',['breadcrumb'=>[route('price.index')=>'Price-Master']])
+        @include('layouts.admin.page_header',['breadcrumb'=>[route('price-master.index')=>'Price Master']])
         <!-- Content area -->
             <div class="content">
                 @if(Session::has('success'))
@@ -14,7 +14,7 @@
                     <div class="col-sm-12">
                         <div class="card">
                             <div class="card-header header-elements-inline">
-                                <h6 class="card-title">@if(isset($user)) Update @else Create @endif Price-Master</h6>
+                                <h6 class="card-title">@if(isset($priceMaster)) Update @else Create @endif Price Master</h6>
                                 <div class="header-elements">
                                     <div class="list-icons">
                                         <a class="list-icons-item" data-action="collapse"></a>
@@ -24,10 +24,10 @@
                             </div>
                             <div class="card-body">
 
-                                @if(isset($user))
-                                    {{ Form::model($user, ['route' => ['price.update', $user->id], 'method' => 'patch' , 'enctype'=>'multipart/form-data']) }}
+                                @if(isset($priceMaster))
+                                    {{ Form::model($priceMaster, ['route' => ['price-master.update', $priceMaster->id], 'method' => 'patch' , 'enctype'=>'multipart/form-data']) }}
                                 @else
-                                    {{ Form::open(['route' => 'price.store' , 'enctype'=>'multipart/form-data']) }}
+                                    {{ Form::open(['route' => 'price-master.store' , 'enctype'=>'multipart/form-data']) }}
                                 @endif
                                 <fieldset class="mb-3">
                                     <div class="form-group row">
@@ -85,7 +85,7 @@
 
                                 <div class="text-right">
                                     {{ Form::submit('Submit',array('class'=>'btn btn-primary')) }}
-                                    <a href="{{ route('price.index') }}" class="btn btn-primary">Cancel</a>
+                                    <a href="{{ route('price-master.index') }}" class="btn btn-primary">Cancel</a>
                                 </div>
                                 {{ Form::close() }}
                             </div>

@@ -56,13 +56,6 @@
                                                 <span class="text-danger">{{ $errors->first('email') }}</span>
                                             @endif
                                         </div>
-                                        <label class="col-form-label col-lg-1">Date Of Birth</label>
-                                        <div class="col-lg-5">
-                                            {{ Form::text('date_of_birth',Request::old('date_of_birth'),array('class'=>"form-control datepicker", 'id'=>'date_of_birth'))}}
-                                            @if ($errors->has('date_of_birth'))
-                                                <span class="text-danger">{{ $errors->first('date_of_birth') }}</span>
-                                            @endif
-                                        </div>
                                     </div>
 
                                     @if(!isset($user))
@@ -84,58 +77,6 @@
                                         </div>
                                     @endif
 
-                                    <div class="form-group row">
-                                        <label class="col-form-label col-lg-1">Categories</label>
-                                        <div class="col-lg-5">
-                                            {{ Form::select('categories[]', [], isset($categoriesIds) ? $categoriesIds : null, array('class'=>"form-control select2", 'multiple'=>true))}}
-                                            @if ($errors->has('categories'))
-                                                <span class="text-danger">{{ $errors->first('categories') }}</span>
-                                            @endif
-                                        </div>
-                                            <label class="col-form-label col-lg-1">Tags</label>
-                                        <div class="col-lg-5">
-                                            {{ Form::select('tag_ids[]', [], isset($tagIds) ? $tagIds : null, array('class'=>"form-control select2", 'multiple'=>true)) }}
-                                            @if ($errors->has('tags'))
-                                                <span class="text-danger">{{ $errors->first('tags') }}</span>
-                                            @endif
-                                        </div>
-
-                                    </div>
-                                    <div class="form-group row">
-                                        <label class="col-form-label col-lg-1">Membership Type</label>
-                                        <div class="col-lg-5">
-                                        {{ Form::select('membership_tier', [],Request::old('membership_tier'),array('class'=>'form-control select2','id'=>'membership_tier')) }}
-                                        </div>
-                                        <label class="col-form-label col-lg-1">Gender <span class="text-danger">*</span></label>
-                                        <div class="col-lg-5">
-                                            {{ Form::select('gender', [],Request::old('gender'),array('class'=>'form-control select2','id'=>'gender','placeholder' => 'Select Gender')) }}
-                                            @if ($errors->has('gender'))
-                                                <span class="text-danger">{{ $errors->first('gender') }}</span>
-                                            @endif
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label class="col-form-label col-lg-1">Date Of Subscription</label>
-                                        <div class="col-lg-5">
-                                            {{ Form::text('date_subscribed',Request::old('date_subscribed'),array('class'=>"form-control datepicker", 'id'=>'date_subscribed','min'=>Carbon\Carbon::now()->format('Y-m-d')))}}
-                                            @if ($errors->has('date_subscibed'))
-                                                <span class="text-danger">{{ $errors->first('date_subscibed') }}</span>
-                                            @endif
-                                        </div>
-
-                                        <label class="col-form-label col-lg-1">Is app user</label>
-                                        <div class="col-lg-5">
-                                            @if(!isset($user))
-                                            {{ Form::checkbox('is_app_user','1',true, ['class'=>'form-check-input']) }}
-                                            @else
-                                                @if($user->is_app_user == 1)
-                                                    {{ Form::checkbox('is_app_user','1',true, ['class'=>'form-check-input']) }}
-                                                @else
-                                                    {{ Form::checkbox('is_app_user','1',false, ['class'=>'form-check-input']) }}
-                                                @endif
-                                            @endif
-                                        </div>
-                                    </div>
                                 </fieldset>
 
                                 <div class="text-right">

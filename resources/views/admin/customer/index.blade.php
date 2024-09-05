@@ -60,7 +60,7 @@
                 columns: [
                     { data: 'id', name: 'id' },
                     { data: 'name', name: 'name' },
-					{ data: 'customer_contact_no', name: 'customer_contact_no' },
+					{ data: 'contact_no', name: 'contact_no' },
                     { data: 'email', name: 'email' },
 					{ data: 'address', name: 'address' },
                     { data: 'city', name: 'city' },
