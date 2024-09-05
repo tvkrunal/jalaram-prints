@@ -48,12 +48,11 @@ class CustomerController extends Controller implements HasMiddleware
         $search = $request->input('search');
         $query = Customer::query();
         
-        
-        $users = $query->select('id', 'customer_first_name', 'customer_last_name', 'email','customer_contact_no','address','city','pin_code','status','user_id');
+        $customers = $query->select('id', 'customer_first_name', 'customer_last_name', 'email','customer_contact_no','address','city','pin_code','status','user_id');
 
-        $users = $users->get();
+        $customers = $customers->get();
 
-        return Datatables::of($users)
+        return Datatables::of($customers)
             ->addIndexColumn()
             ->addColumn('user_id', function ($data) {
                 return '<span class="fw-bold">' . $data->user->first_name . ' ' . $data->user->last_name . '</span>';
@@ -119,9 +118,7 @@ class CustomerController extends Controller implements HasMiddleware
      */
     public function edit(Customer $customer)
     {
-        $customer = Customer::findOrFail($id);
-
-        return view('admin.customer.create_update');
+        return view('admin.customer.create_update',compact('customer'));
     }
 
     /**
@@ -129,10 +126,9 @@ class CustomerController extends Controller implements HasMiddleware
      */
     public function update(CustomerRequest $request, Customer $customer)
     {
-        $customer = Customer::findOrFail($id);
-        $customer->update($request->all());
+        $data = $request->all();
      
-        if ($customer->update($request->all())) {
+        if ($customer->update($data)) {
             Session::flash('success', 'customer has been updeted successfully');
             return redirect()->route('customer.index');
         } else {
@@ -146,9 +142,6 @@ class CustomerController extends Controller implements HasMiddleware
      */
     public function destroy(Customer $customer)
     {
-        $customer = Customer::findOrFail($id);
-        $customer->delete();
-
         if ($customer->delete()) {
             Session::flash('success', 'customer has been deleted successfully');
             return redirect()->route('pricemaster.index');

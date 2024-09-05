@@ -2,30 +2,16 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\IdentificationDocumentsRequest;
-use App\Http\Requests\PreviousExperienceRequest;
-use App\Http\Requests\EmployeeContactRequest;
-use App\Http\Requests\EmployeeRelativeRequest;
-use App\Http\Requests\EmployeeDocumentRequest;
-use App\Http\Requests\BankingDocumentRequest;
-use App\Http\Requests\EmployeeJobRequest;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Gate;
 use App\Http\Controllers\Controller;
-use App\Models\EmployeeJobDetail;
-use App\Models\EmployeeDocument;
-use App\Models\EmployeeRelative;
 use App\Classes\Helper\CommonUtil;
-use App\Http\Requests\UserRequest;
 use App\Http\Requests\InquiryRequest;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Enums\StatusOption;
 use App\Enums\Status;
-use App\Enums\RoleType;
-use App\Models\Leave;
-use App\Models\LeaveType;
 use App\Models\Role;
 use App\Models\Inquiry;
 use Illuminate\Routing\Controllers\HasMiddleware;
@@ -65,23 +51,15 @@ class InquiryController extends Controller implements HasMiddleware
      */
     public function getData(Request $request)
     {
-        $role = (Auth()->user()) ? Auth()->user()->getRoleNames()->first() : null;
-
         $search = $request->input('search');
         $status = $request->input('status');
         $query = Inquiry::query();
         
-        
-        $users = $query->select('id', 'customer_first_name', 'customer_last_name', 'email');
+        $inquiry = $query->select('id', 'customer_id');
 
-        if ($role == 'HR') {
-            $users->whereDoesntHave('roles', function ($query) {
-                $query->where('name', 'Administrator');
-            });
-        }
-        $users = $users->get();
+        $inquiries = $inquiry->get();
 
-        return Datatables::of($users)
+        return Datatables::of($inquiries)
             ->addIndexColumn()
             ->editColumn('name', function ($data) {
                 return $data->customer_first_name . ' ' . $data->customer_first_name;
@@ -117,8 +95,8 @@ class InquiryController extends Controller implements HasMiddleware
         $activeOrNot = StatusOption::asSelectArray();
         $projectManager = [];
         $teamLeader = [];
-        $parentUsers = Inquiry::pluck('customer_first_name', 'id');
-        $userRoles = Role::pluck('name', 'name');
+        $parentUsers = [];
+        $userRoles = [];
         return view('admin.inquiry.create_update', compact('activeOrNot', 'projectManager', 'teamLeader', 'userRoles', 'parentUsers'));
     }
 

@@ -31,15 +31,15 @@
                                 @endif
                                 <fieldset class="mb-3">
                                     <div class="form-group row">
-                                        <label class="col-form-label col-lg-1">First Name <span class="text-danger">*</span></label>
+                                        <label class="col-form-label col-lg-1">Customer <span class="text-danger">*</span></label>
                                         <div class="col-lg-5">
-                                            {{ Form::text('customer_first_name',Request::old('customer_first_name'),array('class'=>"form-control")) }}
-                                            @if ($errors->has('customer_first_name'))
-                                                <span class="text-danger">{{ $errors->first('customer_first_name') }}</span>
+                                            {{ Form::text('customer_id',Request::old('customer_id'),array('class'=>"form-control")) }}
+                                            @if ($errors->has('customer_id'))
+                                                <span class="text-danger">{{ $errors->first('customer_id') }}</span>
                                             @endif
                                         </div>
-                                        <label class="col-form-label col-lg-1">Last Name <span class="text-danger">*</span></label>
-                                        <div class="col-lg-5">
+                                        <label class="col-form-label col-lg-1 d-none">Last Name <span class="text-danger">*</span></label>
+                                        <div class="col-lg-5 d-none">
                                             {{ Form::text('customer_last_name',Request::old('customer_last_name'),array('class'=>"form-control")) }}
                                             @if ($errors->has('customer_last_name'))
                                                 <span class="text-danger">{{ $errors->first('customer_last_name') }}</span>
@@ -48,7 +48,7 @@
                                     </div>
 
 
-                                    <div class="form-group row">
+                                    <div class="form-group row d-none">
                                         <label class="col-form-label col-lg-1">Email <span class="text-danger">*</span></label>
                                         <div class="col-lg-5">
                                             {{ Form::text('email',Request::old('email'),array('class'=>"form-control")) }}
@@ -65,7 +65,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="form-group row">
+                                    <div class="form-group row d-none">
                                         <label class="col-form-label col-lg-1">Address <span class="text-danger">*</span></label>
                                         <div class="col-lg-5">
                                             {{ Form::text('address',Request::old('address'),array('class'=>"form-control")) }}
@@ -84,8 +84,8 @@
 
 
                                     <div class="form-group row">
-                                        <label class="col-form-label col-lg-1">Pin Code <span class="text-danger">*</span></label>
-                                        <div class="col-lg-5">
+                                        <label class="col-form-label col-lg-1 d-none">Pin Code <span class="text-danger">*</span></label>
+                                        <div class="col-lg-5 d-none">
                                             {{ Form::text('pin_code',Request::old('pin_code'),array('class'=>"form-control")) }}
                                             @if ($errors->has('pin_code'))
                                                 <span class="text-danger">{{ $errors->first('pin_code') }}</span>

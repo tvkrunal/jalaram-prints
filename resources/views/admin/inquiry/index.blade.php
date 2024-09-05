@@ -30,7 +30,6 @@
 							<tr>
                             	<th>ID</th>
                            		<th>Customer Name</th>
-								<th>Email</th>
                                 <th>Action</th>
 							</tr>
 						</thead>
@@ -53,8 +52,7 @@
                 ajax: '{!! route('inquiry.data') !!}',
                 columns: [
                     { data: 'id', name: 'id' },
-                    { data: 'customer_first_name', name: 'customer_first_name' },
-                    { data: 'email', name: 'email' },
+                    { data: 'customer_id', name: 'customer_id' },
                     { data: 'action', name: 'action', orderable: false, searchable: false }
                 ]
 			});
