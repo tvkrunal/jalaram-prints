@@ -28,6 +28,7 @@
                                     {{ Form::model($user, ['route' => ['customer.update', $user->id], 'method' => 'patch' , 'enctype'=>'multipart/form-data']) }}
                                 @else
                                     {{ Form::open(['route' => 'customer.store' , 'enctype'=>'multipart/form-data']) }}
+                                    @csrf
                                 @endif
                                 <fieldset class="mb-3">
                                     <div class="form-group row">
@@ -99,61 +100,12 @@
                                             @endif
                                         </div>
                                    </div>
-
-                                   <div class="form-group row">
-                                   <label class="col-form-label col-lg-1">Type of Job <span class="text-danger">*</span></label>
-                                        <div class="col-lg-5">
-                                            <span class="col-5 ml-3">
-                                                {{ Form::radio('type_of_job', 'Design', old('type_of_job') == 'Design', ['class' => 'form-check-input', 'id' => 'job_design']) }}
-                                                {{ Form::label('job_design', 'Design', ['class' => 'form-check-label']) }}
-                                            </span>
-                                            <span class="col-5 ml-3">
-                                                {{ Form::radio('type_of_job', 'Print', old('type_of_job') == 'Print', ['class' => 'form-check-input', 'id' => 'job_print']) }}
-                                                {{ Form::label('job_print', 'Print', ['class' => 'form-check-label']) }}
-                                            </span>
-                                            <span class="col-5 ml-3">
-                                                {{ Form::radio('type_of_job', 'Design + Print', old('type_of_job') == 'Design + Print', ['class' => 'form-check-input', 'id' => 'job_design_print']) }}
-                                                {{ Form::label('job_design_print', 'Design + Print', ['class' => 'form-check-label']) }}
-                                            </span>
-                                            @if ($errors->has('type_of_job'))
-                                                <span class="text-danger">{{ $errors->first('type_of_job') }}</span>
-                                            @endif
-                                        </div>
-                                        <label class="col-form-label col-lg-1">Job Description <span class="text-danger">*</span></label>
-                                        <div class="col-lg-5">
-                                            {{ Form::textarea('job_description',Request::old('job_description'),array('class'=>"form-control",'rows' => '2')) }}
-                                            @if ($errors->has('job_description'))
-                                                <span class="text-danger">{{ $errors->first('job_description') }}</span>
-                                            @endif
-                                        </div>
-                                   </div>
-
-                                   <div class="form-group row">
-                                       <label class="col-form-label col-lg-1">Process <span class="text-danger">*</span></label>
-                                            <div class="col-lg-5">
-                                                {{ Form::select('processes[]', [
-                                                'Print' => 'Print',
-                                                'Lamination' => 'Lamination',
-                                                'Half-Cut' => 'Half-Cut',
-                                                'Full-Cut' => 'Full-Cut',
-                                                'Binding' => 'Binding',
-                                                'Other Process' => 'Other Process'
-                                                ], old('processes'), [
-                                                    'class' => 'form-control select2',
-                                                    'id' => 'processes',
-                                                    'multiple' => 'multiple'
-                                                ]) }}
-                                            @if ($errors->has('processes'))
-                                                <span class="text-danger">{{ $errors->first('processes') }}</span>
-                                            @endif
-                                        </div>
-                                   </div>
                                     
                                 </fieldset>
 
                                 <div class="text-right">
                                     {{ Form::submit('Submit',array('class'=>'btn btn-primary')) }}
-                                    <a href="{{ route('inquiry.index') }}" class="btn btn-primary">Cancel</a>
+                                    <a href="{{ route('customer.index') }}" class="btn btn-primary">Cancel</a>
                                 </div>
                                 {{ Form::close() }}
                             </div>

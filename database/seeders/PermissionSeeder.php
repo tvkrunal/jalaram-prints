@@ -87,6 +87,22 @@ class PermissionSeeder extends Seeder
                 'name' => 'Customer Delete',
                 'guard_name' => 'web',
                 'model_name' => 'roles',
+            ],[
+                'name' => 'Price Master List',
+                'guard_name' => 'web',
+                'model_name' => 'roles',
+            ],[
+                'name' => 'Price Master List Create',
+                'guard_name' => 'web',
+                'model_name' => 'roles',
+            ],[
+                'name' => 'Price Master List Edit',
+                'guard_name' => 'web',
+                'model_name' => 'roles',
+            ],[
+                'name' => 'Price Master List Delete',
+                'guard_name' => 'web',
+                'model_name' => 'roles',
             ],
             
         ];
