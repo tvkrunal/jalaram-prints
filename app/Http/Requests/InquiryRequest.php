@@ -11,7 +11,7 @@ class InquiryRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true;
+        return false;
     }
 
     /**
@@ -21,39 +21,32 @@ class InquiryRequest extends FormRequest
      */
     public function rules(): array
     {
-        'customer_first_name	'=>'required',
-        'customer_last_name	' => 'required',
-        'customer_contact_no' => 'required',
-        'email' => 'required',
-        'address' => 'required',
-        'city' => 'required',
-        'pin_code' => 'required',
-        'type_of_job' => 'required',
-        'delivery_date' => 'required',
-        'job_description'=>'required',
-        'designing_details'=>'required',
-        'user_id'=>'required',
-        'process'=>'required',
-    ];
-}
-public function messages()
-{
-    return                
-
-        [
-            'customer_first_name.required' => 'The first name field is required.',
-            'customer_last_name.required' => ' The last name  field  is required.',
-            'customer_contact_no.required' => 'The contect no field  is required.',
-            'email.email' => 'Please enter a valid email address.',
-            'address.required'=>'The address field is required',
-            'city.required'=>'The city field is required',
-            'pin_code.required|max:6' => 'The pin code is required',
-            'type_of_job.required' => 'The type of job field is required.', 
-            'delivery_date.required' => 'The delivery date field is required',
-            'job_description.required' => 'The job description field is required.',
-            'designing_details.required' => ' The designing details  field  is required.',
-            'user_id.required' => 'The user_id field is required',
-            'process.required'=>'The process field is required',
+        return [
+            'customer_id	'=>'required',
+            'type_of_job	' => 'required',
+            'delivery_date' => 'required',
+            'designing_details' => 'required',
+            'price_masters_id' => 'required',
+            'user_id' => 'required',
+            'job_description' => 'required',
+            'process' => 'required',
+            'cost_calculation' => 'required',
         ];
-}
+    }
+    public function messages()
+    {
+        return                
+
+            [
+                'customer_id.required' => 'The customer field is required.',
+                'type_of_job.required' => ' The type of job  field  is required.',
+                'delivery_date.required' => 'The delivery date field is required',
+                'designing_details.required' => ' The designing details  field  is required.',
+                'price_masters_id.required'=>'The price masters field is required',
+                'user_id.required'=>'The user field is required',
+                'job_description.required' => 'The job description field is required.',
+                'process.required'=>'The process field is required',
+                'cost_calculation.required' => 'The cost calculation field is required.', 
+            ];
+    }
 }

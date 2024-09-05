@@ -22,19 +22,12 @@ class PriceMasterRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'customer_first_name	'=>'required',
-            'customer_last_name	' => 'required',
-            'customer_contact_no' => 'required',
-            'email' => 'required',
-            'address' => 'required',
-            'city' => 'required',
-            'pin_code' => 'required',
-            'type_of_job' => 'required',
-            'delivery_date' => 'required',
-            'job_description'=>'required',
-            'designing_details'=>'required',
-            'user_id'=>'required',
-            'process'=>'required',
+            'item_type	'=>'required',
+            'media	' => 'required',
+            'gsm' => 'required',
+            'qty' => 'required',
+            'min_cost' => 'required',
+            'max_cost' => 'required',
         ];
     }
     public function messages()
@@ -42,19 +35,12 @@ class PriceMasterRequest extends FormRequest
         return                
 
             [
-                'customer_first_name.required' => 'The first name field is required.',
-                'customer_last_name.required' => ' The last name  field  is required.',
-                'customer_contact_no.required' => 'The contect no field  is required.',
-                'email.email' => 'Please enter a valid email address.',
-                'address.required'=>'The address field is required',
-                'city.required'=>'The city field is required',
-                'pin_code.required|max:6' => 'The pin code is required',
-                'type_of_job.required' => 'The type of job field is required.', 
-                'delivery_date.required' => 'The delivery date field is required',
-                'job_description.required' => 'The job description field is required.',
-                'designing_details.required' => ' The designing details  field  is required.',
-                'user_id.required' => 'The user_id field is required',
-                'process.required'=>'The process field is required',
+                'item_type.required' => 'The item type field is required.',
+                'media.required' => ' The media field  is required.',
+                'gsm.required' => 'The gsm field  is required.',
+                'qty.required' => 'The qty field  is required.',
+                'min_cost.required'=>'The min cost field is required',
+                'max_cost.required'=>'The max cost field is required',
             ];
     }
 }
