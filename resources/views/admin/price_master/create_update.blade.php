@@ -1,8 +1,8 @@
 @extends('layouts.admin.master')
-@section('title', isset($user)?'Update'. ' '.'('.$user->first_name.')'.'('.$user->last_name.')':'Create Customer')
+@section('title', isset($user)?'Update'. ' '.'('.$user->first_name.')'.'('.$user->last_name.')':'Create PriceMaster')
 @section('content')
     <div class="content-wrapper">
-        @include('layouts.admin.page_header',['breadcrumb'=>[route('customer.index')=>'Customer']])
+        @include('layouts.admin.page_header',['breadcrumb'=>[route('price.index')=>'Price_Master']])
         <!-- Content area -->
             <div class="content">
                 @if(Session::has('success'))
@@ -25,13 +25,13 @@
                             <div class="card-body">
 
                                 @if(isset($user))
-                                    {{ Form::model($user, ['route' => ['customer.update', $user->id], 'method' => 'patch' , 'enctype'=>'multipart/form-data']) }}
+                                    {{ Form::model($user, ['route' => ['price.update', $user->id], 'method' => 'patch' , 'enctype'=>'multipart/form-data']) }}
                                 @else
-                                    {{ Form::open(['route' => 'customer.store' , 'enctype'=>'multipart/form-data']) }}
+                                    {{ Form::open(['route' => 'price.store' , 'enctype'=>'multipart/form-data']) }}
                                 @endif
                                 <fieldset class="mb-3">
                                     <div class="form-group row">
-                                        <label class="col-form-label col-lg-1">First Name <span class="text-danger">*</span></label>
+                                        <label class="col-form-label col-lg-1"><span class="text-danger">*</span></label>
                                         <div class="col-lg-5">
                                             {{ Form::text('customer_first_name',Request::old('customer_first_name'),array('class'=>"form-control")) }}
                                             @if ($errors->has('customer_first_name'))
