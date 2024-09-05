@@ -9,11 +9,24 @@ use App\Http\Requests\PriceMasterRequest;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 use Session;
 
 
-class PriceMasterController extends Controller
+class PriceMasterController extends Controller implements HasMiddleware
 {
+
+    public static function middleware(): array
+    {
+        return [
+            'auth',
+            new Middleware('permission:User List', only: ['index', 'show','getData']),
+            new Middleware('permission:User Create', only: ['create', 'store']),
+            new Middleware('permission:User Edit', only: ['edit', 'update']),
+            new Middleware('permission:User Delete', only: ['destroy']),
+        ];
+    }
     /**
     * Display a listing of the resource.
     *
