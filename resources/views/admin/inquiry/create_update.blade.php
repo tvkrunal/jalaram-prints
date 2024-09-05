@@ -38,7 +38,7 @@
                                                 @if ($errors->has('customer_id'))
                                                     <span class="text-danger">{{ $errors->first('customer_id') }}</span>
                                                 @endif
-                                                <button type="button" class="ml-3 btn btn-primary fa-2x py-0">+</button>
+                                                <button type="button" class="ml-3 btn btn-primary fa-2x py-0 modal-popup-add-customer">+</button>
                                             </div>
                                         </div>
                                         <label class="col-form-label col-lg-1">Date Of Delivery <span class="text-danger">*</span></label>
@@ -180,6 +180,103 @@
                     </div>
                 </div>
             </div>
+
+            <!-- View Modal -->
+                <div id="modal_for_add_customer" class="modal fade" tabindex="-1">
+                    <div class="modal-dialog">
+                        <div class="modal-content bg-teal-300 view-table-bg">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Create Customer</h5>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+
+                            <div class="modal-body">
+                            @if(isset($customer))
+                                    {{ Form::model($customer, ['route' => ['customer.update', $customer->id], 'method' => 'patch' , 'enctype'=>'multipart/form-data']) }}
+                                @else
+                                    {{ Form::open(['route' => 'customer.store' , 'enctype'=>'multipart/form-data']) }}
+                                    @csrf
+                                @endif
+                                <fieldset class="mb-3">
+                                    <div class="form-group row">
+                                        <label class="col-form-label col-lg-1">First Name <span class="text-danger">*</span></label>
+                                        <div class="col-lg-5">
+                                            {{ Form::text('first_name',Request::old('first_name'),array('class'=>"form-control")) }}
+                                            @if ($errors->has('first_name'))
+                                                <span class="text-danger">{{ $errors->first('first_name') }}</span>
+                                            @endif
+                                        </div>
+                                        <label class="col-form-label col-lg-1">Last Name <span class="text-danger">*</span></label>
+                                        <div class="col-lg-5">
+                                            {{ Form::text('last_name',Request::old('last_name'),array('class'=>"form-control")) }}
+                                            @if ($errors->has('last_name'))
+                                                <span class="text-danger">{{ $errors->first('last_name') }}</span>
+                                            @endif
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group row">
+                                        <label class="col-form-label col-lg-1">Email <span class="text-danger">*</span></label>
+                                        <div class="col-lg-5">
+                                            {{ Form::text('email',Request::old('email'),array('class'=>"form-control")) }}
+                                            @if ($errors->has('email'))
+                                                <span class="text-danger">{{ $errors->first('email') }}</span>
+                                            @endif
+                                        </div>
+                                        <label class="col-form-label col-lg-1">Contact No <span class="text-danger">*</span></label>
+                                        <div class="col-lg-5">
+                                            {{ Form::number('contact_no',Request::old('contact_no'),array('class'=>"form-control")) }}
+                                            @if ($errors->has('contact_no'))
+                                                <span class="text-danger">{{ $errors->first('contact_no') }}</span>
+                                            @endif
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label class="col-form-label col-lg-1">Address <span class="text-danger">*</span></label>
+                                        <div class="col-lg-5">
+                                            {{ Form::text('address',Request::old('address'),array('class'=>"form-control")) }}
+                                            @if ($errors->has('address'))
+                                                <span class="text-danger">{{ $errors->first('address') }}</span>
+                                            @endif
+                                        </div>
+                                        <label class="col-form-label col-lg-1">City <span class="text-danger">*</span></label>
+                                        <div class="col-lg-5">
+                                            {{ Form::text('city',Request::old('city'),array('class'=>"form-control")) }}
+                                            @if ($errors->has('city'))
+                                                <span class="text-danger">{{ $errors->first('city') }}</span>
+                                            @endif
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group row">
+                                        <label class="col-form-label col-lg-1">Pin Code <span class="text-danger">*</span></label>
+                                        <div class="col-lg-5">
+                                            {{ Form::text('pin_code',Request::old('pin_code'),array('class'=>"form-control")) }}
+                                            @if ($errors->has('pin_code'))
+                                                <span class="text-danger">{{ $errors->first('pin_code') }}</span>
+                                            @endif
+                                        </div>
+                                   </div>
+                                    
+                                </fieldset>
+
+                                <div class="text-right">
+                                    {{ Form::submit('Submit',array('class'=>'btn btn-primary')) }}
+                                    <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                                </div>
+                                {{ Form::close() }}
+                            </div>
+
+                            <!-- <div class="modal-footer">
+                                <button type="button" class="btn btn-link text-white" data-dismiss="modal">Close</button>
+                            </div> -->
+                        </div>
+                    </div>
+                </div>
+                <!-- /view modal -->
         <!-- /content area -->
         @include('layouts.admin.page_footer')
     </div>
@@ -210,6 +307,10 @@
         // Check when radio buttons are clicked
         $('input[name="type_of_job"]').on('change', function() {
             toggleDesigningDetails();
+        });
+
+        $('#main-page-content').on('click','.modal-popup-add-customer',function () {
+            $('#modal_for_add_customer').modal('show');
         });
     });
 </script>
