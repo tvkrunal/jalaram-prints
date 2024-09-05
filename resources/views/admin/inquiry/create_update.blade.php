@@ -361,6 +361,7 @@ $(document).ready(function() {
             data: formData,
             success: function(response) {
                 $('#modal_for_add_customer').modal('hide');
+                alert('Customer successfully submitted!');
             },
             error: function(xhr) {
                 console.log(xhr.responseText);
@@ -375,5 +376,5 @@ $(document).ready(function() {
         });
     });
 });
-</script>
+</script> submit with 
 @endsection
