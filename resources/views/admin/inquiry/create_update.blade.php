@@ -192,9 +192,9 @@
 
                             <div class="modal-body">
                             @if(isset($customer))
-                                    {{ Form::model($customer, ['route' => ['customer.update', $customer->id], 'method' => 'patch' , 'enctype'=>'multipart/form-data']) }}
+                                    {{ Form::model($customer, ['route' => ['customer.update', $customer->id],'id'=>'customer-form', 'method' => 'patch' , 'enctype'=>'multipart/form-data']) }}
                                 @else
-                                    {{ Form::open(['route' => 'customer.store' , 'enctype'=>'multipart/form-data']) }}
+                                    {{ Form::open(['route' => 'customer.store' ,'id'=>'customer-form', 'enctype'=>'multipart/form-data']) }}
                                     @csrf
                                 @endif
                                 <fieldset class="mb-3">
@@ -313,5 +313,32 @@
             $('#modal_for_add_customer').modal('show');
         });
     });
+</script>
+<script>
+$(document).ready(function() {
+    $('#customer-form').on('submit', function(event) {
+        event.preventDefault();
+        var formData = $(this).serialize();
+        var formAction = $(this).attr('action');
+        $.ajax({
+            url: formAction,
+            method: $(this).attr('method'),
+            data: formData,
+            success: function(response) {
+                $('#modal_for_add_customer').modal('hide');
+            },
+            error: function(xhr) {
+                console.log(xhr.responseText);
+                var errors = xhr.responseJSON ? xhr.responseJSON.errors : {};
+                $('.text-danger').text('');
+                for (var field in errors) {
+                    if (errors.hasOwnProperty(field)) {
+                        $('input[name="' + field + '"]').next('.text-danger').text(errors[field][0]);
+                    }
+                }
+            }
+        });
+    });
+});
 </script>
 @endsection
