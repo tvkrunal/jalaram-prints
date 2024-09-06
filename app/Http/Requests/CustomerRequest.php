@@ -24,11 +24,11 @@ class CustomerRequest extends FormRequest
         return [
             'first_name'=>'required',
             'last_name' => 'required',
-            'contact_no' => 'required',
+            'contact_no' => 'required|integer|min:11',
             'email' => 'required',
             'address' => 'required',
             'city' => 'required',
-            'pin_code' => 'required',
+            'pin_code' => 'required|integer',
         ];
     }
     public function messages()

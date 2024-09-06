@@ -34,7 +34,7 @@
                                         <label class="col-form-label col-lg-1">Customer <span class="text-danger">*</span></label>
                                         <div class="col-lg-5">
                                             <div class="d-flex align-items-center">
-                                                {{ Form::select('customer_id[]', $customers, [], array('class'=>"form-control select2", 'id' => "customer_id",'placeholder' => 'Select Customer'))}}
+                                                {{ Form::select('customer_id', $customers, [], array('class'=>"form-control select2", 'id' => "customer_id",'placeholder' => 'Select Customer'))}}
                                                 @if ($errors->has('customer_id'))
                                                     <span class="text-danger">{{ $errors->first('customer_id') }}</span>
                                                 @endif
@@ -157,24 +157,29 @@
                                                 <span class="text-danger">{{ $errors->first('type_of_job') }}</span>
                                             @endif
                                         </div>
-
-                                        <label class="col-form-label col-lg-1 d-none designing-details-container">Designing Details</label>
-                                        <div class="col-lg-5 d-none designing-details-container">
-                                            {{ Form::text('designing_details',Request::old('designing_details'),array('class'=>"form-control")) }}
-                                            @if ($errors->has('designing_details'))
-                                                <span class="text-danger">{{ $errors->first('designing_details') }}</span>
-                                            @endif
-                                        </div>
-
-                                        <label class="col-form-label col-lg-1 d-none designing-details-print-container">Designing Details <span class="d-block">Print<span></label>
-                                        <div class="col-lg-5 d-none designing-details-print-container">
+                                        <label class="col-form-label col-lg-1">Cost Calculation</label>
+                                        <div class="col-lg-5">
                                             {{ Form::text('designing_details',Request::old('designing_details'),array('class'=>"form-control")) }}
                                             @if ($errors->has('designing_details'))
                                                 <span class="text-danger">{{ $errors->first('designing_details') }}</span>
                                             @endif
                                         </div>
                                    </div>
-                                    
+
+                                   <div class="form-group row d-none designing-details-container">
+                                        <label class="col-form-label col-lg-1">Designing Details</label>
+                                        <div class="col-lg-5">
+                                            {{ Form::text('designing_details',Request::old('designing_details'),array('class'=>"form-control")) }}
+                                            @if ($errors->has('designing_details'))
+                                                <span class="text-danger">{{ $errors->first('designing_details') }}</span>
+                                            @endif
+                                        </div>
+                                   </div>
+
+
+                                    <div class="form-group row d-none designing-details-print-container">
+                                        @include('admin.inquiry.price_master_section')
+                                    </div>
                                 </fieldset>
 
                                 <div class="text-right">
@@ -198,12 +203,8 @@
                             </div>
 
                             <div class="modal-body">
-                            @if(isset($customer))
-                                    {{ Form::model($customer, ['route' => ['customer.update', $customer->id],'id'=>'customer-form', 'method' => 'patch' , 'enctype'=>'multipart/form-data']) }}
-                                @else
-                                    {{ Form::open(['route' => 'customer.store' ,'id'=>'customer-form', 'enctype'=>'multipart/form-data']) }}
-                                    @csrf
-                                @endif
+                                {{ Form::open(['route' => 'store.customer' ,'id'=>'customer-form', 'enctype'=>'multipart/form-data']) }}
+                                @csrf
                                 <fieldset class="mb-3 row gy-4">
                                     <div class="form-group col-lg-6">
                                         <label class="form-label">First Name <span class="text-danger">*</span></label>
@@ -264,14 +265,10 @@
                                 </fieldset>
 
                                 <div class="text-right">
-                                    {{ Form::submit('Submit',array('class'=>'btn btn-primary')) }}
+                                    {{ Form::submit('Submit',array('class'=>'btn btn-primary', 'id' => 'customer-btn')) }}
                                 </div>
                                 {{ Form::close() }}
                             </div>
-
-                            <!-- <div class="modal-footer">
-                                <button type="button" class="btn btn-link text-white" data-dismiss="modal">Close</button>
-                            </div> -->
                         </div>
                     </div>
                 </div>
@@ -287,6 +284,9 @@
         // Function to show/hide the Designing Details field based on the selected radio button
         $('.designing-details-container').addClass('d-none');
         $('.designing-details-print-container').addClass('d-none');
+        setTimeout(() => {
+           $('.alert').hide(); 
+        }, 700);
         
         function toggleDesigningDetails() {
             let selectedJobType = $('input[name="type_of_job"]:checked').val();
@@ -352,16 +352,19 @@ $(document).ready(function() {
         event.preventDefault();
         var formData = $(this).serialize();
         var formAction = $(this).attr('action');
+        $("#customer-btn").prop("disabled", true);
         $.ajax({
             url: formAction,
             method: $(this).attr('method'),
             data: formData,
             success: function(response) {
+                $("#customer-form")[0].reset();
+                $("#customer-btn").prop("disabled", false);
                 $('#modal_for_add_customer').modal('hide');
-                alert('Customer successfully submitted!');
+                window.location.reload();
             },
             error: function(data) {
-                $("#device-update-btn").prop("disabled", false);
+                $("#customer-btn").prop("disabled", false);
                 $.each(data.responseJSON.errors, function (key, value) {
                     $(".print-msg-" + key + "").css("display", "block");
                     $(".print-msg-" + key + "").html(value[0]);
@@ -369,6 +372,24 @@ $(document).ready(function() {
             }
         });
     });
+
+    /* Price master repeater */
+    $(".price-master-repeater").repeater({
+        initEmpty: false,
+        show: function () {
+            var selfRepeaterItem = this;
+            $(selfRepeaterItem).slideDown();
+            var repeaterItems = $("div[data-repeater-item] > div.faq-items");
+            $(selfRepeaterItem).attr('data-index', repeaterItems.length - 1);
+            $(selfRepeaterItem).find('span.repeaterItemNumber').text(repeaterItems.length);
+            $(selfRepeaterItem).find('.price-master-delete').attr('data-id', null);
+        },
+        hide: function (deleteElement) {
+            if (confirm("Are you sure you want to delete this element?")) {
+            $(this).slideUp(deleteElement);
+            }
+        },
+    });
 });
-</script> submit with 
+</script>
 @endsection

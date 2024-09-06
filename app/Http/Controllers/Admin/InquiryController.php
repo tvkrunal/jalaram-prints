@@ -16,8 +16,10 @@ use App\Enums\Status;
 use App\Models\Role;
 use App\Models\Customer;
 use App\Models\Inquiry;
+use App\Models\PriceMaster;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
+use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use Session;
 use Hash;
@@ -94,9 +96,9 @@ class InquiryController extends Controller implements HasMiddleware
         $activeOrNot = StatusOption::asSelectArray();
         $projectManager = [];
         $teamLeader = [];
-        $parentUsers = [];
+        $priceMasters = PriceMaster::pluck('item_type','id');
         $customers = Customer::get()->pluck('full_name', 'id');
-        return view('admin.inquiry.create_update', compact('activeOrNot', 'projectManager', 'teamLeader', 'customers', 'parentUsers'));
+        return view('admin.inquiry.create_update', compact('activeOrNot', 'projectManager', 'teamLeader', 'customers', 'priceMasters'));
     }
 
     /**
@@ -226,19 +228,7 @@ class InquiryController extends Controller implements HasMiddleware
     public function destroy($id)
     {
         $user = Inquiry::find($id);
-        $associatedProjectsCount = $user->projects()->count();
 
-        if ($associatedProjectsCount > 0) {
-            return response()->json(['success' => false], 200);
-        }
-
-        if (!empty($user->profile)) {
-            CommonUtil::removeFile($user->profile);
-        }
-
-        $user->leaves()->delete();
-        $user->projectHours()->delete();
-        $user->projectMembers()->detach();
         $user->delete();
     }
 
@@ -266,7 +256,8 @@ class InquiryController extends Controller implements HasMiddleware
         $data['user_id'] = Auth::user()->id;
 
         if ($customer = Customer::create($data)) {
-            return response()->json(['status' => true, 'url' => route('inquiry.create'), 'message' => 'Customer has been added']);
+            Session::flash('success', 'Customer created successfully');
+            return response()->json(['status' => true, 'message' => 'Customer created successfully']);
         } else {
             return response()->json(['status' => false, 'message' => __('Something went wrong')]);
         }

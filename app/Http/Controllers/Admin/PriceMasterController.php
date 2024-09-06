@@ -102,7 +102,7 @@ class PriceMasterController extends Controller implements HasMiddleware
             $data['user_id'] = Auth::user()->id;
          
             if ($price = PriceMaster::create($data)) {
-                Session::flash('success', 'Price has been added');
+                Session::flash('success', 'Price master created successfully');
                 return redirect()->route('price-master.index');
             } else {
                 Session::flash('error', 'Unable to create Price');
@@ -158,7 +158,7 @@ class PriceMasterController extends Controller implements HasMiddleware
             $data = $request->all();
             
             if ($priceMaster->update($data)) {
-                Session::flash('success', 'Price master has been updeted successfully');
+                Session::flash('success', 'Price master updeted successfully');
                 return redirect()->route('price-master.index');
             } else {
                 Session::flash('error', 'Unable to update price master');

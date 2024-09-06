@@ -92,7 +92,7 @@ class CustomerController extends Controller implements HasMiddleware
         $data['user_id'] = Auth::user()->id;
          
         if ($customer = Customer::create($data)) {
-            Session::flash('success', 'Customer has been added');
+            Session::flash('success', 'Customer created successfully');
             return redirect()->route('customer.index');
         } else {
             Session::flash('error', 'Unable to create customer');
@@ -135,7 +135,7 @@ class CustomerController extends Controller implements HasMiddleware
         $data = $request->all();
      
         if ($customer->update($data)) {
-            Session::flash('success', 'Customer has been updeted successfully');
+            Session::flash('success', 'Customer updeted successfully');
             return redirect()->route('customer.index');
         } else {
             Session::flash('error', 'Unable to update customer');
