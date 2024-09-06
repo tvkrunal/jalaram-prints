@@ -27,8 +27,9 @@
                     @endif
                 </div>
                 <div class="card-body">
+                    <div class="card">
                     <fieldset class="language">
-                        <div class="mb-6">
+                        <div class="m-4">
                             <label class="form-label">Name <span class="text-danger">*</span></label>
                             {{ Form::text('name', Request::old('name'), ['class' => 'form-control']) }}
                             @if ($errors->has('name'))
@@ -36,9 +37,9 @@
                             @endif
                         </div>
                         <div>
-                            <label class="form-label mt-5">Permission</label>
+                            <label class="form-label m-4">Permission</label>
                             <div class="row gy-6">
-                                <div class="col-lg-6">
+                                <div class="col-lg-6 m-4">
                                     <div class="card mb-6">
                                         <h4 class="card-header text-black-100">Dashboard :-</h4>
                                         <div class="card-body">
@@ -53,7 +54,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-lg-6">
+                                <div class="col-lg-5 m-1">
                                     <div class="card mb-6">
                                         <h4 class="card-header text-black-100">Admin :-</h4>
                                         <div class="card-body">
@@ -259,15 +260,16 @@
                             </div>
                         </div>
                     </fieldset>
-                    <div class="text-right">
+                    <div class="text-right m-4">
                         {{ Form::submit('Submit', ['class' => 'btn btn-primary ms-2']) }}
                         <a href="{{ url('/admin/roles') }}" class="btn btn-primary me-5">Cancel</a>
                     </div>
-                </div> 
-                {{ Form::close() }}
-            </div>
+                </div>
+            </div> 
+            {{ Form::close() }}
         </div>
-        <!-- /content area -->
-        @include('layouts.admin.page_footer')
+    </div>
+    <!-- /content area -->
+    @include('layouts.admin.page_footer')
     </div>
 @endsection
