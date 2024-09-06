@@ -11,7 +11,7 @@
         </div>
     </div>
     <div class="faq-wrpper" data-repeater-list="faqSection">
-        <div class="faq-item" data-repeater-item>
+        <div class="faq-item mb-3" data-repeater-item>
             <div class="mb-2 faq-items">
                 <div class="row align-items-center">
                     <div class="col-6">
