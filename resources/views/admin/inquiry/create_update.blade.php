@@ -157,13 +157,6 @@
                                                 <span class="text-danger">{{ $errors->first('type_of_job') }}</span>
                                             @endif
                                         </div>
-                                        <!-- <label class="col-form-label col-lg-1">Cost Calculation</label>
-                                        <div class="col-lg-5">
-                                            {{ Form::text('designing_details',Request::old('designing_details'),array('class'=>"form-control")) }}
-                                            @if ($errors->has('designing_details'))
-                                                <span class="text-danger">{{ $errors->first('designing_details') }}</span>
-                                            @endif
-                                        </div> -->
                                    </div>
 
                                    <div class="form-group row d-none designing-details-container">
@@ -377,7 +370,7 @@
             show: function () {
                 var selfRepeaterItem = this;
                 $(selfRepeaterItem).slideDown();
-
+                $(selfRepeaterItem).find('.select2-container').remove();
                 // Initialize select2 on the newly added repeater item
                 $(selfRepeaterItem).find('.select2').select2();
 
