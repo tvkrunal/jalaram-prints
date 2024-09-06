@@ -59,7 +59,7 @@ class InquiryController extends Controller implements HasMiddleware
     {
         $search = $request->input('search');
         $status = $request->input('status');
-        $query = Inquiry::query();
+        $query = Inquiry::query()->where('status',1);
         
         $inquiry = $query->select('id', 'customer_id','type_of_job','delivery_date','status');
 
@@ -184,7 +184,8 @@ class InquiryController extends Controller implements HasMiddleware
         $activeOrNot = StatusOption::asSelectArray();
         $priceMasters = PriceMaster::pluck('item_type','id');
         $customers = Customer::get()->pluck('full_name', 'id');
-        return view('admin.inquiry.create_update', compact('inquiry', 'activeOrNot','customers', 'priceMasters'));
+        $processes = !empty($inquiry->processes) ? $inquiry->processes()->pluck('title')->toArray() : []; // Adjust 'name' to the actual column name in the processes table
+        return view('admin.inquiry.create_update', compact('inquiry', 'activeOrNot','customers', 'priceMasters','processes'));
     }
 
     /**
@@ -202,7 +203,30 @@ class InquiryController extends Controller implements HasMiddleware
         $data['status'] = 1;
 
         if ($inquiry->update($data)) {
+            if (!empty($data['processes'])) {
+                foreach($data['processes']  as $key => $value) {
+                    InquiryProcess::updateOrCreate([
+                        'title' => $value,
+                        'inquiry_id' => $inquiry->id
+                    ]);
+                }
+            }
 
+            if (!empty($data['inquiryPriceItemSection'])) {
+                foreach($data['inquiryPriceItemSection']  as $key => $inquiryPriceItemSection) {
+                    InquiryPriceItem::updateOrCreate([
+                        'price_master_id' => $inquiryPriceItemSection['price_master_id'],
+                        'media' => $inquiryPriceItemSection['media'],
+                        'gsm' => $inquiryPriceItemSection['gsm'],
+                        'qty' => $inquiryPriceItemSection['qty'],
+                        'cost' => $inquiryPriceItemSection['cost'],
+                        'total_hours' => $inquiryPriceItemSection['total_hours'],
+                        'inquiry_id' => $inquiry->id
+                    ]);
+                }
+            }
+            $inquiry->cost_calculation = $request->cost_calculation;
+            $inquiry->update();
             Session::flash('success', 'Employee has been updated successfully');
             return redirect()->route('inquiry.index');
         } else {
@@ -220,7 +244,6 @@ class InquiryController extends Controller implements HasMiddleware
      */
     public function destroy(Inquiry $inquiry)
     {
-
         $inquiry->delete();
     }
 
