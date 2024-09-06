@@ -17,6 +17,8 @@ use App\Models\Role;
 use App\Models\Customer;
 use App\Models\Inquiry;
 use App\Models\PriceMaster;
+use App\Models\InquiryProcess;
+use App\Models\InquiryPriceItem;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Facades\Auth;
@@ -59,14 +61,21 @@ class InquiryController extends Controller implements HasMiddleware
         $status = $request->input('status');
         $query = Inquiry::query();
         
-        $inquiry = $query->select('id', 'customer_id');
+        $inquiry = $query->select('id', 'customer_id','type_of_job','delivery_date','status');
 
         $inquiries = $inquiry->get();
 
         return Datatables::of($inquiries)
             ->addIndexColumn()
             ->editColumn('name', function ($data) {
-                return $data->customer_first_name . ' ' . $data->customer_first_name;
+                return isset($data->customer) ? $data->customer->full_name : '-';
+            })
+            ->editColumn('stage', function ($data) {
+                if ($data->status == 1) {
+                    return '<div class="badge rounded-pill bg-soft-success text-primary">Inquiry</div>';
+                } else {
+                    return '<div class="badge rounded-pill bg-soft-warning text-warning">Unknown</div>';
+                }
             })
             ->addColumn('action', function ($data) {
                 $actions = '';
@@ -81,7 +90,7 @@ class InquiryController extends Controller implements HasMiddleware
                 }
                 return $actions;
             })
-            ->rawColumns(['action'])
+            ->rawColumns(['action','stage'])
             ->make(true);
     }
 
@@ -110,33 +119,36 @@ class InquiryController extends Controller implements HasMiddleware
      */
     public function store(Request $request)
     {
-        dd($request->all());
         $data = $request->all();
-        $trashedUser = Inquiry::onlyTrashed()->where('email', $data['email'])->first();
-        if (!empty($trashedUser)) {
-            Session::flash('error', 'This user is already exist with deleted user, please contact your administrator');
-            return redirect()->back();
-        }
-        if (request()->has('password')) {
-            $data['password'] = Hash::make($data['password']);
-        }
-        if ($request->hasFile('profile')) {
-            $imageName = CommonUtil::uploadFileToFolder($request->file('profile'), 'users');
-            $data['profile'] = $imageName;
-        }
-
-        $data['is_active'] = $request->is_active ? 1 : 0;
-        $user =  Inquiry::create($data);
-        if ($user) {
-            if (isset($data['parent_user_ids']) && !empty($data['parent_user_ids'])) {
-                $user->parents()->sync($data['parent_user_ids']);
-            } else {
-                $user->parents()->sync([]);
+        $data['status'] = 1;
+        $data['user_id'] = Auth::user()->id;
+        $inquiry =  Inquiry::create($data);
+        if ($inquiry) {
+            if (!empty($data['processes'])) {
+                foreach($data['processes']  as $key => $value) {
+                    InquiryProcess::updateOrCreate([
+                        'title' => $value,
+                        'inquiry_id' => $inquiry->id
+                    ]);
+                }
             }
 
-            $user->assignRole($data['role']);
-            Session::flash('success', 'Employee has been added successfully');
-            return redirect()->route('users.index');
+            if (!empty($data['faqSection'])) {
+                foreach($data['faqSection']  as $key => $faqSection) {
+                    InquiryPriceItem::updateOrCreate([
+                        'price_master_id' => $faqSection['price_master_id'],
+                        'media' => $faqSection['media'],
+                        'gsm' => $faqSection['gsm'],
+                        'qty' => $faqSection['qty'],
+                        'cost' => $faqSection['cost'],
+                        'total_hours' => $faqSection['total_hours'],
+                        'cost_calculation' => $faqSection['cost_calculation'],
+                        'inquiry_id' => $inquiry->id
+                    ]);
+                }
+            }
+            Session::flash('success', 'Inquiry created successfully');
+            return redirect()->route('inquiry.index');
         } else {
             Session::flash('error', 'Unable to add employee');
             return redirect()->back();

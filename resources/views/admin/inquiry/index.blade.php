@@ -30,6 +30,9 @@
 							<tr>
                             	<th>ID</th>
                            		<th>Customer Name</th>
+                           		<th>Type Of Job</th>
+                           		<th>Delivery Date</th>
+                           		<th>Stage</th>
                                 <th>Action</th>
 							</tr>
 						</thead>
@@ -52,7 +55,10 @@
                 ajax: '{!! route('inquiry.data') !!}',
                 columns: [
                     { data: 'id', name: 'id' },
-                    { data: 'customer_id', name: 'customer_id' },
+                    { data: 'name', name: 'name' },
+                    { data: 'type_of_job', name: 'type_of_job' },
+                    { data: 'delivery_date', name: 'delivery_date' },
+                    { data: 'stage', name: 'stage' },
                     { data: 'action', name: 'action', orderable: false, searchable: false }
                 ]
 			});

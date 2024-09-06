@@ -53,11 +53,11 @@
                                     <div class="form-group row d-none customer-details">
                                         <label class="col-form-label col-lg-1">First Name <span class="text-danger">*</span></label>
                                         <div class="col-lg-5">
-                                            {{ Form::text('first_name','',array('class'=>"form-control", 'id' => 'first_name','readonly' => 'true')) }}
+                                            {{ Form::text('first_name','',array('class'=>"form-control", 'id' => 'first_name','disabled' => 'true')) }}
                                         </div>
                                         <label class="col-form-label col-lg-1">Last Name <span class="text-danger">*</span></label>
                                         <div class="col-lg-5">
-                                            {{ Form::text('last_name',Request::old('last_name'),array('class'=>"form-control",'id' => 'last_name','readonly' => 'true')) }}
+                                            {{ Form::text('last_name',Request::old('last_name'),array('class'=>"form-control",'id' => 'last_name','disabled' => 'true')) }}
                                             @if ($errors->has('last_name'))
                                                 <span class="text-danger">{{ $errors->first('last_name') }}</span>
                                             @endif
@@ -67,14 +67,14 @@
                                     <div class="form-group row d-none customer-details">
                                         <label class="col-form-label col-lg-1">Email <span class="text-danger">*</span></label>
                                         <div class="col-lg-5">
-                                            {{ Form::text('email',Request::old('email'),array('class'=>"form-control",'id' => 'email','readonly' => 'true')) }}
+                                            {{ Form::text('email',Request::old('email'),array('class'=>"form-control",'id' => 'email','disabled' => 'true')) }}
                                             @if ($errors->has('email'))
                                                 <span class="text-danger">{{ $errors->first('email') }}</span>
                                             @endif
                                         </div>
                                         <label class="col-form-label col-lg-1">Contact No <span class="text-danger">*</span></label>
                                         <div class="col-lg-5">
-                                            {{ Form::number('contact_no',Request::old('contact_no'),array('class'=>"form-control",'id' => 'contact_no','readonly' => 'true')) }}
+                                            {{ Form::number('contact_no',Request::old('contact_no'),array('class'=>"form-control",'id' => 'contact_no','disabled' => 'true')) }}
                                             @if ($errors->has('contact_no'))
                                                 <span class="text-danger">{{ $errors->first('contact_no') }}</span>
                                             @endif
@@ -84,14 +84,14 @@
                                     <div class="form-group row d-none customer-details">
                                         <label class="col-form-label col-lg-1">Address <span class="text-danger">*</span></label>
                                         <div class="col-lg-5">
-                                            {{ Form::text('address',Request::old('address'),array('class'=>"form-control",'id' => 'address','readonly' => 'true')) }}
+                                            {{ Form::text('address',Request::old('address'),array('class'=>"form-control",'id' => 'address','disabled' => 'true')) }}
                                             @if ($errors->has('address'))
                                                 <span class="text-danger">{{ $errors->first('address') }}</span>
                                             @endif
                                         </div>
                                         <label class="col-form-label col-lg-1">City <span class="text-danger">*</span></label>
                                         <div class="col-lg-5">
-                                            {{ Form::text('city',Request::old('city'),array('class'=>"form-control",'id' => 'city','readonly' => 'true')) }}
+                                            {{ Form::text('city',Request::old('city'),array('class'=>"form-control",'id' => 'city','disabled' => 'true')) }}
                                             @if ($errors->has('city'))
                                                 <span class="text-danger">{{ $errors->first('city') }}</span>
                                             @endif
@@ -102,7 +102,7 @@
                                     <div class="form-group row customer-details d-none">
                                         <label class="col-form-label col-lg-1">Pin Code <span class="text-danger">*</span></label>
                                         <div class="col-lg-5">
-                                            {{ Form::text('pin_code',Request::old('pin_code'),array('class'=>"form-control",'id' => 'pin_code','readonly' => 'true')) }}
+                                            {{ Form::text('pin_code',Request::old('pin_code'),array('class'=>"form-control",'id' => 'pin_code','disabled' => 'true')) }}
                                             @if ($errors->has('pin_code'))
                                                 <span class="text-danger">{{ $errors->first('pin_code') }}</span>
                                             @endif

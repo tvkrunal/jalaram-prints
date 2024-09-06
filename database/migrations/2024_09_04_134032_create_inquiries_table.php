@@ -21,8 +21,7 @@ return new class extends Migration
             $table->bigInteger('user_id')->nullable()->unsigned()->index();
 	        $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->longText('job_description')->nullable();
-            $table->string('process')->nullable();
-            $table->string('cost_calculation')->nullable();
+            $table->boolean('status')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
