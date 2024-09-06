@@ -173,8 +173,17 @@
                                     <div class="form-group row d-none designing-details-print-container">
                                         @include('admin.inquiry.price_master_section')
                                     </div>
+                                    
                                 </fieldset>
-
+                                <div class="row">
+                                    <div class="col-4 mt-3 offset-8 mb-3">
+                                        <label class="form-label">Cost Calculation <span class="text-danger">*</span></label>
+                                        {{ Form::text('cost_calculation', Request::old('cost_calculation'), array('class'=>"form-control")) }}
+                                        @if ($errors->has('cost_calculation'))
+                                            <span class="text-danger">{{ $errors->first('cost_calculation') }}</span>
+                                        @endif
+                                    </div>
+                                </div>
                                 <div class="text-right">
                                     {{ Form::submit('Submit',array('class'=>'btn btn-primary')) }}
                                     <a href="{{ route('inquiry.index') }}" class="btn btn-primary">Cancel</a>
@@ -374,7 +383,7 @@
                 // Initialize select2 on the newly added repeater item
                 $(selfRepeaterItem).find('.select2').select2();
 
-                var repeaterItems = $("div[data-repeater-item] > div.faq-items");
+                var repeaterItems = $("div[data-repeater-item] > div.inquiry-price-itemsfaq-items");
                 $(selfRepeaterItem).attr('data-index', repeaterItems.length - 1);
                 $(selfRepeaterItem).find('span.repeaterItemNumber').text(repeaterItems.length);
                 $(selfRepeaterItem).find('.price-master-delete').attr('data-id', null);
@@ -400,10 +409,10 @@
                 method: 'GET',
                 success: function (response) {
                     console.log(response);
-                    repeaterItem.find('input[name^="faqSection"][name$="[media]"]').val(response.priceMaster.media);
-                    repeaterItem.find('input[name^="faqSection"][name$="[gsm]"]').val(response.priceMaster.gsm);
-                    repeaterItem.find('input[name^="faqSection"][name$="[qty]"]').val(response.priceMaster.qty);
-                    repeaterItem.find('input[name^="faqSection"][name$="[cost]"]').val(response.priceMaster.max_cost);
+                    repeaterItem.find('input[name^="inquiryPriceItemSection"][name$="[media]"]').val(response.priceMaster.media);
+                    repeaterItem.find('input[name^="inquiryPriceItemSection"][name$="[gsm]"]').val(response.priceMaster.gsm);
+                    repeaterItem.find('input[name^="inquiryPriceItemSection"][name$="[qty]"]').val(response.priceMaster.qty);
+                    repeaterItem.find('input[name^="inquiryPriceItemSection"][name$="[cost]"]').val(response.priceMaster.max_cost);
                 },
                 error: function (xhr) {
                     // Handle error if the request fails

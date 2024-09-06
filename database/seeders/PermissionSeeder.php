@@ -52,10 +52,6 @@ class PermissionSeeder extends Seeder
                 'guard_name' => 'web',
                 'model_name' => 'roles',
             ],[
-                'name' => 'Inquiry Delete',
-                'guard_name' => 'web',
-                'model_name' => 'roles',
-            ],[
                 'name' => 'Inquiry List',
                 'guard_name' => 'web',
                 'model_name' => 'roles',
