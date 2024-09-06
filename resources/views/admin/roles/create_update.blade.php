@@ -36,7 +36,7 @@
                             @endif
                         </div>
                         <div>
-                            <label class="form-label">Permission</label>
+                            <label class="form-label mt-5">Permission</label>
                             <div class="row gy-6">
                                 <div class="col-lg-6">
                                     <div class="card mb-6">
@@ -154,17 +154,116 @@
                                                     id="user-delete">
                                                 <label for="user-delete" class="form-check-label">Delete</label>
                                             </div>
+
+                                            <h5 class="text-capitalize py-3 border-top mt-2">Inquiry</h5>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input cursor-pointer"
+                                                    {{ in_array(6, $rolePermissions) ? 'checked' : false }}
+                                                    name="permission[]" type="checkbox" value="Inquiry List"
+                                                    id="inquiry-list">
+                                                <label for="inquiry-list" class="form-check-label">List</label>
+                                            </div>
+
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input cursor-pointer"
+                                                    {{ in_array(7, $rolePermissions) ? 'checked' : false }}
+                                                    name="permission[]" type="checkbox" value="Inquiry Create"
+                                                    id="inquiry-create">
+                                                <label for="inquiry-create" class="form-check-label">Create</label>
+                                            </div>
+
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input cursor-pointer"
+                                                    {{ in_array(8, $rolePermissions) ? 'checked' : false }}
+                                                    name="permission[]" type="checkbox" value="Inquiry Edit"
+                                                    id="inquiry-edit">
+                                                <label for="inquiry-edit" class="form-check-label">Edit</label>
+                                            </div>
+
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input cursor-pointer"
+                                                    {{ in_array(9, $rolePermissions) ? 'checked' : false }}
+                                                    name="permission[]" type="checkbox" value="Inquiry Delete"
+                                                    id="inquiry-delete">
+                                                <label for="inquiry-delete" class="form-check-label">Delete</label>
+                                            </div>
+
+                                            <h5 class="text-capitalize py-3 border-top mt-2">Customer</h5>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input  cursor-pointer"
+                                                    {{ in_array(46, $rolePermissions) ? 'checked' : false }}
+                                                    name="permission[]" type="checkbox" value="Customer List"
+                                                    id="customer-list">
+                                                <label for="customer-list" class="form-check-label">List</label>
+                                            </div>
+
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input  cursor-pointer"
+                                                    {{ in_array(41, $rolePermissions) ? 'checked' : false }}
+                                                    name="permission[]" type="checkbox" value="Customer Create"
+                                                    id="customer-create">
+                                                <label for="customer-create" class="form-check-label">Create</label>
+                                            </div>
+
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input  cursor-pointer"
+                                                    {{ in_array(42, $rolePermissions) ? 'checked' : false }}
+                                                    name="permission[]" type="checkbox" value="Customer Edit"
+                                                    id="customer-edit">
+                                                <label for="customer-edit" class="form-check-label">Edit</label>
+                                            </div>
+
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input cursor-pointer"
+                                                    {{ in_array(43, $rolePermissions) ? 'checked' : false }}
+                                                    name="permission[]" type="checkbox" value="Customer Delete"
+                                                    id="customer-delete">
+                                                <label for="customer-delete" class="form-check-label">Delete</label>
+                                            </div>
+
+                                            <h5 class="text-capitalize py-3 border-top mt-2">Price Master</h5>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input  cursor-pointer"
+                                                    {{ in_array(106, $rolePermissions) ? 'checked' : false }}
+                                                    name="permission[]" type="checkbox" value="Price Master List"
+                                                    id="price-master-list">
+                                                <label for="price-master-list" class="form-check-label">List</label>
+                                            </div>
+
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input  cursor-pointer"
+                                                    {{ in_array(113, $rolePermissions) ? 'checked' : false }}
+                                                    name="permission[]" type="checkbox" value="Price Master Create"
+                                                    id="price-master-create">
+                                                <label for="price-master-create" class="form-check-label">Create</label>
+                                            </div>
+
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input  cursor-pointer"
+                                                    {{ in_array(109, $rolePermissions) ? 'checked' : false }}
+                                                    name="permission[]" type="checkbox" value="Price Master Edit"
+                                                    id="price-master-edit">
+                                                <label for="price-master-edit" class="form-check-label">Edit</label>
+                                            </div>
+
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input  cursor-pointer"
+                                                    {{ in_array(81, $rolePermissions) ? 'checked' : false }}
+                                                    name="permission[]" type="checkbox" value="Price Master Delete"
+                                                    id="price-master-delete">
+                                                <label for="price-master-delete" class="form-check-label">Delete</label>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </fieldset>
-                </div>
-                <div class="card-footer text-right">
-                {{ Form::submit('Submit', ['class' => 'btn btn-primary ms-2']) }}
-                    <a href="{{ url('/admin/roles') }}" class="btn btn-neutral me-5">Cancel</a>
-                </div>
+                    <div class="text-right">
+                        {{ Form::submit('Submit', ['class' => 'btn btn-primary ms-2']) }}
+                        <a href="{{ url('/admin/roles') }}" class="btn btn-primary me-5">Cancel</a>
+                    </div>
+                </div> 
                 {{ Form::close() }}
             </div>
         </div>
