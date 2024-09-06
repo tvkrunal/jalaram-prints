@@ -108,8 +108,9 @@ class InquiryController extends Controller implements HasMiddleware
      *
      * @return Response
      */
-    public function store(InquiryRequest $request)
+    public function store(Request $request)
     {
+        dd($request->all());
         $data = $request->all();
         $trashedUser = Inquiry::onlyTrashed()->where('email', $data['email'])->first();
         if (!empty($trashedUser)) {

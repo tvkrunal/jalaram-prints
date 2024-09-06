@@ -18,8 +18,6 @@ return new class extends Migration
             $table->string('type_of_job')->nullable();
             $table->date('delivery_date')->nullable();
             $table->string('designing_details')->nullable();
-            $table->bigInteger('price_masters_id')->nullable()->unsigned()->index();
-	        $table->foreign('price_masters_id')->references('id')->on('price_masters')->onDelete('cascade');
             $table->bigInteger('user_id')->nullable()->unsigned()->index();
 	        $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->longText('job_description')->nullable();
