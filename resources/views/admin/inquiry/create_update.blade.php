@@ -1,5 +1,5 @@
 @extends('layouts.admin.master')
-@section('title', isset($user)?'Update'. ' '.'('.$user->first_name.')'.'('.$user->last_name.')':'Create Inquiry')
+@section('title', isset($inquiry)?'Update Inquiry':'Create Inquiry')
 @section('content')
     <div class="content-wrapper">
         @include('layouts.admin.page_header',['breadcrumb'=>[route('inquiry.index')=>'Inquiry']])
@@ -14,7 +14,7 @@
                     <div class="col-sm-12">
                         <div class="card">
                             <div class="card-header header-elements-inline">
-                                <h6 class="card-title">@if(isset($user)) Update @else Create @endif Inquiry</h6>
+                                <h6 class="card-title">@if(isset($inquiry)) Update @else Create @endif Inquiry</h6>
                                 <div class="header-elements">
                                     <div class="list-icons">
                                         <a class="list-icons-item" data-action="collapse"></a>
@@ -24,8 +24,8 @@
                             </div>
                             <div class="card-body">
 
-                                @if(isset($user))
-                                    {{ Form::model($user, ['route' => ['inquiry.update', $user->id], 'method' => 'patch' , 'enctype'=>'multipart/form-data']) }}
+                                @if(isset($inquiry))
+                                    {{ Form::model($inquiry, ['route' => ['inquiry.update', $inquiry->id], 'method' => 'patch' , 'enctype'=>'multipart/form-data']) }}
                                 @else
                                     {{ Form::open(['route' => 'inquiry.store' , 'enctype'=>'multipart/form-data']) }}
                                 @endif
@@ -169,16 +169,15 @@
                                         </div>
                                    </div>
 
-
                                     <div class="form-group row d-none designing-details-print-container">
                                         @include('admin.inquiry.price_master_section')
                                     </div>
                                     
                                 </fieldset>
-                                <div class="row">
+                                <div class="row d-none designing-details-print-container">
                                     <div class="col-4 mt-3 offset-8 mb-3">
-                                        <label class="form-label">Cost Calculation <span class="text-danger">*</span></label>
-                                        {{ Form::text('cost_calculation', Request::old('cost_calculation'), array('class'=>"form-control")) }}
+                                        <label class="form-label">Cost Calculation</label>
+                                        {{ Form::text('cost_calculation', Request::old('cost_calculation'), array('class'=>"form-control", 'id' => 'total_cost')) }}
                                         @if ($errors->has('cost_calculation'))
                                             <span class="text-danger">{{ $errors->first('cost_calculation') }}</span>
                                         @endif
@@ -331,7 +330,7 @@
                                 $('#contact_no').val(response.customer.contact_no);
                                 $('#address').val(response.customer.address);
                                 $('#city').val(response.customer.city);
-                                $('#pin_code').val(response.customer.pin_code);
+                                $('#pin_code').val(response.customer.pin_code);                      
                             }
                         }
                     },
@@ -394,6 +393,11 @@
                 }
             },
         });
+
+        $(document).on('input', 'input[name^="inquiryPriceItemSection"][name$="[qty]"], input[name^="inquiryPriceItemSection"][name$="[cost]"]', function() {
+            console.log("qty");
+            calculateTotalCost();
+        });
     });
 
     $(document).on('change', '.select2', function () {
@@ -408,18 +412,38 @@
                 url: itemTypeDetailsRoute + '/' + selectedItem, // URL to fetch the item details
                 method: 'GET',
                 success: function (response) {
-                    console.log(response);
                     repeaterItem.find('input[name^="inquiryPriceItemSection"][name$="[media]"]').val(response.priceMaster.media);
                     repeaterItem.find('input[name^="inquiryPriceItemSection"][name$="[gsm]"]').val(response.priceMaster.gsm);
                     repeaterItem.find('input[name^="inquiryPriceItemSection"][name$="[qty]"]').val(response.priceMaster.qty);
                     repeaterItem.find('input[name^="inquiryPriceItemSection"][name$="[cost]"]').val(response.priceMaster.max_cost);
+                    calculateTotalCost(); 
                 },
                 error: function (xhr) {
-                    // Handle error if the request fails
                     console.error(xhr);
                 }
             });
         }
     });
+
+     // Function to calculate the total cost
+     function calculateTotalCost() {
+            let totalCost = 0;
+
+            $('[data-repeater-item]').each(function () {
+                let itemCost = $(this).find('input[name^="inquiryPriceItemSection"][name$="[cost]"]').val();
+                let itemQty = $(this).find('input[name^="inquiryPriceItemSection"][name$="[qty]"]').val();
+                console.log(itemCost);
+                if (itemCost || itemQty) {
+                    if(itemQty) {
+                        totalCost += parseFloat(itemCost) * parseFloat(itemQty);
+                    } else{
+                        totalCost += parseFloat(itemCost);
+                    }
+                }
+            });
+
+            // Update the total cost field
+            $('#total_cost').val(totalCost.toFixed(2));  // Format to 2 decimal places
+        }
 </script>
 @endsection

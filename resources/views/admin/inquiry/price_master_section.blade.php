@@ -23,7 +23,7 @@
                     </div>
                     <div class="col-4">
                         <label class="form-label">Qty <span class="text-danger">*</span></label>
-                        {{ Form::text('qty', Request::old('qty'), array('class'=>"form-control")) }}
+                        {{ Form::number('qty', Request::old('qty'), array('class'=>"form-control")) }}
                         @if ($errors->has('qty'))
                             <span class="text-danger">{{ $errors->first('qty') }}</span>
                         @endif
@@ -32,14 +32,13 @@
                     <div class="col-4">
                         <div class="d-flex align-items-center">
                             <div style="flex:auto;">
-                                <label class="form-label">Cost <span class="text-danger">*</span></label>
+                                <label class="form-label">Cost (Per Qty) <span class="text-danger">*</span></label>
                                 {{ Form::text('cost', Request::old('cost'), array('class'=>"form-control")) }}
                                 @if ($errors->has('cost'))
                                     <span class="text-danger">{{ $errors->first('cost') }}</span>
                                 @endif
                             </div>
-                            
-
+                        
                             <button type="button" data-repeater-delete class="btn btn-sm btn-square h-6 w-6 border-gray-300 bg-danger-hover text-danger text-light-hover">
                                 <i class="icon-trash-alt text-xs"></i>
                             </button>
@@ -57,10 +56,10 @@
                         @endif
                     </div>
                     <div class="col-4">
-                        <label class="form-label">Cost <span class="text-danger">*</span></label>
-                        {{ Form::text('cost', Request::old('cost'), array('class'=>"form-control")) }}
-                        @if ($errors->has('cost'))
-                            <span class="text-danger">{{ $errors->first('cost') }}</span>
+                        <label class="form-label">Media  <span class="text-danger">*</span></label>
+                        {{ Form::text('media', Request::old('media'), array('class'=>"form-control")) }}
+                        @if ($errors->has('media'))
+                            <span class="text-danger">{{ $errors->first('media') }}</span>
                         @endif
                     </div>
                     <div class="col-4">

@@ -80,13 +80,13 @@ class InquiryController extends Controller implements HasMiddleware
             ->addColumn('action', function ($data) {
                 $actions = '';
                 if (Gate::allows('Inquiry List')) {
-                    $actions .= '<a href="javascript:;" data-url="' . url('admin/employees/' . $data->id) . '" class="btn btn-sm btn-square btn-neutral me-2 modal-popup-view" data-modal-title="Employee Details"><i class="fa fa-eye"></i></a>';
+                    $actions .= '<a href="javascript:;" data-url="' . url('admin/inquiry/' . $data->id) . '" class="btn btn-sm btn-square btn-neutral me-2 modal-popup-view" data-modal-title="Employee Details"><i class="fa fa-eye"></i></a>';
                 }
                 if (Gate::allows('Inquiry Edit')) {
-                    $actions .= '<a href="' . url('admin/employees/' . $data->id . '/edit') . '" class="btn btn-sm btn-square btn-neutral me-2"><i class="fa fa-pencil-square-o"></i></a>';
+                    $actions .= '<a href="' . url('admin/inquiry/' . $data->id . '/edit') . '" class="btn btn-sm btn-square btn-neutral me-2"><i class="fa fa-pencil-square-o"></i></a>';
                 }
                 if (Gate::allows('Inquiry Delete')) {
-                    $actions .= '<a href="javascript:;" data-url="' . url('admin/employees/' . $data->id) . '" class="btn btn-sm btn-square btn-neutral text-danger-hover modal-popup-delete" data-modal-delete-text="Are you sure you want to delete this user?"><i class="fa fa-trash-o"></i></a>';
+                    $actions .= '<a href="javascript:;" data-url="' . url('admin/inquiry/' . $data->id) . '" class="btn btn-sm btn-square btn-neutral text-danger-hover modal-popup-delete" data-modal-delete-text="Are you sure you want to delete this user?"><i class="fa fa-trash-o"></i></a>';
                 }
                 return $actions;
             })
@@ -101,13 +101,10 @@ class InquiryController extends Controller implements HasMiddleware
      */
     public function create()
     {
-
         $activeOrNot = StatusOption::asSelectArray();
-        $projectManager = [];
-        $teamLeader = [];
         $priceMasters = PriceMaster::pluck('item_type','id');
         $customers = Customer::get()->pluck('full_name', 'id');
-        return view('admin.inquiry.create_update', compact('activeOrNot', 'projectManager', 'teamLeader', 'customers', 'priceMasters'));
+        return view('admin.inquiry.create_update', compact('activeOrNot','customers', 'priceMasters'));
     }
 
     /**
@@ -142,11 +139,12 @@ class InquiryController extends Controller implements HasMiddleware
                         'qty' => $inquiryPriceItemSection['qty'],
                         'cost' => $inquiryPriceItemSection['cost'],
                         'total_hours' => $inquiryPriceItemSection['total_hours'],
-                        'cost_calculation' => $inquiryPriceItemSection['cost_calculation'],
                         'inquiry_id' => $inquiry->id
                     ]);
                 }
             }
+            $inquiry->cost_calculation = $request->cost_calculation;
+            $inquiry->update();
             Session::flash('success', 'Inquiry created successfully');
             return redirect()->route('inquiry.index');
         } else {
@@ -158,71 +156,53 @@ class InquiryController extends Controller implements HasMiddleware
     /**
      * Display the specified resource.
      *
-     * @param User $user
+     * @param Inquiry $inquiry
      *
      * @return Response
      */
-    public function show($id)
+    public function show(Inquiry $inquiry)
     {
-        $query = Inquiry::all();
+        $data  = [
+            'ID'                        =>  $inquiry->id,
+            'Customer Name'             =>  isset($inquiry->customer) && !empty($inquiry->customer) ? $inquiry->customer->full_name  : '',
+            'Type Of Job'               =>  $inquiry->type_of_job  ?? '',
+            'Delivery Date'             =>  !empty($inquiry->delivery_date) ? $inquiry->delivery_date : '',
+        ];
 
-        return Datatables::of($query)
-            ->addIndexColumn()
-            ->rawColumns(['action'])
-
-            ->make(true);
+        return $data;
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param User $user
+     * @param Inquiry $inquiry
      *
      * @return Response
      */
-    public function edit($id)
+    public function edit(Inquiry $inquiry)
     {
-        $user = Inquiry::find($id);
         $activeOrNot = StatusOption::asSelectArray();
-        $projectManager = [];
-        $teamLeader = [];
-        $parentUsers = Inquiry::pluck('first_name', 'id');
+        $priceMasters = PriceMaster::pluck('item_type','id');
         $customers = Customer::get()->pluck('full_name', 'id');
-        return view('admin.inquiry.create_update', compact('user', 'activeOrNot', 'projectManager', 'teamLeader', 'customers', 'parentUsers'));
+        return view('admin.inquiry.create_update', compact('inquiry', 'activeOrNot','customers', 'priceMasters'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param InquiryRequest $request
-     * @param User $user
+     * @param Inquiry $inquiry
      *
      * @return Response
      */
-    public function update(InquiryRequest $request, $id)
+    public function update(InquiryRequest $request, Inquiry $inquiry)
     {
-        $user = Inquiry::find($id);
         $data = $request->all();
-        $removeUserImage = false;
-        if ($request->file('profile')) {
-            $imageName = CommonUtil::uploadFileToFolder($request->file('profile'), 'users');
-            $data['profile'] = $imageName;
-            $removeUserImage = true;
-        }
-        if ($removeUserImage && !empty($user->profile)) {
-            CommonUtil::removeFile($user->profile);
-        }
 
-        $data['is_active'] = $request->is_active ? 1 : 0;
+        $data['status'] = 1;
 
-        if ($user->update($data)) {
-            if (isset($data['parent_user_ids']) && !empty($data['parent_user_ids'])) {
-                $user->parents()->sync($data['parent_user_ids']);
-            } else {
-                $user->parents()->sync([]);
-            }
-            DB::table('model_has_roles')->where('model_id', $user->id)->delete();
-            $user->assignRole($data['role']);
+        if ($inquiry->update($data)) {
+
             Session::flash('success', 'Employee has been updated successfully');
             return redirect()->route('inquiry.index');
         } else {
@@ -232,17 +212,16 @@ class InquiryController extends Controller implements HasMiddleware
     }
 
     /**
-     * Delete User
+     * Delete Inquiry
      *
-     * @param User $user
+     * @param Inquiry $inquiry
      *
      * @return Response
      */
-    public function destroy($id)
+    public function destroy(Inquiry $inquiry)
     {
-        $user = Inquiry::find($id);
 
-        $user->delete();
+        $inquiry->delete();
     }
 
     /**

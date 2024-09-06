@@ -22,7 +22,6 @@ return new class extends Migration
             $table->integer('qty')->nullable();
             $table->integer('cost')->nullable();
             $table->string('total_hours')->nullable();
-            $table->string('cost_calculation')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
