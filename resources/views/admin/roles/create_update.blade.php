@@ -115,14 +115,6 @@
                                                 <label for="roles-edit" class="form-check-label">Edit</label>
                                             </div>
 
-                                            <div class="form-check form-check-inline">
-                                                <input class="form-check-input cursor-pointer"
-                                                    {{ in_array(50, $rolePermissions) ? 'checked' : false }}
-                                                    name="permission[]" type="checkbox" value="Roles Delete"
-                                                    id="roles-delete">
-                                                <label for="roles-delete" class="form-check-label">Delete</label>
-                                            </div>
-
                                             <h5 class="text-capitalize py-3 border-top mt-2">User</h5>
                                             <div class="form-check form-check-inline">
                                                 <input class="form-check-input  cursor-pointer"
