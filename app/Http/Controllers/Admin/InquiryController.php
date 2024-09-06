@@ -133,16 +133,16 @@ class InquiryController extends Controller implements HasMiddleware
                 }
             }
 
-            if (!empty($data['faqSection'])) {
-                foreach($data['faqSection']  as $key => $faqSection) {
+            if (!empty($data['inquiryPriceItemSection'])) {
+                foreach($data['inquiryPriceItemSection']  as $key => $inquiryPriceItemSection) {
                     InquiryPriceItem::updateOrCreate([
-                        'price_master_id' => $faqSection['price_master_id'],
-                        'media' => $faqSection['media'],
-                        'gsm' => $faqSection['gsm'],
-                        'qty' => $faqSection['qty'],
-                        'cost' => $faqSection['cost'],
-                        'total_hours' => $faqSection['total_hours'],
-                        'cost_calculation' => $faqSection['cost_calculation'],
+                        'price_master_id' => $inquiryPriceItemSection['price_master_id'],
+                        'media' => $inquiryPriceItemSection['media'],
+                        'gsm' => $inquiryPriceItemSection['gsm'],
+                        'qty' => $inquiryPriceItemSection['qty'],
+                        'cost' => $inquiryPriceItemSection['cost'],
+                        'total_hours' => $inquiryPriceItemSection['total_hours'],
+                        'cost_calculation' => $inquiryPriceItemSection['cost_calculation'],
                         'inquiry_id' => $inquiry->id
                     ]);
                 }
