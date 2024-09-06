@@ -262,4 +262,19 @@ class InquiryController extends Controller implements HasMiddleware
             return response()->json(['status' => false, 'message' => __('Something went wrong')]);
         }
     }
+
+
+    /**
+     * Display the specified resource.
+     */
+    public function getPriceMasterDetails($id)
+    {
+        $priceMaster = PriceMaster::findOrfail($id);
+
+        if(!empty($priceMaster)) {
+            return response()->json(['status' => true, 'message' => __('Customer Details Retrieved Successfully'),'priceMaster' => $priceMaster]);
+        } else {
+            return response()->json(['status' => false, 'message' => __('Something went wrong')]);
+        }
+    }
 }

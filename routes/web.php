@@ -37,6 +37,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('inquiry-data', [InquiryController::class, 'getData'])->name('inquiry.data');
         Route::get('get-customer-details/{id}', [InquiryController::class, 'getCustomerDetails'])->name('get.customer');
         Route::post('store-customer-details', [InquiryController::class, 'storeCustomerDetails'])->name('store.customer');
+        Route::get('get-price-master-details/{id}', [InquiryController::class, 'getPriceMasterDetails'])->name('get.price.master.details');
 
 
         Route::resource('/customer', CustomerController::class);

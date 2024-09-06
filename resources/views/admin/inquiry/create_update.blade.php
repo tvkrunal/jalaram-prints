@@ -157,13 +157,13 @@
                                                 <span class="text-danger">{{ $errors->first('type_of_job') }}</span>
                                             @endif
                                         </div>
-                                        <label class="col-form-label col-lg-1">Cost Calculation</label>
+                                        <!-- <label class="col-form-label col-lg-1">Cost Calculation</label>
                                         <div class="col-lg-5">
                                             {{ Form::text('designing_details',Request::old('designing_details'),array('class'=>"form-control")) }}
                                             @if ($errors->has('designing_details'))
                                                 <span class="text-danger">{{ $errors->first('designing_details') }}</span>
                                             @endif
-                                        </div>
+                                        </div> -->
                                    </div>
 
                                    <div class="form-group row d-none designing-details-container">
@@ -344,52 +344,80 @@
             $('.print-error-msg').css('display', 'none');
             $('#modal_for_add_customer').modal('hide');
         });
-    });
-</script>
-<script>
-$(document).ready(function() {
-    $('#customer-form').on('submit', function(event) {
-        event.preventDefault();
-        var formData = $(this).serialize();
-        var formAction = $(this).attr('action');
-        $("#customer-btn").prop("disabled", true);
-        $.ajax({
-            url: formAction,
-            method: $(this).attr('method'),
-            data: formData,
-            success: function(response) {
-                $("#customer-form")[0].reset();
-                $("#customer-btn").prop("disabled", false);
-                $('#modal_for_add_customer').modal('hide');
-                window.location.reload();
+
+
+        $('#customer-form').on('submit', function(event) {
+            event.preventDefault();
+            var formData = $(this).serialize();
+            var formAction = $(this).attr('action');
+            $("#customer-btn").prop("disabled", true);
+            $.ajax({
+                url: formAction,
+                method: $(this).attr('method'),
+                data: formData,
+                success: function(response) {
+                    $("#customer-form")[0].reset();
+                    $("#customer-btn").prop("disabled", false);
+                    $('#modal_for_add_customer').modal('hide');
+                    window.location.reload();
+                },
+                error: function(data) {
+                    $("#customer-btn").prop("disabled", false);
+                    $.each(data.responseJSON.errors, function (key, value) {
+                        $(".print-msg-" + key + "").css("display", "block");
+                        $(".print-msg-" + key + "").html(value[0]);
+                    });
+                }
+            });
+        });
+
+        /* Price master repeater */
+        $(".price-master-repeater").repeater({
+            initEmpty: false,
+            show: function () {
+                var selfRepeaterItem = this;
+                $(selfRepeaterItem).slideDown();
+
+                // Initialize select2 on the newly added repeater item
+                $(selfRepeaterItem).find('.select2').select2();
+
+                var repeaterItems = $("div[data-repeater-item] > div.faq-items");
+                $(selfRepeaterItem).attr('data-index', repeaterItems.length - 1);
+                $(selfRepeaterItem).find('span.repeaterItemNumber').text(repeaterItems.length);
+                $(selfRepeaterItem).find('.price-master-delete').attr('data-id', null);
             },
-            error: function(data) {
-                $("#customer-btn").prop("disabled", false);
-                $.each(data.responseJSON.errors, function (key, value) {
-                    $(".print-msg-" + key + "").css("display", "block");
-                    $(".print-msg-" + key + "").html(value[0]);
-                });
-            }
+            hide: function (deleteElement) {
+                if (confirm("Are you sure you want to delete this element?")) {
+                    $(this).slideUp(deleteElement);
+                }
+            },
         });
     });
 
-    /* Price master repeater */
-    $(".price-master-repeater").repeater({
-        initEmpty: false,
-        show: function () {
-            var selfRepeaterItem = this;
-            $(selfRepeaterItem).slideDown();
-            var repeaterItems = $("div[data-repeater-item] > div.faq-items");
-            $(selfRepeaterItem).attr('data-index', repeaterItems.length - 1);
-            $(selfRepeaterItem).find('span.repeaterItemNumber').text(repeaterItems.length);
-            $(selfRepeaterItem).find('.price-master-delete').attr('data-id', null);
-        },
-        hide: function (deleteElement) {
-            if (confirm("Are you sure you want to delete this element?")) {
-            $(this).slideUp(deleteElement);
-            }
-        },
+    $(document).on('change', '.select2', function () {
+        var selectedItem = $(this).val(); // Get the selected value from the dropdown
+        
+        // Find the specific repeater item where the dropdown was changed
+        var repeaterItem = $(this).closest('[data-repeater-item]');
+        var itemTypeDetailsRoute = "{{ route('get.price.master.details','') }}";
+
+        if (selectedItem) {
+            $.ajax({
+                url: itemTypeDetailsRoute + '/' + selectedItem, // URL to fetch the item details
+                method: 'GET',
+                success: function (response) {
+                    console.log(response);
+                    repeaterItem.find('input[name^="faqSection"][name$="[media]"]').val(response.priceMaster.media);
+                    repeaterItem.find('input[name^="faqSection"][name$="[gsm]"]').val(response.priceMaster.gsm);
+                    repeaterItem.find('input[name^="faqSection"][name$="[qty]"]').val(response.priceMaster.qty);
+                    repeaterItem.find('input[name^="faqSection"][name$="[cost]"]').val(response.priceMaster.max_cost);
+                },
+                error: function (xhr) {
+                    // Handle error if the request fails
+                    console.error(xhr);
+                }
+            });
+        }
     });
-});
 </script>
 @endsection
