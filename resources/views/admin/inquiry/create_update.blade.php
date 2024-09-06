@@ -120,7 +120,7 @@
                                         </div>
                                             <label class="col-form-label col-lg-1">Process <span class="text-danger">*</span></label>
                                             <div class="col-lg-5">
-                                                {{ Form::select('processes[]', [ 'Print' => 'Print','Lamination' => 'Lamination', 'Half-Cut' => 'Half-Cut', 'Full-Cut' => 'Full-Cut','Binding' => 'Binding','Other Process' => 'Other Process'], old('processes', $processes), [
+                                                {{ Form::select('processes[]', [ 'Print' => 'Print','Lamination' => 'Lamination', 'Half-Cut' => 'Half-Cut', 'Full-Cut' => 'Full-Cut','Binding' => 'Binding','Other Process' => 'Other Process'], old('processes', $processes ?? ''), [
                                                     'class' => 'form-control select2',
                                                     'id' => 'processes',
                                                     'multiple' => 'multiple'
