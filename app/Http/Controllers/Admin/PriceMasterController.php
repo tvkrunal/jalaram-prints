@@ -27,6 +27,7 @@ class PriceMasterController extends Controller implements HasMiddleware
             new Middleware('permission:User Delete', only: ['destroy']),
         ];
     }
+
     /**
     * Display a listing of the resource.
     *
@@ -38,7 +39,7 @@ class PriceMasterController extends Controller implements HasMiddleware
     }
     
     /**
-    * Get all user for listing
+    * Get all PriceMaster for listing
     *
     * @param Request $request
     */
@@ -79,103 +80,103 @@ class PriceMasterController extends Controller implements HasMiddleware
                 ->make(true);
         }
     
-        /**
-         * Show the form for creating a new resource.
-         *
-         * @return Response
-         */
-        public function create()
-        {
-            return view('admin.price_master.create_update');
-        }
-    
-        /**
-         * Store a newly created resource in storage.
-         *
-         * @param PriceMasterRequest $request
-         *
-         * @return Response
-         */
-        public function store(PriceMasterRequest $request)
-        {
-            $data = $request->all();
-            $data['user_id'] = Auth::user()->id;
-         
-            if ($price = PriceMaster::create($data)) {
-                Session::flash('success', 'Price master created successfully');
-                return redirect()->route('price-master.index');
-            } else {
-                Session::flash('error', 'Unable to create Price');
-                return redirect()->back();
-            }
-
-        }
-    
-        /**
-         * Display the specified resource.
-         *
-         * @param PriceMaster $price
-         *
-         * @return Response
-         */
-        public function show(PriceMaster $priceMaster)
-        {
-            $data  = [
-                'ID'                        =>  $priceMaster->id,
-                'Item Type'                 =>  $priceMaster->item_type,
-                'Media'                     =>  $priceMaster->media,
-                'GSM'                       =>  $priceMaster->gsm,
-                'Qty'                       =>  $priceMaster->qty,
-                'Min Cost'                  =>  $priceMaster->min_cost,
-                'Max Cost'                  =>  $priceMaster->max_cost,
-            ];
-    
-            return $data;
-        }
-    
-        /**
-         * Show the form for editing the specified resource.
-         *
-         * @param PriceMaster $price
-         *
-         * @return Response
-         */
-        public function edit(PriceMaster $priceMaster)
-        {
-            return view('admin.price_master.create_update', compact('priceMaster'));
-        }
-    
-        /**
-         * Update the specified resource in storage.
-         *
-         * @param PriceMasterRequest $request
-         * @param PriceMaster $price
-         *
-         * @return Response
-         */
-        public function update(PriceMasterRequest $request,PriceMaster $priceMaster)
-        {
-            $data = $request->all();
-            
-            if ($priceMaster->update($data)) {
-                Session::flash('success', 'Price master updeted successfully');
-                return redirect()->route('price-master.index');
-            } else {
-                Session::flash('error', 'Unable to update price master');
-                return redirect()->back();
-            }
-
-        }
-    
-        /**
-         * Delete User
-         *
-         * @param PriceMaster $price
-         *
-         * @return Response
-         */
-        public function destroy(PriceMaster $priceMaster)
-        {
-            $priceMaster->delete();
-        }
+    /**
+    * Show the form for creating a new resource.
+    *
+    * @return Response
+    */
+    public function create()
+    {
+        return view('admin.price_master.create_update');
     }
+    
+    /**
+    * Store a newly created resource in storage.
+    *
+    * @param PriceMasterRequest $request
+    *
+    * @return Response
+    */
+    public function store(PriceMasterRequest $request)
+    {
+        $data = $request->all();
+        $data['user_id'] = Auth::user()->id;
+         
+        if ($price = PriceMaster::create($data)) {
+            Session::flash('success', 'Price master created successfully');
+            return redirect()->route('price-master.index');
+        } else {
+            Session::flash('error', 'Unable to create Price');
+            return redirect()->back();
+        }
+
+    }
+    
+    /**
+    * Display the specified resource.
+    *
+    * @param PriceMaster $price
+    *
+    * @return Response
+    */
+    public function show(PriceMaster $priceMaster)
+    {
+        $data  = [
+            'ID'                        =>  $priceMaster->id,
+            'Item Type'                 =>  $priceMaster->item_type,
+            'Media'                     =>  $priceMaster->media,
+            'GSM'                       =>  $priceMaster->gsm,
+            'Qty'                       =>  $priceMaster->qty,
+            'Min Cost'                  =>  $priceMaster->min_cost,
+            'Max Cost'                  =>  $priceMaster->max_cost,
+        ];
+    
+        return $data;
+    }
+    
+    /**
+    * Show the form for editing the specified resource.
+    *
+    * @param PriceMaster $price
+    *
+    * @return Response
+    */
+    public function edit(PriceMaster $priceMaster)
+    {
+        return view('admin.price_master.create_update', compact('priceMaster'));
+    }
+    
+    /**
+    * Update the specified resource in storage.
+    *
+    * @param PriceMasterRequest $request
+    * @param PriceMaster $price
+    *
+    * @return Response
+    */
+    public function update(PriceMasterRequest $request,PriceMaster $priceMaster)
+    {
+        $data = $request->all();
+            
+        if ($priceMaster->update($data)) {
+            Session::flash('success', 'Price master updeted successfully');
+            return redirect()->route('price-master.index');
+        } else {
+            Session::flash('error', 'Unable to update price master');
+            return redirect()->back();
+        }
+
+    }
+    
+    /**
+    * Delete Price Master
+    *
+    * @param PriceMaster $price
+    *
+    * @return Response
+    */
+    public function destroy(PriceMaster $priceMaster)
+    {
+        $priceMaster->delete();
+    }
+}
