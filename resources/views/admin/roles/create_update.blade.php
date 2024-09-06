@@ -161,9 +161,9 @@
                         </div>
                     </fieldset>
                 </div>
-                <div class="card-footer text-end">
-                    <a href="{{ url('/admin/roles') }}" class="btn btn-neutral">Cancel</a>
-                    {{ Form::submit('Submit', ['class' => 'btn btn-primary ms-2']) }}
+                <div class="card-footer text-right">
+                {{ Form::submit('Submit', ['class' => 'btn btn-primary ms-2']) }}
+                    <a href="{{ url('/admin/roles') }}" class="btn btn-neutral me-5">Cancel</a>
                 </div>
                 {{ Form::close() }}
             </div>
