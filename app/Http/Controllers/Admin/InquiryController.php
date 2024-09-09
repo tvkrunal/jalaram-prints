@@ -103,7 +103,7 @@ class InquiryController extends Controller implements HasMiddleware
                     $actions .= '<a href="javascript:;" data-url="' . url('admin/inquiry/' . $data->id) . '" class="btn btn-sm btn-square btn-neutral text-danger-hover modal-popup-delete" Title="Delete"><i class="fa fa-trash-o"></i></a>';
                 }
 
-                if (Gate::allows('Inquiry Update Stage') && $data->status == 1) {
+                if (Gate::allows('Inquiry Update Stage')) {
                     $actions .= '<a href="javascript:;" data-url="'. route('update.inquiry.stage') . '" data-id="'.$data->id.'"class="btn btn-sm btn-square btn-neutral text-danger-hover update-stage" Title="Update Stage"><i class="fa fa-arrow-right"></i></a>';
                 }
                 return $actions;
