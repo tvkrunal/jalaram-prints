@@ -63,8 +63,7 @@ class InquiryController extends Controller implements HasMiddleware
         $status = $request->input('status');
         $query = Inquiry::query();
 
-
-        if (Auth::user()->hasRole('Designer')) {
+        if (Auth::user()->hasRole('Designer') || Auth::user()->hasRole('Printing')) {
             $query->where('status', 2);
         }
         if ($request->has('status') && !empty($request->status)) {
