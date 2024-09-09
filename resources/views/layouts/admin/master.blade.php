@@ -27,6 +27,76 @@
     <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('images/favicon.svg') }}">
 
 @yield('stylesheets')
+<style>
+    .switch input
+    {
+        display: none;
+    }
+
+    .switch 
+    {
+        display: inline-block;
+        width: 32px;
+        height: 16px;
+        margin-top: 11px;
+        margin-left: 8px;
+        position: relative;
+    }
+
+    .slider
+    {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        border-radius: 30px;
+        box-shadow: 0 0 0 2px #777, 0 0 4px #777;
+        cursor: pointer;
+        border: 4px solid transparent;
+        overflow: hidden;
+        transition: 0.2s;
+    }
+
+    .slider:before
+    {
+        position: absolute;
+        content: "";
+        width: 100%;
+        height: 100%;
+        background-color: #777;
+        border-radius: 30px;
+        transform: translateX(-30px); /*translateX(-(w-h))*/
+        transition: 0.2s;
+    }
+
+    input:checked + .slider:before
+    {
+        transform: translateX(16px); /*translateX(w-h)*/
+    }
+
+    input:checked + .slider
+    {
+        box-shadow: 0 0 0 2px limeGreen, 0 0 8px limeGreen;
+    }
+
+    .switch200 .slider:before
+    {
+        width: 200%;
+        transform: translateX(-43px); /*translateX(-(w-h))*/
+    }
+
+    .switch200 input:checked + .slider:before
+    {
+        background-color: #BA2127;
+    }
+
+    .switch200 input:checked + .slider
+    {
+        box-shadow: 0 0 0 2px #BA2127, 0 0 8px #BA2127;
+    }
+
+</style>
 </head>
 <body>
 <div class="wrapper">
