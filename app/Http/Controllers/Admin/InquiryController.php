@@ -106,7 +106,7 @@ class InquiryController extends Controller implements HasMiddleware
                         return '<div class="badge rounded-pill bg-secondary text-white actions">Design Print</div>';
                     case 5:
                         return '<div class="badge rounded-pill bg-secondary text-white actions">Billing</div>';
-                    case 5:
+                    case 6:
                         return '<div class="badge rounded-pill bg-success text-white actions">Completed</div>';
                     default:
                         return '<div class="badge rounded-pill bg-secondary text-white actions">Unknown</div>';
