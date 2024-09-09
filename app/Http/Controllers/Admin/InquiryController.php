@@ -63,11 +63,21 @@ class InquiryController extends Controller implements HasMiddleware
         $status = $request->input('status');
         $query = Inquiry::query();
 
-        if (Auth::user()->hasRole('Designer') || Auth::user()->hasRole('Printing')) {
-            $query->where('status', 2);
+        if (Auth::user()->hasRole('Designer')) {
+            $query->where('status',2);
         }
+        
         if ($request->has('status') && !empty($request->status)) {
             $query->where('status', $request->status);
+        }
+
+
+        if (Auth::user()->hasRole('Printing')) {
+            $query->where('status',3);
+        }
+
+        if (Auth::user()->hasRole('Processor')) {
+            $query->where('status',4);
         }
         
         // Continue with the rest of your query logic or other processing here
@@ -84,11 +94,13 @@ class InquiryController extends Controller implements HasMiddleware
                     case 1:
                         return '<div class="badge rounded-pill bg-success text-white actions">Inquiry</div>';
                     case 2:
-                        return '<div class="badge rounded-pill bg-warning text-white actions">In Process</div>';
+                        return '<div class="badge rounded-pill bg-warning text-white actions">Design</div>';
                     case 3:
-                        return '<div class="badge rounded-pill bg-soft-info text-info">Completed</div>';
+                        return '<div class="badge rounded-pill bg-info text-white actions">Print</div>';
+                    case 4:
+                        return '<div class="badge rounded-pill bg-info text-white actions">Billing</div>';
                     default:
-                        return '<div class="badge rounded-pill bg-soft-secondary text-secondary">Unknown</div>';
+                        return '<div class="badge rounded-pill bg-secondary text-white actions">Unknown</div>';
                 }            
             })
             ->addColumn('action', function ($data) {
@@ -104,7 +116,7 @@ class InquiryController extends Controller implements HasMiddleware
                 }
 
                 if (Gate::allows('Inquiry Update Stage')) {
-                    $actions .= '<a href="javascript:;" data-url="'. route('update.inquiry.stage') . '" data-id="'.$data->id.'"class="btn btn-sm btn-square btn-neutral text-danger-hover update-stage" Title="Update Stage"><i class="fa fa-arrow-right"></i></a>';
+                    $actions .= '<a href="javascript:;" data-url="'. route('update.inquiry.stage') . '" data-id="'.$data->id.'" data-stage="'.$data->status.'"class="btn btn-sm btn-square btn-neutral text-danger-hover update-stage" Title="Update Stage"><i class="fa fa-arrow-right"></i></a>';
                 }
                 return $actions;
             })
@@ -334,10 +346,24 @@ class InquiryController extends Controller implements HasMiddleware
     public function updateInquiryStage(Request $request) {
         if(empty($request)){
             return response()->json(['status' => false, 'message' => __('Something went wrong')]);
-
         }
         $inquiry  =  Inquiry::findOrFail($request->id);
-        $inquiry->status = $request->status;
+        switch ($inquiry->status) {
+            case 1:
+                $inquiry->status = 2; //print
+                break;
+            case 2:
+                $inquiry->status = 3; //design
+                break;
+            case 3:
+                $inquiry->status =  4; //billing
+                break;
+            case 4:
+                $inquiry->status = 5; //complete
+                break;
+            default:
+                break;
+        }
         $inquiry->update();
         return response()->json(['status' => true, 'message' => __('Inquiry stage updated Successfully')]);
     }

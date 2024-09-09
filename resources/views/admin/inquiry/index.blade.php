@@ -93,6 +93,7 @@
             event.preventDefault();
             var id = $(this).data("id");
             let updateStrage = $(this).attr('data-url');
+			let currentStage = $(this).attr('data-stage');
             if(id) {
 				var token = $("meta[name='_token']").attr("content");
                 $.ajax({
@@ -101,7 +102,7 @@
 					data: {
 						"id": id,
 						"_token": token,
-						"status" : 2
+						"stage" : currentStage
 					},
                     success: function (data) {
                         if(data.status) {
