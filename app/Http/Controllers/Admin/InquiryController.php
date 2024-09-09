@@ -62,10 +62,7 @@ class InquiryController extends Controller implements HasMiddleware
         $search = $request->input('search');
         $status = $request->input('status');
         $query = Inquiry::query();
-        
-        if (Auth::user()->hasRole('Admin')) {
-            $query->where('status', 1);
-        }
+
 
         if (Auth::user()->hasRole('Designer')) {
             $query->where('status', 2);
@@ -107,8 +104,8 @@ class InquiryController extends Controller implements HasMiddleware
                     $actions .= '<a href="javascript:;" data-url="' . url('admin/inquiry/' . $data->id) . '" class="btn btn-sm btn-square btn-neutral text-danger-hover modal-popup-delete" Title="Delete"><i class="fa fa-trash-o"></i></a>';
                 }
 
-                if (Gate::allows('Inquiry Update Stage')) {
-                    $actions .= '<a href="'. route('update.inquiry.stage',$data->id) . '" class="btn btn-sm btn-square btn-neutral text-danger-hover" Title="Update Stage"><i class="fa fa-arrow-right"></i></a>';
+                if (Gate::allows('Inquiry Update Stage') && $data->status == 1) {
+                    $actions .= '<a href="javascript:;" data-url="'. route('update.inquiry.stage') . '" data-id="'.$data->id.'"class="btn btn-sm btn-square btn-neutral text-danger-hover update-stage" Title="Update Stage"><i class="fa fa-arrow-right"></i></a>';
                 }
                 return $actions;
             })
@@ -172,7 +169,6 @@ class InquiryController extends Controller implements HasMiddleware
             Session::flash('success', 'Inquiry created successfully');
             return redirect()->route('inquiry.index');
         } else {
-            dd("hello");
             Session::flash('error', 'Unable to add Inquiry');
             return redirect()->back();
         }
@@ -263,7 +259,6 @@ class InquiryController extends Controller implements HasMiddleware
             Session::flash('success', 'Inquiry updated successfully');
             return redirect()->route('inquiry.index');
         } else {
-            dd("sad");
             Session::flash('error', 'Unable to update inquiry');
             return redirect()->back();
         }
@@ -337,12 +332,15 @@ class InquiryController extends Controller implements HasMiddleware
     }
 
 
-    public function updateInquiryStage($id) {
-        $inquiry  =  Inquiry::findOrFail($id);
-        $inquiry->status = 2;
+    public function updateInquiryStage(Request $request) {
+        if(empty($request)){
+            return response()->json(['status' => false, 'message' => __('Something went wrong')]);
+
+        }
+        $inquiry  =  Inquiry::findOrFail($request->id);
+        $inquiry->status = $request->status;
         $inquiry->update();
-        Session::flash('success', 'Inquiry stage updated successfully');
-        return redirect()->route('inquiry.index');
+        return response()->json(['status' => true, 'message' => __('Inquiry stage updated Successfully')]);
     }
 
 

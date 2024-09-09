@@ -1,0 +1,40 @@
+<?php
+
+namespace App\Http\Requests;
+
+use Illuminate\Validation\Rule;
+use Illuminate\Foundation\Http\FormRequest;
+
+class RoleRequest extends FormRequest
+{
+    /**
+     * Determine if the user is authorized to make this request.
+     */
+    public function authorize(): bool
+    {
+        return true;
+    }
+
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     */
+    public function rules(): array
+    {
+        return [
+            'name' => ['required', Rule::unique('roles', 'name')->ignore($this->role)],
+            'permission' => 'required',
+        ];
+    }
+    public function messages()
+    {
+        return
+            [
+                'customer_id.required' => 'The customer field is required.',
+                'type_of_job.required' => ' The type of job  field  is required.',
+                'delivery_date.required' => 'The delivery date field is required',
+                'job_description.required' => 'The job description field is required.',
+            ];
+    }
+}

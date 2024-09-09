@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Gate;
 use App\Http\Controllers\Controller;
 use Spatie\Permission\Models\Role;
 use Illuminate\Http\Request;
+use App\Http\Requests\RoleRequest;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 use Session;
@@ -85,16 +86,11 @@ class RolesController extends Controller implements HasMiddleware
     /**
      * Store a newly created resource in storage.
      *
-     * @param Request $request
+     * @param RoleRequest $request
      * @return Response
      */
-    public function store(Request $request)
+    public function store(RoleRequest $request)
     {
-        $this->validate($request, [
-            'name' => 'required|unique:roles,name',
-            'permission' => 'required',
-        ]);
-
         $role = Role::create(['name' => $request->get('name'), 'guard_name' => 'web']);
         $role->syncPermissions([$request->get('permission')]);
 
@@ -123,17 +119,12 @@ class RolesController extends Controller implements HasMiddleware
     /**
      * Update the specified resource in storage.
      *
-     * @param Request $request
+     * @param RoleRequest $request
      * @param Role $role
      * @return Response
      */
-    public function update(Role $role, Request $request)
+    public function update(Role $role, RoleRequest $request)
     {
-        $this->validate($request, [
-            'name' => 'required',
-            'permission' => 'required',
-        ]);
-
         $role->update([$request->only('name'), 'guard_name' => 'web']);
 
         $role->syncPermissions($request->get('permission'));

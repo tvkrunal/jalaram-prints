@@ -22,6 +22,7 @@
 							</div>
 						</div>
                     </div>
+					@if(auth()->user()->hasRole('Admin'))
 					<div class="row">
 					    <div class="col-xl-3 col-lg-4 col-md-6 col-10 ml-auto mb-4">
 							<div class="d-flex align-items-center">
@@ -35,6 +36,7 @@
 							</div>
                         </div>
 					</div>
+					@endif
 
                     <table class="table table-responsive datatable-basic inquiry-table" id="data-table">
 						<thead>
@@ -82,6 +84,34 @@
         // Reload the table when the status filter is changed
         $('#status-select').change(function() {
             table.ajax.reload();
+        });
+
+		/**
+         *  Update inquiry stage
+         */
+        $('body').on('click', '.update-stage', function (event) {
+            event.preventDefault();
+            var id = $(this).data("id");
+            let updateStrage = $(this).attr('data-url');
+            if(id) {
+				var token = $("meta[name='_token']").attr("content");
+                $.ajax({
+                    type: 'POST',
+					url: updateStrage,
+					data: {
+						"id": id,
+						"_token": token,
+						"status" : 2
+					},
+                    success: function (data) {
+                        if(data.status) {
+							table.ajax.reload();
+                        }
+                    }
+                });
+            } else {
+             
+            }
         });
     });
 </script>
