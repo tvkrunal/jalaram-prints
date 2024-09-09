@@ -76,9 +76,9 @@ class UserController extends Controller implements HasMiddleware
             })
             ->editColumn('is_active', function ($data) {
                 if ($data->is_active == 1) {
-                    return '<div class="badge rounded-pill bg-soft-success text-primary">Active</div>';
+                    return '<div class="badge rounded-pill bg-success text-white actions">Active</div>';
                 } else {
-                    return '<div class="badge rounded-pill bg-soft-warning text-warning">Inactive</div>';
+                    return '<div class="badge rounded-pill bg-warning text-white actions">Inactive</div>';
                 }
             })
             ->editColumn('name', function ($data) {
@@ -97,7 +97,7 @@ class UserController extends Controller implements HasMiddleware
                 }
                 return $actions;
             })
-            ->rawColumns(['action', 'is_Active', 'user_role', 'is_active', 'profile'])
+            ->rawColumns(['action', 'user_role', 'is_active', 'profile'])
             ->make(true);
     }
 

@@ -39,6 +39,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('store-customer-details', [InquiryController::class, 'storeCustomerDetails'])->name('store.customer');
         Route::get('get-price-master-details/{id}', [InquiryController::class, 'getPriceMasterDetails'])->name('get.price.master.details');
         Route::get('update-inquiry-stage/{id}', [InquiryController::class, 'updateInquiryStage'])->name('update.inquiry.stage');
+        Route::get('inquiry-price-item-destroy/{id}', [InquiryController::class, 'destroyInquiryPriceItem'])->name('inquiry.priceitem.destroy');
 
 
         Route::resource('/customer', CustomerController::class);

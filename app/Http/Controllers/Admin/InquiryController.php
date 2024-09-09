@@ -73,9 +73,9 @@ class InquiryController extends Controller implements HasMiddleware
             })
             ->editColumn('stage', function ($data) {
                 if ($data->status == 1) {
-                    return '<div class="badge rounded-pill bg-soft-success text-primary">Inquiry</div>';
+                    return '<div class="badge rounded-pill bg-success text-white actions">Inquiry</div>';
                 } else {
-                    return '<div class="badge rounded-pill bg-soft-warning text-warning">Unknown</div>';
+                    return '<div class="badge rounded-pill bg-warning text-white actions">Unknown</div>';
                 }
             })
             ->addColumn('action', function ($data) {
@@ -256,7 +256,16 @@ class InquiryController extends Controller implements HasMiddleware
      */
     public function destroy(Inquiry $inquiry)
     {
+        
         $inquiry->delete();
+
+        if(!empty($inquiry->inquiryPriceItems)) {
+            $inquiry->inquiryPriceItems()->delete();
+        }
+
+        if (!empty($inquiry->processes)) {
+            $inquiry->processes()->delete();
+        }
     }
 
     /**
@@ -313,4 +322,17 @@ class InquiryController extends Controller implements HasMiddleware
         Session::flash('success', 'Inquiry stage updated successfully');
         return redirect()->route('inquiry.index');
     }
+
+
+    public function destroyInquiryPriceItem($id) {
+        $inquiryPriceItem = InquiryPriceItem::findOrfail($id);
+
+        if(!empty($inquiryPriceItem)) {
+            $inquiryPriceItem->delete();
+            return response()->json(['status' => true, 'message' => __('Inquiry price item deleted Successfully')]);
+        } else {
+            return response()->json(['status' => false, 'message' => __('Something went wrong')]);
+        }
+    }
+    
 }

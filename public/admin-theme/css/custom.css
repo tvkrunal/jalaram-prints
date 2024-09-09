@@ -649,3 +649,10 @@ legend {
 #modal_for_add_customer .form-control{
     color: #fff;
 }
+
+.rounded-pill {
+    border-radius: 50rem !important;
+}
+.actions {
+    font-size: .8125rem;
+}

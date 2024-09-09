@@ -58,6 +58,13 @@ class CustomerController extends Controller implements HasMiddleware
             ->editColumn('name', function ($data) {
                 return $data->full_name;
             })
+            ->editColumn('status', function ($data) {
+                if ($data->status == 1) {
+                    return '<div class="badge rounded-pill bg-success text-white actions">Active</div>';
+                } else {
+                    return '<div class="badge rounded-pill bg-warning text-white actions">Inactive</div>';
+                }
+            })
             ->addColumn('action', function ($data) {
                 $actions = '';
                 if (Gate::allows('Customer List')) {

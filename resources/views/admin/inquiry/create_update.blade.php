@@ -386,8 +386,33 @@
         });
 
         $(document).on('input', 'input[name^="inquiryPriceItemSection"][name$="[qty]"], input[name^="inquiryPriceItemSection"][name$="[cost]"]', function() {
-            console.log("qty");
             calculateTotalCost();
+        });
+
+        /**
+         *  Delete inquiry item 
+         */
+        $('body').on('click', '.inquiry-item-delete', function (event) {
+            event.preventDefault();
+            var id = $(this).data("id");
+            var inquiryItem = $(this).closest('[data-repeater-item]');
+            var destroy = "{{ route('inquiry.priceitem.destroy','') }}"
+            if(id) {
+                $.ajax({
+                    type: 'GET',
+                    url: destroy + '/' + id,
+                    success: function (data) {
+                        if(data.status) {
+                            inquiryItem.remove();
+                            calculateTotalCost();
+                        }
+                    }
+                });
+            } else {
+                if(confirm('Are you sure you want to delete this element?')) {
+                    inquiryItem.remove();
+                }
+            }
         });
     });
 
@@ -416,25 +441,25 @@
         }
     });
 
-     // Function to calculate the total cost
-     function calculateTotalCost() {
-            let totalCost = 0;
+    // Function to calculate the total cost
+    function calculateTotalCost() {
+        let totalCost = 0;
 
-            $('[data-repeater-item]').each(function () {
-                let itemCost = $(this).find('input[name^="inquiryPriceItemSection"][name$="[cost]"]').val();
-                let itemQty = $(this).find('input[name^="inquiryPriceItemSection"][name$="[qty]"]').val();
-                console.log(itemCost);
-                if (itemCost || itemQty) {
-                    if(itemQty) {
-                        totalCost += parseFloat(itemCost) * parseFloat(itemQty);
-                    } else{
-                        totalCost += parseFloat(itemCost);
-                    }
+        $('[data-repeater-item]').each(function () {
+            let itemCost = $(this).find('input[name^="inquiryPriceItemSection"][name$="[cost]"]').val();
+            let itemQty = $(this).find('input[name^="inquiryPriceItemSection"][name$="[qty]"]').val();
+            console.log(itemCost);
+            if (itemCost || itemQty) {
+                if(itemQty) {
+                    totalCost += parseFloat(itemCost) * parseFloat(itemQty);
+                } else{
+                    totalCost += parseFloat(itemCost);
                 }
-            });
+            }
+        });
 
-            // Update the total cost field
-            $('#total_cost').val(totalCost.toFixed(2));  // Format to 2 decimal places
-        }
+        // Update the total cost field
+        $('#total_cost').val(totalCost.toFixed(2));  // Format to 2 decimal places
+    }
 </script>
 @endsection

@@ -40,10 +40,15 @@
                                         <span class="text-danger">{{ $errors->first('cost') }}</span>
                                     @endif
                                 </div>
-                            
+                                @if (!empty($inquiryPriceItem->id))
+                                    <button type="button" value="Delete" data-id="{{ $inquiryPriceItem->id }}" class="btn btn-sm btn-square h-6 w-6 border-gray-300 bg-danger-hover text-danger text-light-hover inquiry-item-delete">
+                                        <i class="icon-trash-alt text-xs"></i>
+                                    </button>
+                                @else 
                                 <button type="button" data-repeater-delete class="btn btn-sm btn-square h-6 w-6 border-gray-300 bg-danger-hover text-danger text-light-hover">
                                     <i class="icon-trash-alt text-xs"></i>
                                 </button>
+                                @endif
                             </div>
                         </div>
                     </div>
