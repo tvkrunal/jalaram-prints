@@ -28,7 +28,7 @@ class CustomerRequest extends FormRequest
             'email' => 'required',
             'address' => 'required',
             'city' => 'required',
-            'pin_code' => 'required|integer|max:6',
+            'pin_code' => 'required|integer|min:6',
         ];
     }
     public function messages()
