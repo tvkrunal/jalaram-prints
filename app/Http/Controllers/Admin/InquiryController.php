@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Enums\StatusOption;
 use App\Enums\Status;
+use App\Enums\StageType;
 use App\Models\Role;
 use App\Models\Customer;
 use App\Models\Inquiry;
@@ -49,7 +50,8 @@ class InquiryController extends Controller implements HasMiddleware
      */
     public function index()
     {
-        return view('admin.inquiry.index');
+        $stages = StageType::asArray(); 
+        return view('admin.inquiry.index', compact('stages'));
     }
 
     /**
@@ -82,10 +84,13 @@ class InquiryController extends Controller implements HasMiddleware
         
         // Continue with the rest of your query logic or other processing here
         
-        $inquiries = $query->select('id', 'customer_id', 'type_of_job', 'delivery_date', 'status')->get();
-        
+        $inquiries = $query->select('id', 'customer_id', 'type_of_job', 'delivery_date', 'status','user_id')->get();
+
         return Datatables::of($inquiries)
             ->addIndexColumn()
+            ->addColumn('user_id', function ($data) {
+                return isset($data->user) ? $data->user->full_name : '-';
+            })
             ->editColumn('name', function ($data) {
                 return isset($data->customer) ? $data->customer->full_name : '-';
             })
@@ -98,10 +103,12 @@ class InquiryController extends Controller implements HasMiddleware
                     case 3:
                         return '<div class="badge rounded-pill bg-info text-white actions">Print</div>';
                     case 4:
+                        return '<div class="badge rounded-pill bg-secondary text-white actions">Design Print</div>';
+                    case 5:
                         return '<div class="badge rounded-pill bg-secondary text-white actions">Billing</div>';
                     default:
                         return '<div class="badge rounded-pill bg-secondary text-white actions">Unknown</div>';
-                }            
+                } 
             })
             ->addColumn('action', function ($data) {
                 $actions = '';
@@ -195,12 +202,15 @@ class InquiryController extends Controller implements HasMiddleware
     public function show(Inquiry $inquiry)
     {
         $data  = [
-            'ID'                        =>  $inquiry->id,
-            'Customer Name'             =>  isset($inquiry->customer) && !empty($inquiry->customer) ? $inquiry->customer->full_name  : '',
-            'Type Of Job'               =>  $inquiry->type_of_job  ?? '',
-            'Delivery Date'             =>  !empty($inquiry->delivery_date) ? $inquiry->delivery_date : '',
-            'Designing Detail'          =>  $inquiry->designing_details  ?? '',
-            'Cost Calculation'	        =>  $inquiry->cost_calculation	  ?? '',
+            'ID'                   => $inquiry->id ?? '',
+            'Customer Name'        => isset($inquiry->customer) && !empty($inquiry->customer) ? $inquiry->customer->full_name : '',
+            'Type Of Job'          => $inquiry->type_of_job ?? '',
+            'Delivery Date'        => !empty($inquiry->delivery_date) ? $inquiry->delivery_date : '',
+            'Designing Detail'     => $inquiry->designing_details ?? '',
+            'User Name'            => isset($inquiry->user) && !empty($inquiry->user) ? $inquiry->user->full_name : '',
+            'Job Description'      => $inquiry->job_description ?? '',
+            'Cost Calculation'     => $inquiry->cost_calculation ?? '',
+            'Status' => $inquiry->status == 1 ? 'inquiry' : ($inquiry->status == 2 ? 'process' : 'completed'),
 
         ];
 

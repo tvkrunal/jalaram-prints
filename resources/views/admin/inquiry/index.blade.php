@@ -21,23 +21,23 @@
 								<a class="list-icons-item" data-action="remove"></a>
 							</div>
 						</div>
-                    </div>
-					@if(auth()->user()->hasRole('Admin'))
-					<div class="row">
-					    <div class="col-xl-3 col-lg-4 col-md-6 col-10 ml-auto mb-4">
-							<div class="d-flex align-items-center">
-								<select class="form-control mr-4" style="" id="status-select">
-									<option value="" >Stages</option>
-									<option value="1">Inquiry</option>
-									<option value="2">In Process</option>
-									<option value="3">Completed</option>
-								</select>
-								<a href="{{ route('inquiry.create') }}" class="btn btn-success btn-labeled btn-labeled-left btn-sm legitRipple float-right"><b><i class="icon-plus3"></i></b> Add</a>
-							</div>
+                    </div> 
+				@if(auth()->user()->hasRole('Admin'))
+                    <div class="row">
+                        <div class="col-xl-3 col-lg-4 col-md-6 col-10 ml-auto mb-4">
+                            <div class="d-flex align-items-center">
+                                <select class="form-control mr-4" id="status-select">
+                                    <option value="">Stages</option>
+                                        @foreach($stages as $key => $stage)
+                                            <option value="{{ $key }}">{{ $stage }}</option>
+                                        @endforeach
+                                </select>
+                            <a href="{{ route('inquiry.create') }}" class="btn btn-success btn-labeled btn-labeled-left btn-sm legitRipple float-right"><b><i class="icon-plus3"></i></b> Add</a>
                         </div>
-					</div>
-					@endif
-
+                    </div>
+                </div>
+                @endif
+				
                     <table class="table table-responsive datatable-basic inquiry-table" id="data-table">
 						<thead>
 							<tr>
@@ -68,9 +68,10 @@
             ajax: {
                 url: '{!! route('inquiry.data') !!}',
                 data: function (d) {
-                    d.status = $('#status-select').val();
+                    d.status = $('#status-select').val();  // Send the selected status to the server
                 }
-            },
+                },
+
             columns: [
                 { data: 'id', name: 'id' },
                 { data: 'name', name: 'name' },
