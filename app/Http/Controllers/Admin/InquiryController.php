@@ -60,42 +60,51 @@ class InquiryController extends Controller implements HasMiddleware
     {
         $search = $request->input('search');
         $status = $request->input('status');
-        $query = Inquiry::query()->where('status',1);
+        $query = Inquiry::query();
         
-        $inquiry = $query->select('id', 'customer_id','type_of_job','delivery_date','status');
-
-        $inquiries = $inquiry->get();
-
+        if (Auth::user()->hasRole('Admin')) {
+            if ($request->has('status') && !empty($request->status)) {
+                $query->where('status', $request->status);
+            }
+        } else {
+            
+        }
+        
+        // Continue with the rest of your query logic or other processing here
+        
+        $inquiries = $query->select('id', 'customer_id', 'type_of_job', 'delivery_date', 'status')->get();
+        
         return Datatables::of($inquiries)
             ->addIndexColumn()
             ->editColumn('name', function ($data) {
                 return isset($data->customer) ? $data->customer->full_name : '-';
             })
             ->editColumn('stage', function ($data) {
-                if ($data->status == 1) {
-                    return '<div class="badge rounded-pill bg-success text-white actions">Inquiry</div>';
-                } else {
-                    return '<div class="badge rounded-pill bg-warning text-white actions">Unknown</div>';
-                }
+                switch ($data->status) {
+                    case 1:
+                        return '<div class="badge rounded-pill bg-success text-white actions">Inquiry</div>';
+                    case 2:
+                        return '<div class="badge rounded-pill bg-warning text-white actions">In Process</div>';
+                    case 3:
+                        return '<div class="badge rounded-pill bg-soft-info text-info">Completed</div>';
+                    default:
+                        return '<div class="badge rounded-pill bg-soft-secondary text-secondary">Unknown</div>';
+                }            
             })
             ->addColumn('action', function ($data) {
                 $actions = '';
                 if (Gate::allows('Inquiry List')) {
-                    $actions .= '<a href="javascript:;" data-url="' . url('admin/inquiry/' . $data->id) . '" class="btn btn-sm btn-square btn-neutral me-2 modal-popup-view" Title="View" data-modal-title="Employee Details"><i class="fa fa-eye"></i></a>';
+                    $actions .= '<a href="javascript:;" data-url="' . url('admin/inquiry/' . $data->id) . '" class="btn btn-sm btn-square btn-neutral me-2 modal-popup-view" data-modal-title="Inquiry Details"><i class="fa fa-eye"></i></a>';
                 }
                 if (Gate::allows('Inquiry Edit')) {
-                    $actions .= '<a href="' . url('admin/inquiry/' . $data->id . '/edit') . '" class="btn btn-sm btn-square btn-neutral me-2"  Title="Edit"><i class="fa fa-pencil-square-o"></i></a>';
+                    $actions .= '<a href="' . url('admin/inquiry/' . $data->id . '/edit') . '" class="btn btn-sm btn-square btn-neutral me-2"><i class="fa fa-pencil-square-o"></i></a>';
                 }
                 if (Gate::allows('Inquiry Delete')) {
-                    $actions .= '<a href="javascript:;" data-url="' . url('admin/inquiry/' . $data->id) . '" class="btn btn-sm btn-square btn-neutral text-danger-hover modal-popup-delete"  Title="Delete" data-modal-delete-text="Are you sure you want to delete this user?"><i class="fa fa-trash-o"></i></a>';
-                }
-
-                if (Gate::allows('Inquiry Update Stage')) {
-                    $actions .= '<a href="'. route('update.inquiry.stage',$data->id) . '" class="btn btn-sm btn-square btn-neutral text-danger-hover" Title="Update Stage"><i class="fa fa-arrow-right"></i></a>';
+                    $actions .= '<a href="javascript:;" data-url="' . url('admin/inquiry/' . $data->id) . '" class="btn btn-sm btn-square btn-neutral text-danger-hover modal-popup-delete" data-modal-delete-text="Are you sure you want to delete this inquiry?"><i class="fa fa-trash-o"></i></a>';
                 }
                 return $actions;
             })
-            ->rawColumns(['action','stage'])
+            ->rawColumns(['action', 'stage'])
             ->make(true);
     }
 
@@ -174,6 +183,9 @@ class InquiryController extends Controller implements HasMiddleware
             'Customer Name'             =>  isset($inquiry->customer) && !empty($inquiry->customer) ? $inquiry->customer->full_name  : '',
             'Type Of Job'               =>  $inquiry->type_of_job  ?? '',
             'Delivery Date'             =>  !empty($inquiry->delivery_date) ? $inquiry->delivery_date : '',
+            'Designing Detail'          =>  $inquiry->designing_details  ?? '',
+            'Cost Calculation'	        =>  $inquiry->cost_calculation	  ?? '',
+
         ];
 
         return $data;

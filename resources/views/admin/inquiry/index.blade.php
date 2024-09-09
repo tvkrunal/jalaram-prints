@@ -22,9 +22,18 @@
 							</div>
 						</div>
                     </div>
-                    <div class="card-body">
+					<div class="row">
+					    <div class="col-md-3 col-xl-6 col-12 hstack">
+                        <select class="form-control mb-2" id="status-select">
+                            <option value="" >Stages</option>
+                            <option value="1">Inquiry</option>
+                            <option value="2">In Process</option>
+                            <option value="3">Completed</option>
+                        </select>
+                        </div>
 						<a href="{{ route('inquiry.create') }}" class="btn btn-success btn-labeled btn-labeled-left btn-sm legitRipple float-right"><b><i class="icon-plus3"></i></b> Add</a>
-                    </div>
+					</div>
+
                     <table class="table table-responsive datatable-basic inquiry-table" id="data-table">
 						<thead>
 							<tr>
@@ -45,23 +54,33 @@
 	</div>
 @endsection
 @section('scripts')
-    <script>
-        $(function() {
-            window.dataGridTable =$('#data-table').DataTable({
-                processing: true,
-                serverSide: true,
-                responsive: true,
-				"order": [[ 1, "asc" ]],
-                ajax: '{!! route('inquiry.data') !!}',
-                columns: [
-                    { data: 'id', name: 'id' },
-                    { data: 'name', name: 'name' },
-                    { data: 'type_of_job', name: 'type_of_job' },
-                    { data: 'delivery_date', name: 'delivery_date' },
-                    { data: 'stage', name: 'stage' },
-                    { data: 'action', name: 'action', orderable: false, searchable: false }
-                ]
-			});
+<script>
+    $(function() {
+        var table = $('#data-table').DataTable({
+            processing: true,
+            serverSide: true,
+            responsive: true,
+            "order": [[ 1, "asc" ]],
+            ajax: {
+                url: '{!! route('inquiry.data') !!}',
+                data: function (d) {
+                    d.status = $('#status-select').val();
+                }
+            },
+            columns: [
+                { data: 'id', name: 'id' },
+                { data: 'name', name: 'name' },
+                { data: 'type_of_job', name: 'type_of_job' },
+                { data: 'delivery_date', name: 'delivery_date' },
+                { data: 'stage', name: 'stage' },
+                { data: 'action', name: 'action', orderable: false, searchable: false }
+            ]
         });
-    </script>
+
+        // Reload the table when the status filter is changed
+        $('#status-select').change(function() {
+            table.ajax.reload();
+        });
+    });
+</script>
 @endsection
