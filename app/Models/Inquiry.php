@@ -21,9 +21,13 @@ class Inquiry extends Model
         return $this->belongsTo(Customer::class, 'customer_id');
     }
 
-
     public function processes()
     {
         return $this->hasMany(InquiryProcess::class,'inquiry_id');
+    }
+
+    public function inquiryPriceItems()
+    {
+        return $this->hasMany(InquiryPriceItem::class, 'inquiry_id');
     }
 }

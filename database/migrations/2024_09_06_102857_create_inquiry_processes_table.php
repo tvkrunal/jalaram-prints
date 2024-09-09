@@ -17,7 +17,6 @@ return new class extends Migration
 	        $table->foreign('inquiry_id')->references('id')->on('inquiries')->onDelete('cascade');
             $table->string('title')->nullable();
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 

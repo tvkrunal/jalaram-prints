@@ -37,6 +37,7 @@ class InquiryController extends Controller implements HasMiddleware
             new Middleware('permission:Inquiry Create', only: ['create', 'store']),
             new Middleware('permission:Inquiry Edit', only: ['edit', 'update']),
             new Middleware('permission:Inquiry Delete', only: ['destroy']),
+            new Middleware('permission:Inquiry Update Stage', only: ['updateInquiryStage']),
         ];
     }
 
@@ -80,13 +81,17 @@ class InquiryController extends Controller implements HasMiddleware
             ->addColumn('action', function ($data) {
                 $actions = '';
                 if (Gate::allows('Inquiry List')) {
-                    $actions .= '<a href="javascript:;" data-url="' . url('admin/inquiry/' . $data->id) . '" class="btn btn-sm btn-square btn-neutral me-2 modal-popup-view" data-modal-title="Employee Details"><i class="fa fa-eye"></i></a>';
+                    $actions .= '<a href="javascript:;" data-url="' . url('admin/inquiry/' . $data->id) . '" class="btn btn-sm btn-square btn-neutral me-2 modal-popup-view" Title="View" data-modal-title="Employee Details"><i class="fa fa-eye"></i></a>';
                 }
                 if (Gate::allows('Inquiry Edit')) {
-                    $actions .= '<a href="' . url('admin/inquiry/' . $data->id . '/edit') . '" class="btn btn-sm btn-square btn-neutral me-2"><i class="fa fa-pencil-square-o"></i></a>';
+                    $actions .= '<a href="' . url('admin/inquiry/' . $data->id . '/edit') . '" class="btn btn-sm btn-square btn-neutral me-2"  Title="Edit"><i class="fa fa-pencil-square-o"></i></a>';
                 }
                 if (Gate::allows('Inquiry Delete')) {
-                    $actions .= '<a href="javascript:;" data-url="' . url('admin/inquiry/' . $data->id) . '" class="btn btn-sm btn-square btn-neutral text-danger-hover modal-popup-delete" data-modal-delete-text="Are you sure you want to delete this user?"><i class="fa fa-trash-o"></i></a>';
+                    $actions .= '<a href="javascript:;" data-url="' . url('admin/inquiry/' . $data->id) . '" class="btn btn-sm btn-square btn-neutral text-danger-hover modal-popup-delete"  Title="Delete" data-modal-delete-text="Are you sure you want to delete this user?"><i class="fa fa-trash-o"></i></a>';
+                }
+
+                if (Gate::allows('Inquiry Update Stage')) {
+                    $actions .= '<a href="'. route('update.inquiry.stage',$data->id) . '" class="btn btn-sm btn-square btn-neutral text-danger-hover" Title="Update Stage"><i class="fa fa-arrow-right"></i></a>';
                 }
                 return $actions;
             })
@@ -132,15 +137,17 @@ class InquiryController extends Controller implements HasMiddleware
 
             if (!empty($data['inquiryPriceItemSection'])) {
                 foreach($data['inquiryPriceItemSection']  as $key => $inquiryPriceItemSection) {
-                    InquiryPriceItem::updateOrCreate([
-                        'price_master_id' => $inquiryPriceItemSection['price_master_id'],
-                        'media' => $inquiryPriceItemSection['media'],
-                        'gsm' => $inquiryPriceItemSection['gsm'],
-                        'qty' => $inquiryPriceItemSection['qty'],
-                        'cost' => $inquiryPriceItemSection['cost'],
-                        'total_hours' => $inquiryPriceItemSection['total_hours'],
-                        'inquiry_id' => $inquiry->id
-                    ]);
+                    if(!empty($inquiryPriceItemSection['price_master_id'])) {
+                        InquiryPriceItem::updateOrCreate([
+                            'price_master_id' => $inquiryPriceItemSection['price_master_id'],
+                            'media' => $inquiryPriceItemSection['media'],
+                            'gsm' => $inquiryPriceItemSection['gsm'],
+                            'qty' => $inquiryPriceItemSection['qty'],
+                            'cost' => $inquiryPriceItemSection['cost'],
+                            'total_hours' => $inquiryPriceItemSection['total_hours'],
+                            'inquiry_id' => $inquiry->id
+                        ]);
+                    }
                 }
             }
             $inquiry->cost_calculation = $request->cost_calculation;
@@ -196,14 +203,17 @@ class InquiryController extends Controller implements HasMiddleware
      *
      * @return Response
      */
-    public function update(InquiryRequest $request, Inquiry $inquiry)
+    public function update(Request $request, Inquiry $inquiry)
     {
         $data = $request->all();
 
         $data['status'] = 1;
+        $data['user_id'] = Auth::user()->id;
+        
 
         if ($inquiry->update($data)) {
             if (!empty($data['processes'])) {
+                InquiryProcess::where('inquiry_id',$inquiry->id)->delete();
                 foreach($data['processes']  as $key => $value) {
                     InquiryProcess::updateOrCreate([
                         'title' => $value,
@@ -214,23 +224,25 @@ class InquiryController extends Controller implements HasMiddleware
 
             if (!empty($data['inquiryPriceItemSection'])) {
                 foreach($data['inquiryPriceItemSection']  as $key => $inquiryPriceItemSection) {
-                    InquiryPriceItem::updateOrCreate([
-                        'price_master_id' => $inquiryPriceItemSection['price_master_id'],
-                        'media' => $inquiryPriceItemSection['media'],
-                        'gsm' => $inquiryPriceItemSection['gsm'],
-                        'qty' => $inquiryPriceItemSection['qty'],
-                        'cost' => $inquiryPriceItemSection['cost'],
-                        'total_hours' => $inquiryPriceItemSection['total_hours'],
-                        'inquiry_id' => $inquiry->id
-                    ]);
+                    if(!empty($inquiryPriceItemSection['price_master_id'])) {
+                        InquiryPriceItem::updateOrCreate([
+                            'price_master_id' => $inquiryPriceItemSection['price_master_id'],
+                            'media' => $inquiryPriceItemSection['media'],
+                            'gsm' => $inquiryPriceItemSection['gsm'],
+                            'qty' => $inquiryPriceItemSection['qty'],
+                            'cost' => $inquiryPriceItemSection['cost'],
+                            'total_hours' => $inquiryPriceItemSection['total_hours'],
+                            'inquiry_id' => $inquiry->id
+                        ]);
+                    }
                 }
             }
-            $inquiry->cost_calculation = $request->cost_calculation;
+            $inquiry->cost_calculation = $request->cost_calculation ?? Null;
             $inquiry->update();
-            Session::flash('success', 'Employee has been updated successfully');
+            Session::flash('success', 'Inquiry updated successfully');
             return redirect()->route('inquiry.index');
         } else {
-            Session::flash('error', 'Unable to update employee');
+            Session::flash('error', 'Unable to update inquiry');
             return redirect()->back();
         }
     }
@@ -291,5 +303,14 @@ class InquiryController extends Controller implements HasMiddleware
         } else {
             return response()->json(['status' => false, 'message' => __('Something went wrong')]);
         }
+    }
+
+
+    public function updateInquiryStage($id) {
+        $inquiry  =  Inquiry::findOrFail($id);
+        $inquiry->status = 2;
+        $inquiry->update();
+        Session::flash('success', 'Inquiry stage updated successfully');
+        return redirect()->route('inquiry.index');
     }
 }

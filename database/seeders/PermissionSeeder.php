@@ -68,6 +68,10 @@ class PermissionSeeder extends Seeder
                 'guard_name' => 'web',
                 'model_name' => 'roles',
             ],[
+                'name' => 'Inquiry Update Stage',
+                'guard_name' => 'web',
+                'model_name' => 'roles',
+            ],[
                 'name' => 'Customer List',
                 'guard_name' => 'web',
                 'model_name' => 'roles',

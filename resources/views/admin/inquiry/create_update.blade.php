@@ -34,7 +34,7 @@
                                         <label class="col-form-label col-lg-1">Customer <span class="text-danger">*</span></label>
                                         <div class="col-lg-5">
                                             <div class="d-flex align-items-center">
-                                                {{ Form::select('customer_id', $customers, [], array('class'=>"form-control select2", 'id' => "customer_id",'placeholder' => 'Select Customer'))}}
+                                                {{ Form::select('customer_id', $customers, Request::old('customer_id'), array('class'=>"form-control select2", 'id' => "customer_id",'placeholder' => 'Select Customer'))}}
                                                 @if ($errors->has('customer_id'))
                                                     <span class="text-danger">{{ $errors->first('customer_id') }}</span>
                                                 @endif
@@ -98,7 +98,6 @@
                                         </div>
                                     </div>
 
-
                                     <div class="form-group row customer-details d-none">
                                         <label class="col-form-label col-lg-1">Pin Code <span class="text-danger">*</span></label>
                                         <div class="col-lg-5">
@@ -108,7 +107,6 @@
                                             @endif
                                         </div>
                                    </div>
-
 
                                    <div class="form-group row">
                                         <label class="col-form-label col-lg-1">Job Description <span class="text-danger">*</span></label>
@@ -170,7 +168,7 @@
                                 <div class="row d-none designing-details-print-container">
                                     <div class="col-4 mt-3 offset-8 mb-3">
                                         <label class="form-label">Cost Calculation</label>
-                                        {{ Form::text('cost_calculation', Request::old('cost_calculation'), array('class'=>"form-control", 'id' => 'total_cost')) }}
+                                        {{ Form::text('cost_calculation', isset($inquiry) ? $inquiry->cost_calculation :Request::old('cost_calculation'), array('class'=>"form-control", 'id' => 'total_cost')) }}
                                         @if ($errors->has('cost_calculation'))
                                             <span class="text-danger">{{ $errors->first('cost_calculation') }}</span>
                                         @endif
