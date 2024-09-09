@@ -28,7 +28,7 @@ class CustomerRequest extends FormRequest
             'email' => 'required',
             'address' => 'required',
             'city' => 'required',
-            'pin_code' => 'required|integer',
+            'pin_code' => 'required|integer|max:6',
         ];
     }
     public function messages()
@@ -41,7 +41,7 @@ class CustomerRequest extends FormRequest
                 'email.email' => 'Please enter a valid email address.',
                 'address.required'=>'The address field is required',
                 'city.required'=>'The city field is required',
-                'pin_code.required|max:6' => 'The pin code is required',
+                'pin_code.required' => 'The pin code is required',
             ];
     }
 }
