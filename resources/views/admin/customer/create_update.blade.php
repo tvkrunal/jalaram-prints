@@ -94,6 +94,21 @@
                                         </div>
                                    </div>
                                     
+                                   <div class="form-group row">
+                                        <label class="col-form-label col-lg-1">Status <span class="text-danger">*</span></label>
+                                        <div class="col-lg-5">
+                                            <div class="form-check form-switch">
+                                                @if (isset($customer) && $customer->status == \App\Enums\StatusOption::ACTIVE)
+                                                    <input class="form-check-input" type="checkbox" id="customer-status" value="1"
+                                                        name="status" checked>
+                                                @else
+                                                    <input class="form-check-input" type="checkbox" id="customer-status" value="1"
+                                                        name="status">
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </div>
+
                                 </fieldset>
 
                                 <div class="text-right">

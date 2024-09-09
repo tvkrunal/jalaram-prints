@@ -10,6 +10,8 @@ use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Gate;
+use App\Enums\StatusOption;
+use App\Enums\Status;
 use Illuminate\Support\Facades\Auth;
 use Session;
 
@@ -44,6 +46,7 @@ class CustomerController extends Controller implements HasMiddleware
     public function getData(Request $request)
     {
         $search = $request->input('search');
+        $status = $request->input('status');
         $query = Customer::query();
         
         $customers = $query->select('id', 'first_name', 'last_name', 'email','contact_no','address','city','pin_code','status','user_id');
@@ -87,7 +90,8 @@ class CustomerController extends Controller implements HasMiddleware
      */
     public function create()
     {
-        return view('admin.customer.create_update');
+        $activeOrNot = StatusOption::asSelectArray();
+        return view('admin.customer.create_update',compact('activeOrNot'));
     }
 
     /**
@@ -97,6 +101,7 @@ class CustomerController extends Controller implements HasMiddleware
     {
         $data = $request->all();
         $data['user_id'] = Auth::user()->id;
+        $data['status'] = $request->status ? 1 : 0;
          
         if ($customer = Customer::create($data)) {
             Session::flash('success', 'Customer created successfully');
@@ -118,6 +123,7 @@ class CustomerController extends Controller implements HasMiddleware
             'Last Name'                 =>  $customer->last_name,
             'Email'                     =>  $customer->email,
             'Contact No'                =>  $customer->contact_no,
+            'Status'                    =>  $customer->status == 1 ? 'Active' : 'Inactive',
             'Address'                   =>  $customer->address,
             'City'                      =>  $customer->city,
             'Pin Code'                  =>  $customer->pin_code,
@@ -131,7 +137,8 @@ class CustomerController extends Controller implements HasMiddleware
      */
     public function edit(Customer $customer)
     {
-        return view('admin.customer.create_update',compact('customer'));
+        $activeOrNot = StatusOption::asSelectArray();
+        return view('admin.customer.create_update', compact('activeOrNot',));
     }
 
     /**
@@ -140,6 +147,7 @@ class CustomerController extends Controller implements HasMiddleware
     public function update(CustomerRequest $request, Customer $customer)
     {
         $data = $request->all();
+        $data['status'] = $request->status ? 1 : 0;
      
         if ($customer->update($data)) {
             Session::flash('success', 'Customer updeted successfully');
