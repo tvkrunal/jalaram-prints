@@ -138,7 +138,7 @@ class CustomerController extends Controller implements HasMiddleware
     public function edit(Customer $customer)
     {
         $activeOrNot = StatusOption::asSelectArray();
-        return view('admin.customer.create_update', compact('activeOrNot',));
+        return view('admin.customer.create_update', compact('activeOrNot','customer'));
     }
 
     /**
