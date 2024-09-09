@@ -69,9 +69,6 @@
                                         <label class="col-form-label col-lg-1">Contact No <span class="text-danger">*</span></label>
                                         <div class="col-lg-5">
                                             {{ Form::number('contact_no',isset($inquiry) && !empty($inquiry->customer) && !empty($inquiry->customer->contact_no) ? $inquiry->customer->contact_no : '',array('class'=>"form-control",'id' => 'contact_no','disabled' => 'true')) }}
-                                            @if ($errors->has('contact_no'))
-                                                <span class="text-danger">{{ $errors->first('contact_no') }}</span>
-                                            @endif
                                         </div>
                                     </div>
 
@@ -79,16 +76,10 @@
                                         <label class="col-form-label col-lg-1">Address <span class="text-danger">*</span></label>
                                         <div class="col-lg-5">
                                             {{ Form::text('address',isset($inquiry) && !empty($inquiry->customer) && !empty($inquiry->customer->address) ? $inquiry->customer->address : '',array('class'=>"form-control",'id' => 'address','disabled' => 'true')) }}
-                                            @if ($errors->has('address'))
-                                                <span class="text-danger">{{ $errors->first('address') }}</span>
-                                            @endif
                                         </div>
                                         <label class="col-form-label col-lg-1">City <span class="text-danger">*</span></label>
                                         <div class="col-lg-5">
                                             {{ Form::text('city',isset($inquiry) && !empty($inquiry->customer) && !empty($inquiry->customer->city) ? $inquiry->customer->city : '',array('class'=>"form-control",'id' => 'city','disabled' => 'true')) }}
-                                            @if ($errors->has('city'))
-                                                <span class="text-danger">{{ $errors->first('city') }}</span>
-                                            @endif
                                         </div>
                                     </div>
 
@@ -96,9 +87,6 @@
                                         <label class="col-form-label col-lg-1">Pin Code <span class="text-danger">*</span></label>
                                         <div class="col-lg-5">
                                             {{ Form::text('pin_code',Request::old('pin_code'),array('class'=>"form-control",'id' => 'pin_code','disabled' => 'true')) }}
-                                            @if ($errors->has('pin_code'))
-                                                <span class="text-danger">{{ $errors->first('pin_code') }}</span>
-                                            @endif
                                         </div>
                                    </div>
 
@@ -117,9 +105,6 @@
                                                     'id' => 'processes',
                                                     'multiple' => 'multiple'
                                                 ]) }}
-                                            @if ($errors->has('processes'))
-                                                <span class="text-danger">{{ $errors->first('processes') }}</span>
-                                            @endif
                                         </div>
                                    </div>
 
@@ -148,9 +133,6 @@
                                         <label class="col-form-label col-lg-1">Designing Details</label>
                                         <div class="col-lg-5">
                                             {{ Form::text('designing_details',Request::old('designing_details'),array('class'=>"form-control")) }}
-                                            @if ($errors->has('designing_details'))
-                                                <span class="text-danger">{{ $errors->first('designing_details') }}</span>
-                                            @endif
                                         </div>
                                    </div>
 

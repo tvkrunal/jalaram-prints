@@ -30,13 +30,6 @@ class UserSeeder extends Seeder
         $role->syncPermissions($permissions);
         $user->assignRole([$role->id]);
 
-        $role = Role::where('name', 'Designer')->first();
-        $permissions =  [
-            "Dashboard List",
-        ];
-        $role->syncPermissions($permissions);
-        $user->assignRole([$role->id]);
-
         $user = User::updateOrCreate(
             ['email' => 'designer@dev.com'],
             [
@@ -45,12 +38,15 @@ class UserSeeder extends Seeder
                 'password' => Hash::make('secret')
             ]
         );
-
-        $role = Role::where('name', 'Printing')->first();
-        $permissions = [
+        $role = Role::where('name', 'Designer')->first();
+        $permissions =  [
             "Dashboard List",
+            "Admin List",
+            "Inquiry List",
         ];
         $role->syncPermissions($permissions);
+        $user->assignRole([$role->id]);
+
         $user = User::updateOrCreate(
             ['email' => 'printing@dev.com'],
             [
@@ -59,12 +55,15 @@ class UserSeeder extends Seeder
                 'password' => Hash::make('secret')
             ]
         );
-        $user->assignRole([$role->id]);
-
-        $role = Role::where('name', 'Processor')->first();
+        $role = Role::where('name', 'Printing')->first();
         $permissions = [
             "Dashboard List",
+            "Admin List",
+            "Inquiry List",
         ];
+        $role->syncPermissions($permissions);
+        $user->assignRole([$role->id]);
+
         $user = User::updateOrCreate(
             ['email' => 'processor@dev.com'],
             [
@@ -73,9 +72,16 @@ class UserSeeder extends Seeder
                 'password' => Hash::make('secret')
             ]
         );
+       
+        $role = Role::where('name', 'Processor')->first();
+        $permissions = [
+            "Dashboard List",
+            "Admin List",
+            "Inquiry List",
+        ];
         $role->syncPermissions($permissions);
+        $user->assignRole([$role->id]);
 
-        $role = Role::where('name', 'Accountant')->first();
         $user = User::updateOrCreate(
             ['email' => 'accountant@dev.com'],
             [
@@ -84,6 +90,7 @@ class UserSeeder extends Seeder
                 'password' => Hash::make('secret')
             ]
         );
+        $role = Role::where('name', 'Accountant')->first();
         $permissions = [
             "Dashboard List",
         ];

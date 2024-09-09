@@ -22,8 +22,8 @@ class InquiryRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'customer_id	'=>'required',
-            'type_of_job	' => 'required',
+            'customer_id'=>'required',
+            'type_of_job' => 'required',
             'delivery_date' => 'required',
             'job_description' => 'required',
         ];

@@ -18,6 +18,7 @@ use App\Models\Customer;
 use App\Models\Inquiry;
 use App\Models\PriceMaster;
 use App\Models\InquiryProcess;
+use App\Enums\RoleType;
 use App\Models\InquiryPriceItem;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
@@ -63,15 +64,14 @@ class InquiryController extends Controller implements HasMiddleware
         $query = Inquiry::query();
         
         if (Auth::user()->hasRole('Admin')) {
-            if ($request->has('status') && !empty($request->status)) {
-                $query->where('status', $request->status);
-            }
+            $query->where('status', 1);
         }
 
-        if (Auth::user()->hasRole('Admin')) {
-            if ($request->has('status') && !empty($request->status)) {
-                $query->where('status', $request->status);
-            }
+        if (Auth::user()->hasRole('Designer')) {
+            $query->where('status', 2);
+        }
+        if ($request->has('status') && !empty($request->status)) {
+            $query->where('status', $request->status);
         }
         
         // Continue with the rest of your query logic or other processing here
@@ -101,7 +101,7 @@ class InquiryController extends Controller implements HasMiddleware
                     $actions .= '<a href="javascript:;" data-url="' . url('admin/inquiry/' . $data->id) . '" class="btn btn-sm btn-square btn-neutral me-2 modal-popup-view" Title="View"><i class="fa fa-eye"></i></a>';
                 }
                 if (Gate::allows('Inquiry Edit')) {
-                    $actions .= '<a href="' . url('admin/inquiry/' . $data->id . '/edit') . '" class="btn btn-sm btn-square btn-neutral me-2" Title="Edit">><i class="fa fa-pencil-square-o"></i></a>';
+                    $actions .= '<a href="' . url('admin/inquiry/' . $data->id . '/edit') . '" class="btn btn-sm btn-square btn-neutral me-2" Title="Edit"><i class="fa fa-pencil-square-o"></i></a>';
                 }
                 if (Gate::allows('Inquiry Delete')) {
                     $actions .= '<a href="javascript:;" data-url="' . url('admin/inquiry/' . $data->id) . '" class="btn btn-sm btn-square btn-neutral text-danger-hover modal-popup-delete" Title="Delete"><i class="fa fa-trash-o"></i></a>';
@@ -109,7 +109,6 @@ class InquiryController extends Controller implements HasMiddleware
 
                 if (Gate::allows('Inquiry Update Stage')) {
                     $actions .= '<a href="'. route('update.inquiry.stage',$data->id) . '" class="btn btn-sm btn-square btn-neutral text-danger-hover" Title="Update Stage"><i class="fa fa-arrow-right"></i></a>';
-                    $actions .= '<a href="javascript:;" data-url="' . url('admin/inquiry/' . $data->id) . '" class="btn btn-sm btn-square btn-neutral text-danger-hover modal-popup-delete" data-modal-delete-text="Are you sure you want to delete this inquiry?"><i class="fa fa-trash-o"></i></a>';
                 }
                 return $actions;
             })
@@ -137,7 +136,7 @@ class InquiryController extends Controller implements HasMiddleware
      *
      * @return Response
      */
-    public function store(Request $request)
+    public function store(InquiryRequest $request)
     {
         $data = $request->all();
         $data['status'] = 1;
@@ -173,7 +172,8 @@ class InquiryController extends Controller implements HasMiddleware
             Session::flash('success', 'Inquiry created successfully');
             return redirect()->route('inquiry.index');
         } else {
-            Session::flash('error', 'Unable to add employee');
+            dd("hello");
+            Session::flash('error', 'Unable to add Inquiry');
             return redirect()->back();
         }
     }
@@ -224,7 +224,7 @@ class InquiryController extends Controller implements HasMiddleware
      *
      * @return Response
      */
-    public function update(Request $request, Inquiry $inquiry)
+    public function update(InquiryRequest $request, Inquiry $inquiry)
     {
         $data = $request->all();
 
@@ -263,6 +263,7 @@ class InquiryController extends Controller implements HasMiddleware
             Session::flash('success', 'Inquiry updated successfully');
             return redirect()->route('inquiry.index');
         } else {
+            dd("sad");
             Session::flash('error', 'Unable to update inquiry');
             return redirect()->back();
         }
