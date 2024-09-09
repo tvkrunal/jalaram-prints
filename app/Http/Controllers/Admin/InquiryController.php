@@ -98,7 +98,7 @@ class InquiryController extends Controller implements HasMiddleware
                     case 3:
                         return '<div class="badge rounded-pill bg-info text-white actions">Print</div>';
                     case 4:
-                        return '<div class="badge rounded-pill bg-info text-white actions">Billing</div>';
+                        return '<div class="badge rounded-pill bg-secondary text-white actions">Billing</div>';
                     default:
                         return '<div class="badge rounded-pill bg-secondary text-white actions">Unknown</div>';
                 }            
@@ -115,7 +115,7 @@ class InquiryController extends Controller implements HasMiddleware
                     $actions .= '<a href="javascript:;" data-url="' . url('admin/inquiry/' . $data->id) . '" class="btn btn-sm btn-square btn-neutral text-danger-hover modal-popup-delete" Title="Delete"><i class="fa fa-trash-o"></i></a>';
                 }
 
-                if (Gate::allows('Inquiry Update Stage')) {
+                if (Gate::allows('Inquiry Update Stage') && ($data->status != 4) ) {
                     $actions .= '<a href="javascript:;" data-url="'. route('update.inquiry.stage') . '" data-id="'.$data->id.'" data-stage="'.$data->status.'"class="btn btn-sm btn-square btn-neutral text-danger-hover update-stage" Title="Update Stage"><i class="fa fa-arrow-right"></i></a>';
                 }
                 return $actions;
