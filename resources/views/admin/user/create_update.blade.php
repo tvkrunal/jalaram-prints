@@ -86,16 +86,16 @@
 
                                     <div class="form-group row">
                                         <label class="col-form-label col-lg-1">Status <span class="text-danger">*</span></label>
-                                        <div class="col-lg-5">
-                                            <div class="form-check form-switch">
+                                           <div>
+                                                <label class="switch switch200">
                                                 @if (isset($user) && $user->is_active == \App\Enums\StatusOption::ACTIVE)
-                                                    <input class="form-check-input" type="checkbox" id="user-status" value="1"
-                                                        name="is_active" checked>
+                                                    <input type="checkbox" id="user-status" value="1" name="is_active" checked>
+                                                    <span class="slider slider200"></span>
                                                 @else
-                                                    <input class="form-check-input" type="checkbox" id="user-status" value="1"
-                                                        name="is_active">
+                                                    <input type="checkbox" id="user-status" value="1" name="is_active">
+                                                    <span class="slider slider200"></span>
                                                 @endif
-                                            </div>
+                                            </label>
                                         </div>
                                     </div>
 
