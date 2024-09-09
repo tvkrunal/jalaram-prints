@@ -23,15 +23,17 @@
 						</div>
                     </div>
 					<div class="row">
-					    <div class="col-md-3 col-xl-6 col-12 hstack">
-                        <select class="form-control mb-2" id="status-select">
-                            <option value="" >Stages</option>
-                            <option value="1">Inquiry</option>
-                            <option value="2">In Process</option>
-                            <option value="3">Completed</option>
-                        </select>
+					    <div class="col-xl-3 col-lg-4 col-md-6 col-10 ml-auto mb-4">
+							<div class="d-flex align-items-center">
+								<select class="form-control mr-4" style="" id="status-select">
+									<option value="" >Stages</option>
+									<option value="1">Inquiry</option>
+									<option value="2">In Process</option>
+									<option value="3">Completed</option>
+								</select>
+								<a href="{{ route('inquiry.create') }}" class="btn btn-success btn-labeled btn-labeled-left btn-sm legitRipple float-right"><b><i class="icon-plus3"></i></b> Add</a>
+							</div>
                         </div>
-						<a href="{{ route('inquiry.create') }}" class="btn btn-success btn-labeled btn-labeled-left btn-sm legitRipple float-right"><b><i class="icon-plus3"></i></b> Add</a>
 					</div>
 
                     <table class="table table-responsive datatable-basic inquiry-table" id="data-table">
