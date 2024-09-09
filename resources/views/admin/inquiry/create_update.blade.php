@@ -50,48 +50,42 @@
                                         </div>
                                         
                                     </div>
-                                    <div class="form-group row d-none customer-details">
+                                    <div class="form-group row {{ isset($inquiry) && !empty($inquiry->customer) ? '' :'d-none customer-details'}}">
                                         <label class="col-form-label col-lg-1">First Name <span class="text-danger">*</span></label>
                                         <div class="col-lg-5">
-                                            {{ Form::text('first_name','',array('class'=>"form-control", 'id' => 'first_name','disabled' => 'true')) }}
+                                            {{ Form::text('first_name',isset($inquiry) && !empty($inquiry->customer) && !empty($inquiry->customer->first_name) ? $inquiry->customer->first_name : '',array('class'=>"form-control", 'id' => 'first_name','disabled' => 'true')) }}
                                         </div>
                                         <label class="col-form-label col-lg-1">Last Name <span class="text-danger">*</span></label>
                                         <div class="col-lg-5">
-                                            {{ Form::text('last_name',Request::old('last_name'),array('class'=>"form-control",'id' => 'last_name','disabled' => 'true')) }}
-                                            @if ($errors->has('last_name'))
-                                                <span class="text-danger">{{ $errors->first('last_name') }}</span>
-                                            @endif
+                                            {{ Form::text('last_name',isset($inquiry) && !empty($inquiry->customer) && !empty($inquiry->customer->last_name) ? $inquiry->customer->last_name : '',array('class'=>"form-control",'id' => 'last_name','disabled' => 'true')) }}
                                         </div>
                                     </div>
 
-                                    <div class="form-group row d-none customer-details">
+                                    <div class="form-group row {{ isset($inquiry) && !empty($inquiry->customer) ? '' :'d-none customer-details'}}">
                                         <label class="col-form-label col-lg-1">Email <span class="text-danger">*</span></label>
                                         <div class="col-lg-5">
-                                            {{ Form::text('email',Request::old('email'),array('class'=>"form-control",'id' => 'email','disabled' => 'true')) }}
-                                            @if ($errors->has('email'))
-                                                <span class="text-danger">{{ $errors->first('email') }}</span>
-                                            @endif
+                                            {{ Form::text('email',isset($inquiry) && !empty($inquiry->customer) && !empty($inquiry->customer->email) ? $inquiry->customer->email : '',array('class'=>"form-control",'id' => 'email','disabled' => 'true')) }}
                                         </div>
                                         <label class="col-form-label col-lg-1">Contact No <span class="text-danger">*</span></label>
                                         <div class="col-lg-5">
-                                            {{ Form::number('contact_no',Request::old('contact_no'),array('class'=>"form-control",'id' => 'contact_no','disabled' => 'true')) }}
+                                            {{ Form::number('contact_no',isset($inquiry) && !empty($inquiry->customer) && !empty($inquiry->customer->contact_no) ? $inquiry->customer->contact_no : '',array('class'=>"form-control",'id' => 'contact_no','disabled' => 'true')) }}
                                             @if ($errors->has('contact_no'))
                                                 <span class="text-danger">{{ $errors->first('contact_no') }}</span>
                                             @endif
                                         </div>
                                     </div>
 
-                                    <div class="form-group row d-none customer-details">
+                                    <div class="form-group row {{ isset($inquiry) && !empty($inquiry->customer) ? '' :'d-none customer-details'}}">
                                         <label class="col-form-label col-lg-1">Address <span class="text-danger">*</span></label>
                                         <div class="col-lg-5">
-                                            {{ Form::text('address',Request::old('address'),array('class'=>"form-control",'id' => 'address','disabled' => 'true')) }}
+                                            {{ Form::text('address',isset($inquiry) && !empty($inquiry->customer) && !empty($inquiry->customer->address) ? $inquiry->customer->address : '',array('class'=>"form-control",'id' => 'address','disabled' => 'true')) }}
                                             @if ($errors->has('address'))
                                                 <span class="text-danger">{{ $errors->first('address') }}</span>
                                             @endif
                                         </div>
                                         <label class="col-form-label col-lg-1">City <span class="text-danger">*</span></label>
                                         <div class="col-lg-5">
-                                            {{ Form::text('city',Request::old('city'),array('class'=>"form-control",'id' => 'city','disabled' => 'true')) }}
+                                            {{ Form::text('city',isset($inquiry) && !empty($inquiry->customer) && !empty($inquiry->customer->city) ? $inquiry->customer->city : '',array('class'=>"form-control",'id' => 'city','disabled' => 'true')) }}
                                             @if ($errors->has('city'))
                                                 <span class="text-danger">{{ $errors->first('city') }}</span>
                                             @endif
