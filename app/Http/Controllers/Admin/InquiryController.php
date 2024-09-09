@@ -99,6 +99,8 @@ class InquiryController extends Controller implements HasMiddleware
                         return '<div class="badge rounded-pill bg-info text-white actions">Print</div>';
                     case 4:
                         return '<div class="badge rounded-pill bg-secondary text-white actions">Billing</div>';
+                    case 5:
+                        return '<div class="badge rounded-pill bg-success text-white actions">Completed</div>';
                     default:
                         return '<div class="badge rounded-pill bg-secondary text-white actions">Unknown</div>';
                 }            
@@ -350,16 +352,16 @@ class InquiryController extends Controller implements HasMiddleware
         $inquiry  =  Inquiry::findOrFail($request->id);
         switch ($inquiry->status) {
             case 1:
-                $inquiry->status = 2; //print
+                $inquiry->status = 2;
+                if($inquiry->type_of_job == "Print") {
+                    $inquiry->status = 3; //print
+                }
                 break;
             case 2:
-                $inquiry->status = 3; //design
+                $inquiry->status = 3;
                 break;
             case 3:
-                $inquiry->status =  4; //billing
-                break;
-            case 4:
-                $inquiry->status = 5; //complete
+                $inquiry->status =  4;
                 break;
             default:
                 break;
