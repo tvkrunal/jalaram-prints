@@ -115,13 +115,13 @@ class InquiryController extends Controller implements HasMiddleware
             ->addColumn('action', function ($data) {
                 $actions = '';
                 if (Gate::allows('Inquiry List')) {
-                    $actions .= '<a href="javascript:;" data-url="' . url('admin/inquiry/' . $data->id) . '" class="btn btn-sm btn-square btn-neutral me-2 modal-popup-view" Title="View"><i class="fa fa-eye"></i></a>';
+                    $actions .= '<a href="javascript:;" data-url="' . route('inquiry.show',$data->id) . '" class="btn btn-sm btn-square btn-neutral me-2 modal-popup-view" Title="View"><i class="fa fa-eye"></i></a>';
                 }
                 if (Gate::allows('Inquiry Edit')) {
-                    $actions .= '<a href="' . url('admin/inquiry/' . $data->id . '/edit') . '" class="btn btn-sm btn-square btn-neutral me-2" Title="Edit"><i class="fa fa-pencil-square-o"></i></a>';
+                    $actions .= '<a href="' . route('inquiry.edit',$data->id) . '" class="btn btn-sm btn-square btn-neutral me-2" Title="Edit"><i class="fa fa-pencil-square-o"></i></a>';
                 }
                 if (Gate::allows('Inquiry Delete')) {
-                    $actions .= '<a href="javascript:;" data-url="' . url('admin/inquiry/' . $data->id) . '" class="btn btn-sm btn-square btn-neutral text-danger-hover modal-popup-delete" Title="Delete"><i class="fa fa-trash-o"></i></a>';
+                    $actions .= '<a href="javascript:;" data-url="' . route('inquiry.destroy',$data->id) . '" class="btn btn-sm btn-square btn-neutral text-danger-hover modal-popup-delete" Title="Delete"><i class="fa fa-trash-o"></i></a>';
                 }
 
                 if (Gate::allows('Inquiry Update Stage') && ($data->status != 4) ) {
@@ -296,7 +296,6 @@ class InquiryController extends Controller implements HasMiddleware
      */
     public function destroy(Inquiry $inquiry)
     {
-        
         $inquiry->delete();
 
         if(!empty($inquiry->inquiryPriceItems)) {

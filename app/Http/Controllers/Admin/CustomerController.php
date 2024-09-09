@@ -71,13 +71,13 @@ class CustomerController extends Controller implements HasMiddleware
             ->addColumn('action', function ($data) {
                 $actions = '';
                 if (Gate::allows('Customer List')) {
-                    $actions .= '<a href="javascript:;" data-url="' . url('admin/customer/' . $data->id) . '" class="btn btn-sm btn-square btn-neutral me-2 modal-popup-view" data-modal-title="Employee Details"><i class="fa fa-eye"></i></a>';
+                    $actions .= '<a href="javascript:;" data-url="' . route('customer.show',$data->id) . '" class="btn btn-sm btn-square btn-neutral me-2 modal-popup-view" data-modal-title="Employee Details"><i class="fa fa-eye"></i></a>';
                 }
                 if (Gate::allows('Customer Edit')) {
-                    $actions .= '<a href="' . url('admin/customer/' . $data->id . '/edit') . '" class="btn btn-sm btn-square btn-neutral me-2"><i class="fa fa-pencil-square-o"></i></a>';
+                    $actions .= '<a href="' . route('customer.edit',$data->id) . '" class="btn btn-sm btn-square btn-neutral me-2"><i class="fa fa-pencil-square-o"></i></a>';
                 }
                 if (Gate::allows('Customer Delete')) {
-                    $actions .= '<a href="javascript:;" data-url="' . url('admin/customer/' . $data->id) . '" class="btn btn-sm btn-square btn-neutral text-danger-hover modal-popup-delete" data-modal-delete-text="Are you sure you want to delete this user?"><i class="fa fa-trash-o"></i></a>';
+                    $actions .= '<a href="javascript:;" data-url="' . route('customer.destroy',$data->id) . '" class="btn btn-sm btn-square btn-neutral text-danger-hover modal-popup-delete" data-modal-delete-text="Are you sure you want to delete this user?"><i class="fa fa-trash-o"></i></a>';
                 }
                 return $actions;
             })

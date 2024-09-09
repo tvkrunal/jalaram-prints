@@ -60,10 +60,10 @@ class RolesController extends Controller implements HasMiddleware
             ->addColumn('action', function ($data) {
                 $actions = '';
                 if (Gate::allows('Roles Edit')) {
-                    $actions .= '<a href="' . url('admin/roles/' . $data->id . '/edit') . '" class="btn btn-sm btn-square btn-neutral me-2"><i class="fa fa-pencil-square-o"></i></a>';
+                    $actions .= '<a href="' . route('roles.edit',$data->id) . '" class="btn btn-sm btn-square btn-neutral me-2"><i class="fa fa-pencil-square-o"></i></a>';
                 }
                 if (Gate::allows('Roles Delete')) {
-                    $actions .= '<a href="javascript:;" data-url="' . url('admin/roles/' . $data->id) . '" class="btn btn-sm btn-square btn-neutral text-danger-hover modal-popup-delete" data-modal-delete-text="Are you sure you want to delete this role?"><i class="fa fa-trash-o"></i></a>';
+                    $actions .= '<a href="javascript:;" data-url="' . route('roles.destroy',$data->id) . '" class="btn btn-sm btn-square btn-neutral text-danger-hover modal-popup-delete" data-modal-delete-text="Are you sure you want to delete this role?"><i class="fa fa-trash-o"></i></a>';
                 }
                 return $actions;
             })

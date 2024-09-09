@@ -60,7 +60,7 @@
 @section('scripts')
 <script>
     $(function() {
-        var table = $('#data-table').DataTable({
+        window.dataGridTable = $('#data-table').DataTable({
             processing: true,
             serverSide: true,
             responsive: true,
