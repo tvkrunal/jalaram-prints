@@ -158,11 +158,11 @@
                                                             <label class="col-xl-3 col-lg-4">Bill type</label>
                                                             <div class="col-xl-9 col-lg-8 form-group">
                                                                 <span class="mr-3">
-                                                                    {{ Form::radio('bill_type', 'Cash', old('bill_type') == 'Cash', ['class' => '', 'id' => 'bill_type_cash']) }}
+                                                                    {{ Form::radio('bill_type', 'Cash', old('bill_type', isset($inquiry) && !empty($inquiry->billing) ? $inquiry->billing->bill_type : null) == 'Cash', ['class' => '', 'id' => 'bill_type_cash']) }}
                                                                     {{ Form::label('bill_type_cash', 'Cash', ['class' => 'form-check-label']) }}
                                                                 </span>
                                                                 <span>
-                                                                    {{ Form::radio('bill_type', 'Invoice', old('bill_type') == 'Invoice', ['class' => '', 'id' => 'bill_type_invoice']) }}
+                                                                    {{ Form::radio('bill_type', 'Invoice',old('bill_type', isset($inquiry)  && !empty($inquiry->billing) ? $inquiry->billing->bill_type : null) == 'Invoice', ['class' => '', 'id' => 'bill_type_invoice']) }}
                                                                     {{ Form::label('bill_type_invoice', 'Invoice', ['class' => 'form-check-label']) }}
                                                                 </span>
                                                             </div>
@@ -177,7 +177,7 @@
                                                                     {{ Form::label('dispatch_type', 'Local Shipping',['class' => 'form-check-label']) }}
                                                                 </span>
                                                                 <span>
-                                                                    {{ Form::radio('dispatch_type', 'Pick-up', old('dispatch_type') == 'Local Shipping', ['class' => '', 'id' => 'dispatch_type']) }}
+                                                                    {{ Form::radio('dispatch_type', 'Pick-up', old('dispatch_type') == 'Pick-up', ['class' => '', 'id' => 'dispatch_type']) }}
                                                                     {{ Form::label('dispatch_type', 'Pick-up', ['class' => 'form-check-label']) }}
                                                                 </span>
                                                             </div>

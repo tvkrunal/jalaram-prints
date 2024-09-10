@@ -33,7 +33,7 @@
                             <div class="card-body">
 
                                 @if(isset($inquiry))
-                                    {{ Form::model($inquiry, ['route' => ['inquiry.store'], 'method' => 'POST']) }}
+                                    {{ Form::model($inquiry, ['method' => 'POST']) }}
                                 @endif
                                 <fieldset>
                                 {{ Form::hidden('inquiry_id', $inquiry->id)}}
@@ -100,17 +100,6 @@
                                     </div>
 
                                     <div class="form-group row">
-                                        <label class="col-form-label col-lg-1">Designing Details</label>
-                                        <div class="col-lg-5">
-                                            {{ Form::text('designing_details',Request::old('designing_details'),array('class'=>"form-control",'rows' => '2','disabled' => 'true')) }}
-                                        </div>
-                                        <label class="col-form-label col-lg-1">Pin Code</label>
-                                        <div class="col-lg-5">
-                                        {{ Form::text('pin_code',isset($inquiry) && !empty($inquiry->customer) && !empty($inquiry->customer->pin_code) ? $inquiry->customer->pin_code : '',array('class'=>"form-control",'id' => 'pin_code','disabled' => 'true')) }}
-                                        </div>
-                                    </div> 
-
-                                    <div class="form-group row">
                                         <label class="col-form-label col-lg-1">Type of Job</label>
                                         <div class="col-lg-5">
                                             <span class="col-5 ml-3">
@@ -131,23 +120,108 @@
                                         </div>
                                     </div>
 
-                                    <div class="form-group row">
-                                        <label class="col-form-label col-lg-1">Bill Type</label>
+
+                                    <div class="form-group row d-none designing-details-container">
+                                        <label class="col-form-label col-lg-1">Designing Details</label>
                                         <div class="col-lg-5">
-                                        {{ Form::text('bill_type',isset($inquiry) && !empty($inquiry->billing) && !empty($inquiry->billing->bill_type) ? $inquiry->billing->bill_type : '',array('class'=>"form-control",'id' => 'bill_type','disabled' => 'true')) }}
+                                            {{ Form::text('designing_details',isset($inquiry) && !empty($inquiry->designing_details) ? $inquiry->designing_details : '',array('class'=>"form-control",'rows' => '2','disabled' => 'true')) }}
                                         </div>
                                         <label class="col-form-label col-lg-1">Pin Code</label>
                                         <div class="col-lg-5">
-                                        {{ Form::text('bill_no',isset($inquiry) && !empty($inquiry->billing) && !empty($inquiry->billing->bill_no) ? $inquiry->billing->bill_no : '',array('class'=>"form-control",'id' => 'bill_no','disabled' => 'true')) }}
+                                        {{ Form::text('pin_code',isset($inquiry) && !empty($inquiry->customer) && !empty($inquiry->customer->pin_code) ? $inquiry->customer->pin_code : '',array('class'=>"form-control",'id' => 'pin_code','disabled' => 'true')) }}
                                         </div>
                                     </div> 
-
-
 
                                     <div class="form-group row d-none designing-details-print-container mb-0">
                                         @include('admin.inquiry.billing_price_naster_section')
                                     </div>
                                 </fieldset>
+
+                                <div class="accordion" id="accordionExample">
+                                    <div class="card">
+                                        <div class="card-header" id="headingOne">
+                                            <h2 class="mb-0">
+                                                <button class="btn btn-link btn-link-collapse btn-block text-left d-flex align-items-center text-dark px-0" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                                    Inquiry Billing 
+                                                    <i class="fa fa-plus ml-auto" aria-hidden="true"></i>
+                                                    <i class="fa fa-minus ml-auto" aria-hidden="true"></i>
+                                                </button>
+                                            </h2>
+                                        </div>
+
+                                        <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <div class="col-xl-4 col-lg-6">
+                                                        <div class="row">
+                                                            <label class="col-xl-3 col-lg-4">Bill type</label>
+                                                            <div class="col-xl-9 col-lg-8 form-group">
+                                                                <span class="mr-3">
+                                                                    {{ Form::radio('bill_type', 'Cash', old('bill_type', isset($inquiry) && !empty($inquiry->billing) ? $inquiry->billing->bill_type : null) == 'Cash', ['class' => '', 'id' => 'bill_type_cash','disabled' => 'true']) }}
+                                                                    {{ Form::label('bill_type_cash', 'Cash', ['class' => 'form-check-label']) }}
+                                                                </span>
+                                                                <span>
+                                                                    {{ Form::radio('bill_type', 'Invoice', old('bill_type', isset($inquiry) && !empty($inquiry->billing) ? $inquiry->billing->bill_type : null) == 'Invoice', ['class' => '', 'id' => 'bill_type_invoice','disabled' => 'true']) }}
+                                                                    {{ Form::label('bill_type_invoice', 'Invoice', ['class' => 'form-check-label']) }}
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xl-4 col-lg-6">
+                                                        <div class="row">
+                                                            <label class="col-xl-3 col-lg-4">Dispatch Type</label>
+                                                            <div class="col-xl-9 col-lg-8 form-group">
+                                                                <span class="mr-3">
+                                                                    {{ Form::radio('dispatch_type', 'Local Shipping', old('dispatch_type', isset($inquiry) && !empty($inquiry->billing) ? $inquiry->billing->dispatch_type : null) == 'Local Shipping', ['class' => '', 'id' => 'dispatch_type','disabled' => 'true']) }}
+                                                                    {{ Form::label('dispatch_type', 'Local Shipping',['class' => 'form-check-label']) }}
+                                                                </span>
+                                                                <span>
+                                                                    {{ Form::radio('dispatch_type', 'Pick-up', old('dispatch_type', isset($inquiry) && !empty($inquiry->billing) ? $inquiry->billing->dispatch_type : null) == 'Pick-up', ['class' => '', 'id' => 'dispatch_type','disabled' => 'true']) }}
+                                                                    {{ Form::label('dispatch_type', 'Pick-up', ['class' => 'form-check-label']) }}
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xl-4 col-lg-6">
+                                                        <div class="row">
+                                                            <label class="col-xl-3 col-lg-4">Delivery Status</label>
+                                                            <div class="col-xl-9 col-lg-8 form-group">
+                                                                <span class="mr-3">
+                                                                    {{ Form::radio('delivery_status', 'In-Transits', old('dispatch_type', isset($inquiry) && !empty($inquiry->billing) ? $inquiry->billing->delivery_status : null) == 'In-Transits', ['class' => '', 'id' => 'delivery_status','disabled' => 'true']) }}
+                                                                    {{ Form::label('delivery_status', 'In-Transits', ['class' => 'form-check-label']) }}
+                                                                </span>
+                                                                <span>
+                                                                    {{ Form::radio('delivery_status', 'Delivered', old('dispatch_type', isset($inquiry) && !empty($inquiry->billing) ? $inquiry->billing->delivery_status : null) == 'Delivered', ['class' => '', 'id' => 'delivery_status','disabled' => 'true']) }}
+                                                                    {{ Form::label('delivery_status', 'Delivered', ['class' => 'form-check-label']) }}
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row {{ isset($inquiry) && !empty($inquiry->billing) && $inquiry->billing->bill_type == 'Invoice' ? '' :'d-none bill-type'}}">
+                                                    <div class="col-xl-4 col-lg-6">
+                                                        <div class="row">
+                                                            <label class="col-xl-3 col-lg-4">Enter Bill no.</label>
+                                                            <div class="col-xl-9 col-lg-8 form-group">
+                                                            {{ Form::text('bill_no', isset($inquiry) && !empty($inquiry->billing) ? $inquiry->billing->bill_no : null, array('class'=>"form-control", 'id' => 'bill_no','disabled' => 'true')) }}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row d-none designing-details-print-container">
+                                    <div class="col-4 mt-3 offset-8 mb-3">
+                                        <label class="form-label">Cost Calculation</label>
+                                        {{ Form::text('cost_calculation', isset($inquiry) ? $inquiry->cost_calculation : Request::old('cost_calculation'), ['class' => 'form-control', 'id' => 'total_cost','disabled' => 'true']) }}
+                                        @if ($errors->has('cost_calculation'))
+                                            <span class="text-danger">{{ $errors->first('cost_calculation') }}</span>
+                                        @endif
+                                    </div>
+                                </div>
 
                                 <div class="text-right">
                                     <a href="{{ route('inquiry.index') }}" class="btn btn-primary">Cancel</a>
@@ -161,4 +235,59 @@
         <!-- /content area -->
         @include('layouts.admin.page_footer')
     </div>
+@endsection
+@section('scripts')
+<script>
+    $(document).ready(function() {
+        // Function to show/hide the Designing Details field based on the selected radio button
+        $('.designing-details-container').addClass('d-none');
+        $('.designing-details-print-container').addClass('d-none');
+        setTimeout(() => {
+           $('.alert').hide(); 
+        }, 700);
+        
+        function toggleDesigningDetails() {
+            let selectedJobType = $('input[name="type_of_job"]:checked').val();
+            if (selectedJobType === 'Design' || selectedJobType === 'Design Print') {
+                $('.designing-details-container').removeClass('d-none');
+                $('.designing-details-print-container').addClass('d-none');
+            } else if(selectedJobType === 'Print'){
+                $('.designing-details-container').addClass('d-none');
+                $('.designing-details-print-container').removeClass('d-none');
+            }
+        }
+
+        // Initial check on page load
+        toggleDesigningDetails();
+
+        // Check when radio buttons are clicked
+        $('input[name="type_of_job"]').on('change', function() {
+            toggleDesigningDetails();
+        });
+
+
+        /* Price master repeater */
+        $(".price-master-repeater").repeater({
+            initEmpty: false,
+            show: function () {
+                var selfRepeaterItem = this;
+                $(selfRepeaterItem).slideDown();
+                $(selfRepeaterItem).find('.select2-container').remove();
+                // Initialize select2 on the newly added repeater item
+                $(selfRepeaterItem).find('.select2').select2();
+
+                var repeaterItems = $("div[data-repeater-item] > div.inquiry-price-itemsfaq-items");
+                $(selfRepeaterItem).attr('data-index', repeaterItems.length - 1);
+                $(selfRepeaterItem).find('span.repeaterItemNumber').text(repeaterItems.length);
+                $(selfRepeaterItem).find('.price-master-delete').attr('data-id', null);
+            },
+            hide: function (deleteElement) {
+                if (confirm("Are you sure you want to delete this element?")) {
+                    $(this).slideUp(deleteElement);
+                }
+            },
+        });
+
+    });
+</script>
 @endsection
