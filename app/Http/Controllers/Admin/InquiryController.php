@@ -85,7 +85,7 @@ class InquiryController extends Controller implements HasMiddleware
         // }
 
         if (Auth::user()->hasRole('Accountant')) {
-            $query->whereIn('status',[4,5]);
+            $query->where('status',4);
         }
         
         // Continue with the rest of your query logic or other processing here
