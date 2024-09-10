@@ -80,10 +80,6 @@ class InquiryController extends Controller implements HasMiddleware
             $query->where('status',3);
         }
 
-        // if (Auth::user()->hasRole('Processor')) {
-        //     $query->where('status',4);
-        // }
-
         if (Auth::user()->hasRole('Accountant')) {
             $query->where('status',4);
         }
