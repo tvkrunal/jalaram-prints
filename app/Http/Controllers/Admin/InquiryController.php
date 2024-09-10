@@ -126,14 +126,14 @@ class InquiryController extends Controller implements HasMiddleware
                     $actions .= '<a href="javascript:;" data-url="' . route('inquiry.destroy',$data->id) . '" class="btn btn-sm btn-square btn-neutral text-danger-hover modal-popup-delete" Title="Delete"><i class="fa fa-trash-o"></i></a>';
                 }
 
-                if (Gate::allows('Inquiry Update Stage') && !empty($data->billing) ) {
-                    if($data->status != 5) {
+                if (Gate::allows('Inquiry Update Stage')) {
+                    if (in_array($data->status, [1, 2, 3]) ||($data->status == 4 && !empty($data->billing))) {
                         $actions .= '<a href="javascript:;" data-url="'. route('update.inquiry.stage') . '" data-id="'.$data->id.'" data-stage="'.$data->status.'"class="btn btn-sm btn-square btn-neutral text-danger-hover update-stage" Title="Update Stage"><i class="fa fa-arrow-right"></i></a>';
                     }
                 }
 
                 if (Gate::allows('Inquiry Billing') && Auth::user()->hasRole('Admin') || Auth::user()->hasRole('Accountant')) {
-                    if(empty($data->billing)) {
+                    if (empty($data->billing) && $data->status == 4) {
                         $actions .= '<a href="'. route('inquiry.billing',$data->id).'" class="btn btn-sm btn-square btn-neutral text-danger-hover inquiry-billing" Title="Billing"><i class="fa fa-money"></i></a>';
                     }
                 }
@@ -369,7 +369,7 @@ class InquiryController extends Controller implements HasMiddleware
             case 1:
                 $inquiry->status = 2;
                 if($inquiry->type_of_job == "Print") {
-                    $inquiry->status = 3; //print
+                    $inquiry->status = 3;
                 }
                 break;
             case 2:
