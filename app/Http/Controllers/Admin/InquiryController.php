@@ -122,7 +122,7 @@ class InquiryController extends Controller implements HasMiddleware
                     $actions .= '<a href="javascript:;" data-url="' . route('inquiry.destroy',$data->id) . '" class="btn btn-sm btn-square btn-neutral text-danger-hover modal-popup-delete" Title="Delete"><i class="fa fa-trash-o"></i></a>';
                 }
 
-                if (Gate::allows('Inquiry Update Stage') && ($data->status != 4) ) {
+                if (Gate::allows('Inquiry Update Stage') && ($data->status != 5) ) {
                     $actions .= '<a href="javascript:;" data-url="'. route('update.inquiry.stage') . '" data-id="'.$data->id.'" data-stage="'.$data->status.'"class="btn btn-sm btn-square btn-neutral text-danger-hover update-stage" Title="Update Stage"><i class="fa fa-arrow-right"></i></a>';
                 }
                 return $actions;
@@ -374,11 +374,21 @@ class InquiryController extends Controller implements HasMiddleware
             case 3:
                 $inquiry->status =  4;
                 break;
+            case 4:
+                $inquiry->status = 5;
+                break;
             default:
                 break;
         }
-        $inquiry->update();
-        return response()->json(['status' => true, 'message' => __('Inquiry stage updated Successfully')]);
+
+        if ($inquiry->update()) {
+            Session::flash('success', 'stage update successfully');
+            return response()->json(['status' => true, 'message' => 'Inquiry stage successfully']);
+        } else {
+            Session::flash('error', 'Unable to update stage');
+            return response()->json(['status' => false, 'message' => __('Something went wrong')]);
+        }
+
     }
 
 
