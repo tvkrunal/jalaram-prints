@@ -26,12 +26,12 @@
                     <div class="row">
                         <div class="col-xl-3 col-lg-4 col-md-6 col-10 ml-auto mb-4">
                             <div class="d-flex align-items-center">
-                                <select class="form-control mr-4" id="status-select">
-                                    <option value="">Stages</option>
-                                        @foreach($stages as $key => $stage)
-                                            <option value="{{ $key }}">{{ $stage }}</option>
-                                        @endforeach
-                                </select>
+                                <select class="form-control mr-4" style="" id="status-select">
+									<option value="" >Stages</option>
+									<option value="1">Inquiry</option>
+									<option value="2">In Process</option>
+									<option value="3">Completed</option>
+								</select>
                                 <a href="{{ route('inquiry.create') }}" class="btn btn-success btn-labeled btn-labeled-left btn-sm legitRipple float-right"><b><i class="icon-plus3"></i></b> Add</a>
                             </div>
 					    </div>
@@ -84,7 +84,7 @@
 
         // Reload the table when the status filter is changed
         $('#status-select').change(function() {
-            table.ajax.reload();
+            window.dataGridTable.ajax.reload();
         });
 
 		/**
