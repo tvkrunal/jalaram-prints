@@ -381,6 +381,7 @@
                     success: function (data) {
                         if(data.status) {
                             inquiryItem.remove();
+                            inquiryItem.addClass('d-none');
                             calculateTotalCost();
                         }
                     }
@@ -388,6 +389,7 @@
             } else {
                 if(confirm('Are you sure you want to delete this element?')) {
                     inquiryItem.remove();
+                    inquiryItem.addClass('d-none');
                 }
             }
         });
