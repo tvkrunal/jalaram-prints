@@ -7,9 +7,10 @@ use BenSampo\Enum\Enum;
 
 final class StageType extends Enum
 {
-    const INQUIRY = 'Inquiry';
-    const DESIGN = 'Design';
-    const PRINT = 'Print';
-    const DESIGNPRINT = 'Design Print';
-    const BILLING = 'Billing';
+    const INQUIRY = '1';
+    const DESIGN = '2';
+    const PRINT = '3';
+    const BILLING = '4';
+    const COMPLETED = '5';
+
 }
