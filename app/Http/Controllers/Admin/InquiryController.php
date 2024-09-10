@@ -398,8 +398,15 @@ class InquiryController extends Controller implements HasMiddleware
             default:
                 break;
         }
-        $inquiry->update();
-        return response()->json(['status' => true, 'message' => __('Inquiry stage updated Successfully')]);
+
+        if ($inquiry->update()) {
+            Session::flash('success', 'Stage updated successfully');
+            return response()->json(['status' => true, 'message' => 'Stage updated successfully']);
+        } else {
+            Session::flash('error', 'Unable to update Stage');
+            return response()->json(['status' => false, 'message' => __('Something went wrong')]);
+        }
+
     }
 
 
