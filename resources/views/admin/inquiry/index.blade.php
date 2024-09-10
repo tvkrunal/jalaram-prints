@@ -35,6 +35,7 @@
                             <a href="{{ route('inquiry.create') }}" class="btn btn-success btn-labeled btn-labeled-left btn-sm legitRipple float-right"><b><i class="icon-plus3"></i></b> Add</a>
                         </div>
 					</div>
+</div>
 					@endif
 
                     <table class="table table-responsive datatable-basic inquiry-table" id="data-table">
