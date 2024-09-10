@@ -1,7 +1,7 @@
 @extends('layouts.admin.master')
 @section('title', 'Home')
 @section('content')
-    <div class="content-wrapper">
+    <div class="content-wrapper d-none">
         <div class="content">
             <div class="row mt-4">
                 <div class="col-12 col-lg-4 col-md-6 ml-auto">
