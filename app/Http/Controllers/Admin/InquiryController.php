@@ -381,16 +381,13 @@ class InquiryController extends Controller implements HasMiddleware
                 break;
         }
 
-        \Log::info('Attempting to update inquiry with ID: ' . $inquiry->id);
-if ($inquiry->update()) {
-    \Log::info('Update successful for inquiry ID: ' . $inquiry->id);
-    Session::flash('success', 'Stage updated successfully');
-    return response()->json(['status' => true, 'message' => 'Stage updated successfully']);
-} else {
-    \Log::error('Update failed for inquiry ID: ' . $inquiry->id);
-    Session::flash('error', 'Unable to update Stage');
-    return response()->json(['status' => false, 'message' => __('Something went wrong')]);
-}
+        if ($inquiry->update()) {
+            Session::flash('success', 'Stage updated successfully');
+            return response()->json(['status' => true, 'message' => 'Stage updated successfully']);
+        } else {
+            Session::flash('error', 'Unable to update Stage');
+            return response()->json(['status' => false, 'message' => __('Something went wrong')]);
+        }
 
     }
 
