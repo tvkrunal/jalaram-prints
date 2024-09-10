@@ -10,6 +10,9 @@
 						{{Session::get('success')}}
 					</div>
 				@endif
+                @if(Session::has('message'))
+                    <p class="alert alert-info">{{ Session::get('message') }}</p>
+                @endif  
 				<!-- Basic datatable -->
 				<div class="card">
 					<div class="card-header header-elements-inline">
