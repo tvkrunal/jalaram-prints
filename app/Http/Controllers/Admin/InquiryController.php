@@ -115,7 +115,7 @@ class InquiryController extends Controller implements HasMiddleware
             ->addColumn('action', function ($data) {
                 $actions = '';
                 if (Gate::allows('Inquiry List')) {
-                    $actions .= '<a href="javascript:;" data-url="' . route('inquiry.show',$data->id) . '" class="btn btn-sm btn-square btn-neutral me-2 modal-popup-view" Title="View"><i class="fa fa-eye"></i></a>';
+                    $actions .= '<a href="'.route('inquiry.show',$data->id) . '" class="btn btn-sm btn-square btn-neutral me-2 modal-popup-view" Title="View"><i class="fa fa-eye"></i></a>';
                 }
 
                 if (Gate::allows('Inquiry Edit')) {
@@ -215,24 +215,16 @@ class InquiryController extends Controller implements HasMiddleware
      */
     public function show(Inquiry $inquiry)
     {
-        $data  = [
-            'ID'                   => $inquiry->id ?? '',
-            'Customer Name'        => isset($inquiry->customer) && !empty($inquiry->customer) ? $inquiry->customer->full_name : '',
-            'Type Of Job'          => $inquiry->type_of_job ?? '',
-            'Delivery Date'        => !empty($inquiry->delivery_date) ? $inquiry->delivery_date : '',
-            'Designing Detail'     => $inquiry->designing_details ?? '',
-            'User Name'            => isset($inquiry->user) && !empty($inquiry->user) ? $inquiry->user->full_name : '',
-            'Job Description'      => $inquiry->job_description ?? '',
-            'Cost Calculation'     => $inquiry->cost_calculation ?? '',
-            'Status'               => $inquiry->status == 1 ? 'inquiry' :
-                                      ($inquiry->status == 2 ? 'Design' :
-                                      ($inquiry->status == 3 ? 'Print' :
-                                      ($inquiry->status == 4 ? 'Billing' :
-                                      ($inquiry->status == 5 ? 'Completed' : 'Unknown')))) 
 
-        ];
-
-        return $data;
+        if(empty($inquiry)) {
+            Session::flash('error', 'Inquiry not found');
+            return redirect()->back();
+        }
+        $billing = InquiryBilling::get();
+        $priceMasters = PriceMaster::pluck('item_type','id');
+        $customers = Customer::get()->pluck('full_name', 'id');
+        $processes = !empty($inquiry->processes) ? $inquiry->processes()->pluck('title')->toArray() : [];
+        return view('admin.inquiry.view',compact('inquiry', 'priceMasters', 'processes', 'customers'));
     }
 
     /**
