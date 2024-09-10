@@ -201,6 +201,26 @@ class InquiryController extends Controller implements HasMiddleware
      */
     public function show(Inquiry $inquiry)
     {
+        switch ($inquiry->status) {
+            case 1:
+                $status = 'Inquiry';
+                break;
+            case 2:
+                $status = 'Design';
+                break;
+            case 3:
+                $status = 'Print';
+                break;
+            case 4:
+                $status = 'Billing';
+                break;
+            case 5:
+                $status = 'Completed';
+                break;
+            default:
+                $status = '-';
+                break;
+        }
         $data  = [
             'ID'                   => $inquiry->id ?? '',
             'Customer Name'        => isset($inquiry->customer) && !empty($inquiry->customer) ? $inquiry->customer->full_name : '',
@@ -210,7 +230,7 @@ class InquiryController extends Controller implements HasMiddleware
             'User Name'            => isset($inquiry->user) && !empty($inquiry->user) ? $inquiry->user->full_name : '',
             'Job Description'      => $inquiry->job_description ?? '',
             'Cost Calculation'     => $inquiry->cost_calculation ?? '',
-            'Status' => $inquiry->status == 1 ? 'inquiry' : ($inquiry->status == 2 ? 'process' : 'completed'),
+            'Status'               => $status,
 
         ];
 

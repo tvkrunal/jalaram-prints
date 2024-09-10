@@ -41,4 +41,10 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+
+    public function getFullNameAttribute()
+    {
+        return preg_replace('/\s+/', ' ', $this->first_name . ' ' . $this->last_name);
+    }
 }
