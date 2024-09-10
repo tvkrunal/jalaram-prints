@@ -29,8 +29,10 @@
                                 <select class="form-control mr-4" style="" id="status-select">
 									<option value="" >Stages</option>
 									<option value="1">Inquiry</option>
-									<option value="2">In Process</option>
-									<option value="3">Completed</option>
+									<option value="2">Design</option>
+                                    <option value="3">Print</option>
+									<option value="4">Billing</option>
+									<option value="5">Completed</option>
 								</select>
                                 <a href="{{ route('inquiry.create') }}" class="btn btn-success btn-labeled btn-labeled-left btn-sm legitRipple float-right"><b><i class="icon-plus3"></i></b> Add</a>
                             </div>
