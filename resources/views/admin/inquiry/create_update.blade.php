@@ -144,12 +144,13 @@
                                 <div class="row d-none designing-details-print-container">
                                     <div class="col-4 mt-3 offset-8 mb-3">
                                         <label class="form-label">Cost Calculation</label>
-                                        {{ Form::text('cost_calculation', isset($inquiry) ? $inquiry->cost_calculation :Request::old('cost_calculation'), array('class'=>"form-control", 'id' => 'total_cost')) }}
+                                        {{ Form::text('cost_calculation', isset($inquiry) ? $inquiry->cost_calculation : Request::old('cost_calculation'), ['class' => 'form-control', 'id' => 'total_cost']) }}
                                         @if ($errors->has('cost_calculation'))
                                             <span class="text-danger">{{ $errors->first('cost_calculation') }}</span>
                                         @endif
                                     </div>
                                 </div>
+
                                 <div class="text-right">
                                     {{ Form::submit('Submit',array('class'=>'btn btn-primary')) }}
                                     <a href="{{ route('inquiry.index') }}" class="btn btn-primary">Cancel</a>
