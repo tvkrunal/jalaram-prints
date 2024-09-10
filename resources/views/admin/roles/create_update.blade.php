@@ -163,11 +163,18 @@
                                                     id="inquiry-update-stage">
                                                 <label for="inquiry-update-stage" class="form-check-label">Change Stage</label>
                                             </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input cursor-pointer"
+                                                    {{ in_array(15, $rolePermissions) ? 'checked' : false }}
+                                                    name="permission[]" type="checkbox" value="Inquiry Billing"
+                                                    id="inquiry-billing">
+                                                <label for="inquiry-billing" class="form-check-label">Billing</label>
+                                            </div>
 
                                             <h5 class="text-capitalize py-3 border-top mt-2">Customer</h5>
                                             <div class="form-check form-check-inline">
                                                 <input class="form-check-input  cursor-pointer"
-                                                    {{ in_array(15, $rolePermissions) ? 'checked' : false }}
+                                                    {{ in_array(16, $rolePermissions) ? 'checked' : false }}
                                                     name="permission[]" type="checkbox" value="Customer List"
                                                     id="customer-list">
                                                 <label for="customer-list" class="form-check-label">List</label>
@@ -175,7 +182,7 @@
 
                                             <div class="form-check form-check-inline">
                                                 <input class="form-check-input  cursor-pointer"
-                                                    {{ in_array(16, $rolePermissions) ? 'checked' : false }}
+                                                    {{ in_array(17, $rolePermissions) ? 'checked' : false }}
                                                     name="permission[]" type="checkbox" value="Customer Create"
                                                     id="customer-create">
                                                 <label for="customer-create" class="form-check-label">Create</label>
@@ -183,7 +190,7 @@
 
                                             <div class="form-check form-check-inline">
                                                 <input class="form-check-input  cursor-pointer"
-                                                    {{ in_array(17, $rolePermissions) ? 'checked' : false }}
+                                                    {{ in_array(18, $rolePermissions) ? 'checked' : false }}
                                                     name="permission[]" type="checkbox" value="Customer Edit"
                                                     id="customer-edit">
                                                 <label for="customer-edit" class="form-check-label">Edit</label>
@@ -191,7 +198,7 @@
 
                                             <div class="form-check form-check-inline">
                                                 <input class="form-check-input cursor-pointer"
-                                                    {{ in_array(18, $rolePermissions) ? 'checked' : false }}
+                                                    {{ in_array(19, $rolePermissions) ? 'checked' : false }}
                                                     name="permission[]" type="checkbox" value="Customer Delete"
                                                     id="customer-delete">
                                                 <label for="customer-delete" class="form-check-label">Delete</label>
@@ -200,7 +207,7 @@
                                             <h5 class="text-capitalize py-3 border-top mt-2">Price Master</h5>
                                             <div class="form-check form-check-inline">
                                                 <input class="form-check-input  cursor-pointer"
-                                                    {{ in_array(19, $rolePermissions) ? 'checked' : false }}
+                                                    {{ in_array(20, $rolePermissions) ? 'checked' : false }}
                                                     name="permission[]" type="checkbox" value="Price Master List"
                                                     id="price-master-list">
                                                 <label for="price-master-list" class="form-check-label">List</label>
@@ -208,7 +215,7 @@
 
                                             <div class="form-check form-check-inline">
                                                 <input class="form-check-input  cursor-pointer"
-                                                    {{ in_array(20, $rolePermissions) ? 'checked' : false }}
+                                                    {{ in_array(21, $rolePermissions) ? 'checked' : false }}
                                                     name="permission[]" type="checkbox" value="Price Master Create"
                                                     id="price-master-create">
                                                 <label for="price-master-create" class="form-check-label">Create</label>
@@ -216,7 +223,7 @@
 
                                             <div class="form-check form-check-inline">
                                                 <input class="form-check-input  cursor-pointer"
-                                                    {{ in_array(21, $rolePermissions) ? 'checked' : false }}
+                                                    {{ in_array(22, $rolePermissions) ? 'checked' : false }}
                                                     name="permission[]" type="checkbox" value="Price Master Edit"
                                                     id="price-master-edit">
                                                 <label for="price-master-edit" class="form-check-label">Edit</label>
@@ -224,7 +231,7 @@
 
                                             <div class="form-check form-check-inline">
                                                 <input class="form-check-input  cursor-pointer"
-                                                    {{ in_array(22, $rolePermissions) ? 'checked' : false }}
+                                                    {{ in_array(23, $rolePermissions) ? 'checked' : false }}
                                                     name="permission[]" type="checkbox" value="Price Master Delete"
                                                     id="price-master-delete">
                                                 <label for="price-master-delete" class="form-check-label">Delete</label>

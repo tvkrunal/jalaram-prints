@@ -93,7 +93,10 @@ class UserSeeder extends Seeder
         $role = Role::where('name', 'Accountant')->first();
         $permissions = [
             "Dashboard List",
+            "Admin List",
+            "Inquiry List",
         ];
         $role->syncPermissions($permissions);
+        $user->assignRole([$role->id]);
     }
 }

@@ -20,6 +20,7 @@ use App\Models\Inquiry;
 use App\Models\PriceMaster;
 use App\Models\InquiryProcess;
 use App\Enums\RoleType;
+use App\Models\InquiryBilling;
 use App\Models\InquiryPriceItem;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
@@ -40,6 +41,7 @@ class InquiryController extends Controller implements HasMiddleware
             new Middleware('permission:Inquiry Edit', only: ['edit', 'update']),
             new Middleware('permission:Inquiry Delete', only: ['destroy']),
             new Middleware('permission:Inquiry Update Stage', only: ['updateInquiryStage']),
+            new Middleware('permission:Inquiry Billing', only: ['inquiryBilling','storeInquiryBilling']),
         ];
     }
 
@@ -78,8 +80,12 @@ class InquiryController extends Controller implements HasMiddleware
             $query->where('status',3);
         }
 
-        if (Auth::user()->hasRole('Processor')) {
-            $query->where('status',4);
+        // if (Auth::user()->hasRole('Processor')) {
+        //     $query->where('status',4);
+        // }
+
+        if (Auth::user()->hasRole('Accountant')) {
+            $query->whereIn('status',[4,5]);
         }
         
         // Continue with the rest of your query logic or other processing here
@@ -115,15 +121,27 @@ class InquiryController extends Controller implements HasMiddleware
                 if (Gate::allows('Inquiry List')) {
                     $actions .= '<a href="javascript:;" data-url="' . route('inquiry.show',$data->id) . '" class="btn btn-sm btn-square btn-neutral me-2 modal-popup-view" Title="View"><i class="fa fa-eye"></i></a>';
                 }
+
                 if (Gate::allows('Inquiry Edit')) {
                     $actions .= '<a href="' . route('inquiry.edit',$data->id) . '" class="btn btn-sm btn-square btn-neutral me-2" Title="Edit"><i class="fa fa-pencil-square-o"></i></a>';
                 }
+
                 if (Gate::allows('Inquiry Delete')) {
                     $actions .= '<a href="javascript:;" data-url="' . route('inquiry.destroy',$data->id) . '" class="btn btn-sm btn-square btn-neutral text-danger-hover modal-popup-delete" Title="Delete"><i class="fa fa-trash-o"></i></a>';
                 }
 
-                if (Gate::allows('Inquiry Update Stage') && ($data->status != 4) ) {
+                if (Gate::allows('Inquiry Update Stage') && !isset($data->billing) ) {
                     $actions .= '<a href="javascript:;" data-url="'. route('update.inquiry.stage') . '" data-id="'.$data->id.'" data-stage="'.$data->status.'"class="btn btn-sm btn-square btn-neutral text-danger-hover update-stage" Title="Update Stage"><i class="fa fa-arrow-right"></i></a>';
+                }
+
+                if (Gate::allows('Inquiry Billing') && Auth::user()->hasRole('Admin') || Auth::user()->hasRole('Accountant')) {
+                    if(isset($data->billing) && ($data->status == 4)) {
+                        $actions .= '<a href="javascript:;" data-url="'. route('update.inquiry.stage') . '" data-id="'.$data->id.'" data-stage="'.$data->status.'"class="btn btn-sm btn-square btn-neutral text-danger-hover update-stage" Title="Update Stage"><i class="fa fa-arrow-right"></i></a>';
+                    }
+
+                    if($data->status == 4 && !($data->billing)) {
+                        $actions .= '<a href="'. route('inquiry.billing',$data->id).'" class="btn btn-sm btn-square btn-neutral text-danger-hover inquiry-billing" Title="Billing"><i class="fa fa-money"></i></a>';
+                    }
                 }
                 return $actions;
             })
@@ -233,7 +251,7 @@ class InquiryController extends Controller implements HasMiddleware
         $activeOrNot = StatusOption::asSelectArray();
         $priceMasters = PriceMaster::pluck('item_type','id');
         $customers = Customer::get()->pluck('full_name', 'id');
-        $processes = !empty($inquiry->processes) ? $inquiry->processes()->pluck('title')->toArray() : []; // Adjust 'name' to the actual column name in the processes table
+        $processes = !empty($inquiry->processes) ? $inquiry->processes()->pluck('title')->toArray() : [];
         return view('admin.inquiry.create_update', compact('inquiry', 'activeOrNot','customers', 'priceMasters','processes'));
     }
 
@@ -374,6 +392,9 @@ class InquiryController extends Controller implements HasMiddleware
             case 3:
                 $inquiry->status =  4;
                 break;
+            case 4:
+                $inquiry->status =  5;
+                break;
             default:
                 break;
         }
@@ -392,5 +413,32 @@ class InquiryController extends Controller implements HasMiddleware
             return response()->json(['status' => false, 'message' => __('Something went wrong')]);
         }
     }
-    
+
+    public function inquiryBilling($id) {
+
+        $inquiry = Inquiry::findOrFail($id);
+
+        if(empty($inquiry)) {
+            Session::flash('error', 'Inquiry not found');
+            return redirect()->back();
+        }
+        $priceMasters = PriceMaster::pluck('item_type','id');
+        $customers = Customer::get()->pluck('full_name', 'id');
+        $processes = !empty($inquiry->processes) ? $inquiry->processes()->pluck('title')->toArray() : [];
+        return view('admin.inquiry.billing',compact('inquiry', 'priceMasters', 'processes', 'customers'));
+    }
+
+    public function storeInquiryBilling(Request $request) {
+
+        $data = $request->all();
+        $inquiryBilling = InquiryBilling::create($data);
+
+        if ($inquiryBilling) {
+            Session::flash('success', 'Inquiry billing created successfully');
+            return redirect()->route('inquiry.index');
+        } else {
+            Session::flash('error', 'Unable to update inquiry billing');
+            return redirect()->back();
+        }
+    }
 }

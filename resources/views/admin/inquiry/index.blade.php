@@ -109,7 +109,7 @@
 					},
                     success: function (data) {
                         if(data.status) {
-							table.ajax.reload();
+							window.dataGridTable.ajax.reload();
                         }
                     }
                 });

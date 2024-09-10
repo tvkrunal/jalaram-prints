@@ -40,6 +40,8 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('get-price-master-details/{id}', [InquiryController::class, 'getPriceMasterDetails'])->name('get.price.master.details');
         Route::post('update-inquiry-stage', [InquiryController::class, 'updateInquiryStage'])->name('update.inquiry.stage');
         Route::get('inquiry-price-item-destroy/{id}', [InquiryController::class, 'destroyInquiryPriceItem'])->name('inquiry.priceitem.destroy');
+        Route::get('inquiry-biiling/{id}', [InquiryController::class, 'inquiryBilling'])->name('inquiry.billing');
+        Route::post('store-inquiry-biiling', [InquiryController::class, 'storeInquiryBilling'])->name('store.billing');
 
 
         Route::resource('/customer', CustomerController::class);
