@@ -138,10 +138,10 @@ class UserController extends Controller implements HasMiddleware
         $user =  User::create($data);
         if ($user) {
             $user->assignRole($data['role']);
-            Session::flash('success', 'User has been added successfully');
+            Session::flash('success', 'User created successfully');
             return redirect()->route('users.index');
         } else {
-            Session::flash('error', 'Unable to add employee');
+            Session::flash('error', 'Unable to add user');
             return redirect()->back();
         }
     }
@@ -209,10 +209,10 @@ class UserController extends Controller implements HasMiddleware
         if ($user->update($data)) {
             DB::table('model_has_roles')->where('model_id', $user->id)->delete();
             $user->assignRole($data['role']);
-            Session::flash('success', 'User has been updated successfully');
+            Session::flash('success', 'User updated successfully');
             return redirect()->route('users.index');
         } else {
-            Session::flash('error', 'Unable to update employee');
+            Session::flash('error', 'Unable to update user');
             return redirect()->back();
         }
     }

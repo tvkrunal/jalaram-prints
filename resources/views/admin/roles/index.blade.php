@@ -8,6 +8,11 @@
         ])
         <!-- Content area -->
         <div class="content">
+            @if(Session::has('success'))
+                <div class="alert alert-success">
+                    {{Session::get('success')}}
+                </div>
+            @endif
             <!-- Basic datatable -->
             <div class="card">
                 <div class="card-header">
