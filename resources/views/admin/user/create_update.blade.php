@@ -58,7 +58,7 @@
                                         </div>
                                         <label class="col-form-label col-lg-1">Role</label>
                                         <div class="col-lg-5">
-                                            {{ Form::select('role[]', $userRoles, null, array('class'=>"form-control select2"))}}
+                                            {{ Form::select('role[]', $userRoles, isset($user) ? $user->roles->pluck('name')->first() : '', array('class'=>"form-control select2"))}}
                                             @if ($errors->has('role'))
                                                 <span class="text-danger">{{ $errors->first('role') }}</span>
                                             @endif
