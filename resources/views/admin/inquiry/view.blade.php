@@ -137,6 +137,7 @@
                                     </div>
                                 </fieldset>
 
+                                @if(isset($inquiry) && in_array($inquiry->status,[4,5]))
                                 <div class="accordion" id="accordionExample">
                                     <div class="card">
                                         <div class="card-header" id="headingOne">
@@ -148,7 +149,6 @@
                                                 </button>
                                             </h2>
                                         </div>
-
                                         <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
                                             <div class="card-body">
                                                 <div class="row">
@@ -212,6 +212,7 @@
                                         </div>
                                     </div>
                                 </div>
+                                @endif
 
                                 <div class="row d-none designing-details-print-container">
                                     <div class="col-4 mt-3 offset-8 mb-3">
